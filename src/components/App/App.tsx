@@ -1,11 +1,11 @@
 import React, { FC } from "react";
-import { Routes, Route } from "react-router-dom";
 
 const App: FC = (): React.ReactElement => {
   return (
-    <Routes>
-      <Route path="/" element={<></>} />
-    </Routes>
+    <p>
+      Платформа для обмена книгами между людьми в определённой местности ,где
+      можно оставлять отзывы о прочитанных книгах
+    </p>
   );
 };
 
