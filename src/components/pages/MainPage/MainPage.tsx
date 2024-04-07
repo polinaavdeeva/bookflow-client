@@ -1,0 +1,49 @@
+import { TextField } from '@consta/uikit/TextField';
+import { Select } from '@consta/uikit/Select';
+import { User } from '@consta/uikit/User';
+
+import { useState } from 'react';
+
+import "./MainPage.scss"
+
+const MainPage = () => {
+
+  type Item = {
+    label: string;
+    id: number;
+  };
+  
+  const items: Item[] = [
+    {
+      label: 'Воронеж',
+      id: 1,
+    },
+    {
+      label: 'Москва',
+      id: 2,
+    },
+    {
+      label: 'Нью Йорк',
+      id: 3,
+    },
+  ];
+
+  const [value, setValue] = useState<Item | null>();
+     
+  return (
+    <div>
+      <div style={{height: 76, width: '160vh', display: 'inline-block', margin: "16px 32px 16px 32px"}}>
+        <TextField className='search'
+	        type="text"
+	        placeholder="Поиск"
+        />
+        
+        
+        <User avatarUrl="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg" name="Райан Гослинг" info="Водитель" style={{ height: 30, float: 'inline-end' }}/>
+        <Select size='xs' items={items} value={value} onChange={setValue} style={{width: 91, height: 30, float: 'inline-end'}}/>
+      </div> 
+    </div>
+  );
+};
+
+export default MainPage;
