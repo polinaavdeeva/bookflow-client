@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Text } from '@consta/uikit/Text';
 import { Button } from '@consta/uikit/Button';
 import "./Menu.scss"
+import React from 'react';
 
 const Menu = () => {
   return (
@@ -19,7 +20,7 @@ const Menu = () => {
       <br/>
       <br/>
       <br/>
-      <Button label="Выйти" view='clear' size='s' style={{width: "50vh", paddingRight: 180}}/>
+      <Link to="/sign-in"><Button label="Выйти" view='clear' size='s' style={{width: "50vh", paddingRight: 180}}/></Link>
     </div>
   )
 }

@@ -4,9 +4,10 @@ import { User } from '@consta/uikit/User';
 import { Card } from '@consta/uikit/Card';
 import { Text } from '@consta/uikit/Text';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import "./MainPage.scss"
+// eslint-disable-next-line import/no-duplicates
 import AdCard from '../../AdCard/AdCard';
 
 const MainPage = () => {

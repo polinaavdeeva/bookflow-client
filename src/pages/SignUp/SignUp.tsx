@@ -127,13 +127,16 @@ const SignUp: FC = (): React.ReactElement => {
               />
             </div>
             <div className="sign-up__button-container">
-              <Button
+              <Link to="/.">
+                <Button
                 className="sign-up__button"
                 type="submit"
                 label="Зарегистрироваться"
                 form="round"
                 disabled={!isChecked}
               />
+              </Link>
+
             </div>
           </form>
           <div>

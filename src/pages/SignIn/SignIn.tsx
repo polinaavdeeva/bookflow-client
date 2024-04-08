@@ -18,27 +18,29 @@ const SignIn: FC = (): React.ReactElement => {
           <h2 className="sign-up__title">Войти</h2>
           <form className="sign-up__form">
             <TextField
-              className="sign-up__input"
-              label="Email"
-              type="text"
-              size="xs"
-              view="clear"
+	            className="sign-up__input"
+	            label="Email"
+	            type="text"
+	            size="xs"
+	            view="clear"
             />
 
             <TextField
-              className="sign-up__input"
-              label="Пароль"
-              size="xs"
-              type="password"
-              view="clear"
+	            className="sign-up__input"
+	            label="Пароль"
+	            size="xs"
+	            type="password"
+	            view="clear"
             />
+            
             <div className="sign-up__button-container">
-              <Button
-                className="sign-up__button"
-                type="submit"
-                label="Войти"
-                form="round"
-              />
+              <Link to="/.">
+                <Button
+	                className="sign-up__button"
+	                type="submit"
+	                label="Войти"
+	                form="round"/>
+              </Link>
             </div>
           </form>
           <div>
