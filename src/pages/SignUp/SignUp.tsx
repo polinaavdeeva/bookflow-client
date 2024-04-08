@@ -6,6 +6,7 @@ import { DatePicker } from "@consta/uikit/DatePicker";
 import { Select } from "@consta/uikit/Select";
 import { TextField } from "@consta/uikit/TextField";
 import { Checkbox } from "@consta/uikit/Checkbox";
+import { Link } from "react-router-dom";
 import React, { FC, useState, ChangeEvent } from "react";
 import logo from "../../assets/logo.png";
 import "./SignUp.scss";
@@ -135,6 +136,14 @@ const SignUp: FC = (): React.ReactElement => {
               />
             </div>
           </form>
+          <div>
+            <p className="sign-in__question">
+              У вас уже есть аккаунт?{" "}
+              <Link className="sign-in__link" to="/sign-in">
+                Войти
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </section>
