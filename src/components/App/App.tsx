@@ -1,11 +1,14 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { FC } from "react";
+import "./App.scss";
+import { Theme, presetGpnDefault } from "@consta/uikit/Theme";
+import SignUp from "../../pages/SignUp/SignUp";
 
 const App: FC = (): React.ReactElement => {
   return (
-    <p>
-      Платформа для обмена книгами между людьми в определённой местности ,где
-      можно оставлять отзывы о прочитанных книгах
-    </p>
+    <Theme preset={presetGpnDefault}>
+      <SignUp />
+    </Theme>
   );
 };
 
