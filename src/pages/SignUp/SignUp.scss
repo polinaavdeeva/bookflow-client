@@ -131,8 +131,14 @@
   border: #674188;
 }
 
-.DateTimeMixLayout_view_classic {
+.DateTimeMixLayout {
   background-color: #fffbf5;
+}
+
+.DatePickerDropdown {
+  background: #fffbf5;
+  border-radius: 25px;
+  box-shadow: rgba(0, 0, 0, 0.5);
 }
 
 .DateTimeItem {
