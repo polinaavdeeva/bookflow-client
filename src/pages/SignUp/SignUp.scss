@@ -1,0 +1,146 @@
+.sign-up {
+  display: flex;
+  background-color: #fffbf5;
+  height: 800px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.sign-up__background-img {
+  background-image: url("../../assets/backround.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  flex: 1;
+}
+
+.sign-up__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.sign-up__content-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-up__logo {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  column-gap: 8px;
+
+  .sign-up__logo-img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .sign-up__name {
+    font-weight: 400;
+    font-size: 27px;
+    line-height: 22.9px;
+    margin: 0;
+  }
+}
+
+.sign-up__title {
+  font-weight: 500;
+  font-size: 27px;
+  line-height: 22.9px;
+  margin: 24px 0 16px 0;
+  text-align: center;
+}
+
+.sign-up__form {
+  width: 350px;
+  height: 370px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sign-up__inputs-container {
+  display: flex;
+  column-gap: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.TextField-InputContainer {
+  background-color: transparent !important;
+  width: 150px !important;
+  height: 22px !important;
+  border: 1px solid #674188 !important;
+  border-radius: 4px;
+}
+.Select-SelectContainer {
+  background-color: transparent !important;
+  width: 150px !important;
+  height: 22px !important;
+  border: 1px solid #674188 !important;
+  border-radius: 4px;
+}
+
+.sign-up__button {
+  margin: 24px auto 0;
+  background-color: #674188;
+  width: 214px;
+  height: 44px;
+}
+
+.sign-up__button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.sign-up__checkbox-container {
+  display: flex;
+  justify-content: center;
+}
+
+.sign-up__checkbox {
+  color: #8a92a6;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 28px;
+  margin-top: 16px;
+}
+
+.sign-up__background-logo {
+  position: absolute;
+  background-image: url("../../assets/logo.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 250px;
+  height: 250px;
+  top: 1px;
+  right: 0px;
+  opacity: 6%;
+}
+
+.Checkbox_view_primary {
+  --checkbox-checked-background-hover: #674188;
+}
+
+.Checkbox-Input:checked {
+  background-color: #674188;
+  border: #674188;
+}
+
+.DateTimeMixLayout {
+  background-color: #fffbf5;
+}
+
+.DatePickerDropdown {
+  background: #fffbf5;
+  border-radius: 25px;
+  box-shadow: rgba(0, 0, 0, 0.5);
+}
+
+.DateTimeItem {
+  --item-border-color: #674188;
+}
