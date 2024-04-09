@@ -1,6 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { FC } from "react";
-
 import { Theme, presetGpnDefault } from "@consta/uikit/Theme";
 import { Route, Routes } from "react-router-dom";
 import SignIn from "../../pages/SignIn/SignIn";
@@ -16,7 +14,7 @@ const App: FC = (): React.ReactElement => {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<MainPage />} />
-          <Route path="mybooks" element={<MyBooksPage />} />     
+          <Route path="mybooks" element={<MyBooksPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="sign-in" element={<SignIn />} />

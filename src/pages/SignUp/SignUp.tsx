@@ -1,6 +1,3 @@
-/* eslint-disable react/jsx-indent-props */
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { Button } from "@consta/uikit/Button";
 import { DatePicker } from "@consta/uikit/DatePicker";
 import { Select } from "@consta/uikit/Select";
@@ -129,14 +126,13 @@ const SignUp: FC = (): React.ReactElement => {
             <div className="sign-up__button-container">
               <Link to="/.">
                 <Button
-                className="sign-up__button"
-                type="submit"
-                label="Зарегистрироваться"
-                form="round"
-                disabled={!isChecked}
-              />
+                  className="sign-up__button"
+                  type="submit"
+                  label="Зарегистрироваться"
+                  form="round"
+                  disabled={!isChecked}
+                />
               </Link>
-
             </div>
           </form>
           <div>

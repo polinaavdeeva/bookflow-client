@@ -7,40 +7,38 @@ import "./SignIn.scss";
 
 const SignIn: FC = (): React.ReactElement => {
   return (
-    <section className="sign-up">
-      <div className="sign-up__background-logo" />
-      <div className="sign-up__content">
-        <div className="sign-up__content-container">
-          <div className="sign-up__logo">
-            <img src={logo} className="sign-up__logo-img" alt="Логотип" />
-            <h2 className="sign-up__name">BookFlow</h2>
+    <section className="sign-in">
+      <div className="sign-in__background-logo" />
+      <div className="sign-in__content">
+        <div className="sign-in__content-container">
+          <div className="sign-in__logo">
+            <img src={logo} className="sign-in__logo-img" alt="Логотип" />
+            <h2 className="sign-in__name">BookFlow</h2>
           </div>
-          <h2 className="sign-up__title">Войти</h2>
-          <form className="sign-up__form">
+          <h2 className="sign-in__title">Войти</h2>
+          <form className="sign-in__form">
             <TextField
-	            className="sign-up__input"
-	            label="Email"
-	            type="text"
-	            size="xs"
-	            view="clear"
+              className="sign-in__input"
+              label="Email"
+              type="text"
+              size="xs"
+              view="clear"
             />
 
             <TextField
-	            className="sign-up__input"
-	            label="Пароль"
-	            size="xs"
-	            type="password"
-	            view="clear"
+              className="sign-in__input"
+              label="Пароль"
+              size="xs"
+              type="password"
+              view="clear"
             />
-            
-            <div className="sign-up__button-container">
-              <Link to="/.">
-                <Button
-	                className="sign-up__button"
-	                type="submit"
-	                label="Войти"
-	                form="round"/>
-              </Link>
+            <div className="sign-in__button-container">
+              <Button
+                className="sign-in__button"
+                type="submit"
+                label="Войти"
+                form="round"
+              />
             </div>
           </form>
           <div>
@@ -53,7 +51,7 @@ const SignIn: FC = (): React.ReactElement => {
           </div>
         </div>
       </div>
-      <div className="sign-up__background-img" />
+      <div className="sign-in__background-img" />
     </section>
   );
 };
