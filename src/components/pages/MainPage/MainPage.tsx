@@ -8,6 +8,7 @@ import { useState } from "react";
 
 import "./MainPage.scss";
 import AdCard from "../../AdCard/AdCard";
+import { Layout } from "@consta/uikit/Layout";
 
 const MainPage = () => {
   type Item = {
@@ -34,37 +35,35 @@ const MainPage = () => {
 
   return (
     <div>
-      <div
-        style={{
-          height: 32,
-          width: "160vh",
-          display: "inline-block",
-          margin: "16px 32px 16px 32px",
-        }}
-      >
+      <div style={{height: 32, minWidth: 1200, width: "96%", display: "inline-flex", margin: "16px 24px 16px 24px"}}>
         <TextField
-          className="search"
+          className="Search"
           type="text"
           placeholder="Поиск"
           size="s"
         />
+        
+        <div style={{float: "inline-end", display: "flex"}}> 
+          <Select
+            placeholder="Выберите город"
+            view="clear"
+            size="xs"
+            items={items}
+            value={value}
+            onChange={setValue}
+            style={{ width: 140, height: 30, marginTop: 4, paddingRight: 20}} 
+            className="myInput"
+          />
+          <User
+            avatarUrl="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"
+            name="Райан Гослинг"
+            info="Водитель"
+            style={{ width: "20vh", height: 30}}
+          /> 
+        </div>
 
-        <User
-          avatarUrl="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"
-          name="Райан Гослинг"
-          info="Водитель"
-          style={{ width: 175, height: 30, float: "inline-end" }}
-        />
-        <Select
-          placeholder="Выберите город"
-          view="clear"
-          size="xs"
-          items={items}
-          value={value}
-          onChange={setValue}
-          style={{ width: 140, height: 30, float: "inline-end", marginTop: 4 }}
-        />
       </div>
+
       <AdCard />
 
       <Card
@@ -74,7 +73,7 @@ const MainPage = () => {
           marginTop: 10,
           marginLeft: 15,
           marginRight: 15,
-          width: "158vh",
+          width: "161vh",
           height: 250,
           background: "#FFFBF5",
         }}
@@ -89,7 +88,7 @@ const MainPage = () => {
           marginTop: 10,
           marginLeft: 15,
           marginRight: 15,
-          width: "158vh",
+          width: "161vh",
           height: 250,
           background: "#FFFBF5",
         }}
