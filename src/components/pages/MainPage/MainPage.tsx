@@ -114,12 +114,6 @@ const MainPage = () => {
           <BookCard></BookCard>
           <BookCard></BookCard>
           <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
           </div>
         </div>
       </Card>
@@ -139,12 +133,6 @@ const MainPage = () => {
         <Text className="division-text">Лучший рейтинг</Text>
         <div style={{overflowX: "auto"}}>
           <div style={{whiteSpace: "nowrap"}}>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
           <BookCard></BookCard>
           <BookCard></BookCard>
           <BookCard></BookCard>
