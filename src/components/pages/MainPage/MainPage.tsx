@@ -4,7 +4,7 @@ import { User } from "@consta/uikit/User";
 import { Card } from "@consta/uikit/Card";
 import { Text } from "@consta/uikit/Text";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import "./MainPage.scss";
 import AdCard from "../../AdCard/AdCard";
@@ -33,6 +33,26 @@ const MainPage = () => {
   ];
 
   const [value, setValue] = useState<Item | null>();
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({
+        left: -200,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollRight = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({
+        left: 200,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <div>
@@ -74,13 +94,34 @@ const MainPage = () => {
           marginTop: 10,
           marginLeft: 15,
           marginRight: 15,
-          width: "hug",
+          width: "82vw",
           height: "hug",
-          background: "#FFFBF5",
+          background: "#FFFBF5",    
         }}
       >
         <Text className="division-text">Последнее Добавленное</Text>
-        <BookCard></BookCard>
+        <div style={{overflowX: "auto"}}>
+          <div style={{whiteSpace: "nowrap"}}>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          </div>
+        </div>
       </Card>
 
       <Card
@@ -90,13 +131,34 @@ const MainPage = () => {
           marginTop: 10,
           marginLeft: 15,
           marginRight: 15,
-          width: "hug",
+          width: "82vw",
           height: "hug",
-          background: "#FFFBF5",
+          background: "#FFFBF5",    
         }}
       >
         <Text className="division-text">Лучший рейтинг</Text>
-        <BookCard></BookCard>
+        <div style={{overflowX: "auto"}}>
+          <div style={{whiteSpace: "nowrap"}}>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          </div>
+        </div>
       </Card>
     </div>
   );

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Footer = () => {
     return (
       <div style={{
-        width: "97%", 
+        width: "81vw", 
         height: 21, 
         background: "#FFFBF5", 
         padding: "30px 20px 30px 30px", 

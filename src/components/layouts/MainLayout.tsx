@@ -6,7 +6,7 @@ import Footer from '../Footer/Footer';
 
 const MainLayout = () => {
   return (
-    <Layout style={{display: 'flex', background: '#F7EFE5', height: '100%vh', width: '100.3%', padding: 0}}>
+    <Layout style={{display: 'flex', background: '#F7EFE5', height: '100%vh', width: '98.5vw', padding: 0}}>
       <Menu />
       <div>
         <Outlet />
