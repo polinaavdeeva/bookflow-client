@@ -5,7 +5,7 @@ import { TextField } from "@consta/uikit/TextField";
 import { Checkbox } from "@consta/uikit/Checkbox";
 import { Link } from "react-router-dom";
 import React, { FC, useState, ChangeEvent } from "react";
-import logo from "../../assets/logo.png";
+import logo from "../../../assets/logo.png";
 import "./SignUp.scss";
 
 const SignUp: FC = (): React.ReactElement => {

@@ -5,6 +5,7 @@ import { Card } from "@consta/uikit/Card";
 import { Text } from "@consta/uikit/Text";
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import "./MainPage.scss";
 import AdCard from "../../AdCard/AdCard";
@@ -48,13 +49,14 @@ const MainPage = () => {
           placeholder="Поиск"
           size="s"
         />
-
-        <User
-          avatarUrl="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"
-          name="Райан Гослинг"
-          info="Водитель"
-          style={{ width: 175, height: 30, float: "inline-end" }}
-        />
+        <Link to="/myprofile">
+          <User
+            avatarUrl="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"
+            name="Райан Гослинг"
+            info="Водитель"
+            style={{ width: 175, height: 30, float: "inline-end" }}
+          />
+        </Link>
         <Select
           placeholder="Выберите город"
           view="clear"

@@ -2,7 +2,7 @@ import { Button } from "@consta/uikit/Button";
 import { TextField } from "@consta/uikit/TextField";
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../assets/logo.png";
+import logo from "../../../assets/logo.png";
 import "./SignIn.scss";
 
 const SignIn: FC = (): React.ReactElement => {
