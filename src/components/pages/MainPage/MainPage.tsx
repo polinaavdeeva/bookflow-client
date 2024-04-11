@@ -9,6 +9,7 @@ import { useState } from "react";
 import "./MainPage.scss";
 import AdCard from "../../AdCard/AdCard";
 import { Layout } from "@consta/uikit/Layout";
+import BookCard from "../../BookCard/BookCard";
 
 const MainPage = () => {
   type Item = {
@@ -35,7 +36,7 @@ const MainPage = () => {
 
   return (
     <div>
-      <div style={{height: 32, minWidth: 1200, width: "96%", display: "inline-flex", margin: "16px 24px 16px 24px"}}>
+      <div style={{height: 32, minWidth: 1200, width: "82vw", display: "inline-flex", margin: "16px 0px 16px 24px"}}>
         <TextField
           className="Search"
           type="text"
@@ -43,7 +44,7 @@ const MainPage = () => {
           size="s"
         />
         
-        <div style={{float: "inline-end", display: "flex"}}> 
+        <div style={{float: "inline-end", display: "flex", paddingRight: 24}}> 
           <Select
             placeholder="Выберите город"
             view="clear"
@@ -58,7 +59,7 @@ const MainPage = () => {
             avatarUrl="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"
             name="Райан Гослинг"
             info="Водитель"
-            style={{ width: "20vh", height: 30}}
+            style={{ width: "12vw", height: 30}}
           /> 
         </div>
 
@@ -73,12 +74,13 @@ const MainPage = () => {
           marginTop: 10,
           marginLeft: 15,
           marginRight: 15,
-          width: "161vh",
-          height: 250,
+          width: "hug",
+          height: "hug",
           background: "#FFFBF5",
         }}
       >
-        <Text>Последнее Добавленное</Text>
+        <Text className="division-text">Последнее Добавленное</Text>
+        <BookCard></BookCard>
       </Card>
 
       <Card
@@ -88,12 +90,13 @@ const MainPage = () => {
           marginTop: 10,
           marginLeft: 15,
           marginRight: 15,
-          width: "161vh",
-          height: 250,
+          width: "hug",
+          height: "hug",
           background: "#FFFBF5",
         }}
       >
-        <Text>Лучший рейтинг</Text>
+        <Text className="division-text">Лучший рейтинг</Text>
+        <BookCard></BookCard>
       </Card>
     </div>
   );
