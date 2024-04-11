@@ -71,18 +71,18 @@
   justify-content: center;
 }
 
-.TextField-InputContainer {
-  background-color: transparent !important;
-  height: 33px !important;
-  border: 1px solid #674188 !important;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .sign-in__input {
   margin-top: 16px;
+
+  .TextField-InputContainer {
+    background-color: transparent !important;
+    height: 33px !important;
+    border: 1px solid #674188 !important;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .sign-in__button {

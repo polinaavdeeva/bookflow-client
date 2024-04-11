@@ -70,19 +70,21 @@
   justify-content: center;
 }
 
-.TextField-InputContainer {
-  background-color: transparent !important;
-  height: 22px !important;
-  border: 1px solid #674188 !important;
-  border-radius: 4px;
-}
+.sign-up__input {
+  .TextField-InputContainer {
+    background-color: transparent !important;
+    height: 22px !important;
+    border: 1px solid #674188 !important;
+    border-radius: 4px;
+  }
 
-.Select-SelectContainer {
-  background-color: transparent !important;
-  width: 150px !important;
-  height: 22px !important;
-  border: 1px solid #674188 !important;
-  border-radius: 4px;
+  .Select-SelectContainer {
+    background-color: transparent !important;
+    width: 150px !important;
+    height: 22px !important;
+    border: 1px solid #674188 !important;
+    border-radius: 4px;
+  }
 }
 
 .sign-up__button {
