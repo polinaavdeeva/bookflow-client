@@ -31,7 +31,7 @@ const Header = () => {
     return(
     <div style={{height: 30, 
         minWidth: 1200, 
-        width: "83vw", 
+        width: "82vw", 
         display: "inline-flex", 
         padding: "16px 0px 16px 24px",
         marginLeft: 237,
