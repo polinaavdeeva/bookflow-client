@@ -33,12 +33,14 @@ const SignIn: FC = (): React.ReactElement => {
               view="clear"
             />
             <div className="sign-in__button-container">
+            <Link className="sign-in__link" to="/.">
               <Button
                 className="sign-in__button"
                 type="submit"
                 label="Войти"
                 form="round"
               />
+            </Link>
             </div>
           </form>
           <div>

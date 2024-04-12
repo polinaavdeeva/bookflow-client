@@ -1,6 +1,20 @@
 .menu-vertical{
     background: #FFFBF5;
-    width: 257px;
-    height: 100%;
+    width: 237px;
+    height: max;
     gap: 16px;
 }
+
+.text-on-top{
+    font-family: Inter;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 29.9px;
+    text-align: left;
+}
+
+.Button:focus, .Button:focus-within, .Button:hover{
+    background-color: #674188;
+    color: #FFFBF5;
+}
+

@@ -4,11 +4,12 @@ import { User } from "@consta/uikit/User";
 import { Card } from "@consta/uikit/Card";
 import { Text } from "@consta/uikit/Text";
 
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
 
 import "./MainPage.scss";
 import AdCard from "../../AdCard/AdCard";
+import { Layout } from "@consta/uikit/Layout";
+import BookCard from "../../BookCard/BookCard";
 
 const MainPage = () => {
   type Item = {
@@ -33,40 +34,57 @@ const MainPage = () => {
 
   const [value, setValue] = useState<Item | null>();
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({
+        left: -200,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollRight = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({
+        left: 200,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <div>
-      <div
-        style={{
-          height: 32,
-          width: "160vh",
-          display: "inline-block",
-          margin: "16px 32px 16px 32px",
-        }}
-      >
+      <div style={{height: 32, minWidth: 1200, width: "82vw", display: "inline-flex", margin: "16px 0px 16px 24px"}}>
         <TextField
-          className="search"
+          className="Search"
           type="text"
           placeholder="Поиск"
           size="s"
         />
-        <Link to="/myprofile">
+        
+        <div style={{float: "inline-end", display: "flex", paddingRight: 24}}> 
+          <Select
+            placeholder="Выберите город"
+            view="clear"
+            size="xs"
+            items={items}
+            value={value}
+            onChange={setValue}
+            style={{ width: 140, height: 30, marginTop: 4, paddingRight: 20}} 
+            className="myInput"
+          />
           <User
             avatarUrl="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"
             name="Райан Гослинг"
             info="Водитель"
-            style={{ width: 175, height: 30, float: "inline-end" }}
-          />
-        </Link>
-        <Select
-          placeholder="Выберите город"
-          view="clear"
-          size="xs"
-          items={items}
-          value={value}
-          onChange={setValue}
-          style={{ width: 140, height: 30, float: "inline-end", marginTop: 4 }}
-        />
+            style={{ width: "12vw", height: 30}}
+          /> 
+        </div>
+
       </div>
+
       <AdCard />
 
       <Card
@@ -76,12 +94,28 @@ const MainPage = () => {
           marginTop: 10,
           marginLeft: 15,
           marginRight: 15,
-          width: "158vh",
-          height: 250,
-          background: "#FFFBF5",
+          width: "82vw",
+          height: "hug",
+          background: "#FFFBF5",    
         }}
       >
-        <Text>Последнее Добавленное</Text>
+        <Text className="division-text">Последнее Добавленное</Text>
+        <div style={{overflowX: "auto"}}>
+          <div style={{whiteSpace: "nowrap"}}>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          </div>
+        </div>
       </Card>
 
       <Card
@@ -91,12 +125,28 @@ const MainPage = () => {
           marginTop: 10,
           marginLeft: 15,
           marginRight: 15,
-          width: "158vh",
-          height: 250,
-          background: "#FFFBF5",
+          width: "82vw",
+          height: "hug",
+          background: "#FFFBF5",    
         }}
       >
-        <Text>Лучший рейтинг</Text>
+        <Text className="division-text">Лучший рейтинг</Text>
+        <div style={{overflowX: "auto"}}>
+          <div style={{whiteSpace: "nowrap"}}>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          </div>
+        </div>
       </Card>
     </div>
   );
