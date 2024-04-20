@@ -7,16 +7,16 @@ import Header from '../Header/Header';
 
 const MainLayout = () => {
   return (
-    <Layout style={{display: 'flex', background: '#F7EFE5', height: '100%vh', width: '98.5vw', padding: 0}}>
-      <div>
-        <Menu/> 
-        <Header/>
-      </div>  
-       <div style={{marginLeft: 237, marginTop: 60}}>
-        <Outlet/>
-        <Footer/>
-      </div>
-      
+    <Layout style={{display: 'flex', background: '#F7EFE5', height: '100vh'}}>
+        <Menu/>  
+        <Layout direction='column' style={{marginLeft: "15%", flexGrow: 1, display: "flex", flexDirection: "column"}}>
+          <Header/>
+          <div style={{marginTop: 60, height: "100%"}}>
+            <Outlet/>
+            <Footer/>
+          </div>
+        </Layout>   
+ 
     </Layout>
   )
 }

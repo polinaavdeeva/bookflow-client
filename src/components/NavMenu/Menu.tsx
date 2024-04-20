@@ -9,7 +9,7 @@ const Menu = () => {
   return (
     <div className='menu-vertical'>
       
-      <div style={{display: "flex", padding: 20}}>
+      <div style={{display: "flex", padding: 20, width: "100%"}}>
         <div style={{paddingTop: 2, paddingRight: 8}}><LogoItem/></div>
         <Text size='xl' className="text-on-top">BookFlow</Text>
       </div>

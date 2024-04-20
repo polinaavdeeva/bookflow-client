@@ -30,14 +30,12 @@ const Header = () => {
 
     return(
     <div style={{height: 30, 
-        minWidth: 1200, 
-        width: "82vw", 
-        display: "inline-flex", 
+        width: "85%",
+        display: "flex", 
         padding: "16px 0px 16px 24px",
-        marginLeft: 237,
         position: 'fixed',
         background: "#F7EFE5",
-        zIndex: 1000}}>
+        zIndex: 0}}>
         <TextField
             className="Search"
             type="text"
@@ -45,7 +43,7 @@ const Header = () => {
             size="s"
         />
 
-        <div style={{float: "inline-end", display: "flex", paddingRight: 24}}> 
+        <div style={{display: "flex", paddingRight: 24}}> 
             <Select
                 placeholder="Выберите город"
                 view="clear"
@@ -60,7 +58,7 @@ const Header = () => {
                 avatarUrl="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"
                 name="Райан Гослинг"
                 info="Водитель"
-                style={{ width: "12vw", height: 30}}
+                style={{width: 200, height: 30}}
             /> 
         </div>
     </div>
