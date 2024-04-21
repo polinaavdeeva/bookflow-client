@@ -4,6 +4,8 @@ import Menu from "../NavMenu/Menu";
 import { Layout } from "@consta/uikit/Layout";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
+import FeedbackPopup from "../FeedbackPopup/FeedbackPopup";
+
 
 const MainLayout = () => {
   return (
@@ -22,6 +24,7 @@ const MainLayout = () => {
         <Header />
         <div style={{ marginTop: 60 }}>
           <Outlet />
+          <FeedbackPopup />
           <Footer />
         </div>
       </Layout>
