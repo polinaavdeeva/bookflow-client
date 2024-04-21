@@ -8,7 +8,7 @@ import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import MyBooksPage from "../pages/MyBooksPage/MyBooksPage";
 import SignUp from "../pages/SignUp/SignUp";
 import Profile from "../pages/Profile/Profile";
-import "./App.scss"
+import "./App.scss";
 
 const App: FC = (): React.ReactElement => {
   return (
