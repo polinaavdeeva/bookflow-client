@@ -22,30 +22,14 @@
     color: "#8A92A6";
 }
 
-.menu-button.Button{
-     /* Измените цвет fill на желаемый */
-}
-
-.menu-button.Button:focus, .menu-button.Button:focus-within, .menu-button.Button:hover,.menu-button.Button:active {
-    background-color: #674188;
-    color: #FFFBF5;
-    box-shadow: none;
-    fill: #FFFBF5;
-    
-}
-
-.mybooks, .mybooks.Button{
-    background-image: url('../../assets/MybooksIcon.svg');
-    background-repeat: no-repeat;
-    background-position: 10px center;
-    /* Устанавливаем отступ слева для иконки */
-    padding-left: 30px;
+.menu-button.Button:focus, 
+.menu-button.Button:focus-within, 
+.menu-button.Button:hover,
+.menu-button.Button:active {
+    box-shadow: none;  
 }
 
 .menu-button.Button:not(.Button_loading):hover, .menu-button.Button:not(:disabled):hover, .menu-button.Button:not(:disabled):not(.Button_loading):hover {
-     background-color: #674188;
-     color: #FFFBF5;
-     box-shadow: none;
-     fill: #FFFBF5;
- }
+      box-shadow: none;
+  }
 
