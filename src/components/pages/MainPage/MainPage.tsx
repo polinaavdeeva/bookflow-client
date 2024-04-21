@@ -29,7 +29,7 @@ const MainPage = () => {
   };
 
   return (
-    <div style={{flexGrow: 1, height: "115%"}}>
+    <div style={{flexGrow: 1, height: "115%", width: "100%"}}>
       <AdCard />
 
       <Card
@@ -39,28 +39,29 @@ const MainPage = () => {
           marginTop: 10,
           marginLeft: 15,
           marginRight: 15,
-          width: "82vw",
           height: "hug",
-          background: "#FFFBF5",    
+          background: "#FFFBF5", 
         }}
       >
         <Text className="division-text">Последнее Добавленное</Text>
-        <div style={{overflowX: "auto"}}>
-          <div style={{whiteSpace: "nowrap"}}>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
+        <div style={{width:"90%"}}>
+          <div style={{display: "flex", marginLeft: 40, marginRight: 40, width: "calc(80vw - 120px)", overflowX: "auto"}}>
+            <BookCard></BookCard>
+            <BookCard></BookCard> 
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
           </div>
-        </div>
+        </div> 
       </Card>
 
       <Card
@@ -70,28 +71,29 @@ const MainPage = () => {
           marginTop: 10,
           marginLeft: 15,
           marginRight: 15,
-          width: "82vw",
           height: "hug",
-          background: "#FFFBF5",    
+          background: "#FFFBF5", 
         }}
       >
         <Text className="division-text">Лучший рейтинг</Text>
-        <div style={{overflowX: "auto"}}>
-          <div style={{whiteSpace: "nowrap"}}>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
-          <BookCard></BookCard>
+        <div style={{width:"90%"}}>
+          <div style={{display: "flex", marginLeft: 40, marginRight: 40, width: "calc(80vw - 120px)", overflowX: "auto"}}>
+            <BookCard></BookCard>
+            <BookCard></BookCard> 
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
+            <BookCard></BookCard>
           </div>
-        </div>
+        </div> 
       </Card>
     </div>
   );

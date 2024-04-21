@@ -6,6 +6,7 @@ import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import FeedbackPopup from "../FeedbackPopup/FeedbackPopup";
 
+
 const MainLayout = () => {
   return (
     <Layout style={{ display: "flex", background: "#F7EFE5", height: "100%" }}>
