@@ -1,11 +1,15 @@
-import { Link } from 'react-router-dom'
-import { Text } from '@consta/uikit/Text';
-import { Button } from '@consta/uikit/Button';
-import "./Menu.scss"
-import React from 'react';
-import LogoItem from '../../assets/logoItem';
+import { Link } from "react-router-dom";
+import { Text } from "@consta/uikit/Text";
+import { Button } from "@consta/uikit/Button";
+import "./Menu.scss";
+import React, { FC } from "react";
+import LogoItem from "../../assets/logoItem";
 
-const Menu = () => {
+interface IMenuProps {
+  onClick: () => void;
+}
+
+const Menu: FC<IMenuProps> = ({ onClick }) => {
   return (
     <div className='menu-vertical'>
       
@@ -28,14 +32,22 @@ const Menu = () => {
       <br/>
       <Link to="myprofile"><Button label="Профиль" view='clear' size='s' className='menu-button' style={{width: "48vh", textAlign: "left"}}/></Link>
       <br/>
-      <Link to="addbook"><Button label="Добавить книгу" view='clear' size='s' className='menu-button' style={{width: "48vh", textAlign: "left"}}/></Link>
+        <Link to="addbook">
+        <Button
+          label="Добавить книгу"
+          view="clear"
+          size="s"
+          style={{ width: "48vh", textAlign: "left" }}
+          onClick={onClick}
+        />
+      </Link>
       <br/>
       <br/>
       <br/>
       <br/>
       <Link to="/sign-in"><Button label="Выйти" view='clear' size='s' className='menu-button' style={{width: "48vh", textAlign: "left"}}/></Link>
     </div>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;
