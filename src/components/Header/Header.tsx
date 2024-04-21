@@ -32,7 +32,7 @@ const Header = () => {
     <div style={{height: 30, 
         width: "85%",
         display: "flex", 
-        padding: "16px 0px 16px 24px",
+        padding: "20px 0px 20px 24px",
         position: 'fixed',
         background: "#F7EFE5",
         zIndex: 0}}>
