@@ -9,7 +9,11 @@ import ProfileIcon from '../../assets/ProfileIcon';
 import AddbookIcon from '../../assets/AddbookIcon copy';
 import ExitIcon from '../../assets/ExitIcon';
 
-const Menu = () => {
+interface IMenuProps {
+  onClick: () => void;
+}
+
+const Menu: FC<IMenuProps> = ({ onClick }) => {
   const [isMybooksIconDark, setIsMybooksIconDark] = useState<boolean>(true)
   const [isProfileIconDark, setIsProfileIconDark] = useState<boolean>(true)
   const [isAddBookIconDark, setIsAddBookIconDark] = useState<boolean>(true)
@@ -63,7 +67,7 @@ const Menu = () => {
           ></Button>  
       </Link>
       <br/>
-      <Link to="addbook">
+          
         <Button 
           label="Добавить книгу" 
           view='clear' 
@@ -78,9 +82,9 @@ const Menu = () => {
           }}
           iconLeft={()=>{return(<AddbookIcon dark={isAddBookIconDark}></AddbookIcon>)}}        
           onMouseEnter={()=>setIsAddBookIconDark(false)}
-          onMouseLeave={()=>setIsAddBookIconDark(true)}    
+          onMouseLeave={()=>setIsAddBookIconDark(true)}
+          onClick={onClick}
           ></Button> 
-      </Link>
       <br/>
       <br/>
       <br/>
@@ -104,7 +108,7 @@ const Menu = () => {
           ></Button>
           </Link>
     </div>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;
