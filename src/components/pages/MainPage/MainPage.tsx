@@ -29,7 +29,7 @@ const MainPage = () => {
   };
 
   return (
-    <div>
+    <div style={{flexGrow: 1, height: "115%"}}>
       <AdCard />
 
       <Card
