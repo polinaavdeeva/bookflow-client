@@ -8,6 +8,8 @@ import { FC, useState } from "react";
 import ProfileIcon from "../../assets/ProfileIcon";
 import AddbookIcon from "../../assets/AddbookIcon copy";
 import ExitIcon from "../../assets/ExitIcon";
+import ComplaintIcon from "../../assets/Complaint";
+import StatisticIcon from "../../assets/StatisticIcon";
 
 interface IMenuProps {
   onClick: () => void;
@@ -18,6 +20,9 @@ const Menu: FC<IMenuProps> = ({ onClick }) => {
   const [isProfileIconDark, setIsProfileIconDark] = useState<boolean>(true);
   const [isAddBookIconDark, setIsAddBookIconDark] = useState<boolean>(true);
   const [isExitIconDark, setIsExitIconDark] = useState<boolean>(true);
+  const [isComplaintIconDark, setIsComplaintIconDark] = useState<boolean>(true);
+  const [isStatisticIconDark, setIsStatisticIconDark] = useState<boolean>(true);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   return (
     <div className="menu-vertical">
@@ -31,72 +36,125 @@ const Menu: FC<IMenuProps> = ({ onClick }) => {
           </Text>
         </div>
       </Link>
+      {isAdmin ? (
+        <>
+          <Link to="complaints">
+            <Button
+              label="Раздел жалоб"
+              view="clear"
+              size="m"
+              className="menu-button mybooks"
+              style={{
+                width: "100%",
+                textAlign: "left",
+                backgroundColor: isComplaintIconDark ? "" : "#674188",
+                color: isComplaintIconDark ? "" : "#FFFBF5",
+                paddingRight: 80,
+                paddingLeft: 30,
+              }}
+              iconLeft={() => {
+                return (
+                  <ComplaintIcon dark={isComplaintIconDark}></ComplaintIcon>
+                );
+              }}
+              onMouseEnter={() => setIsComplaintIconDark(false)}
+              onMouseLeave={() => setIsComplaintIconDark(true)}
+            ></Button>
+          </Link>
+          <br />
+          <Link to="statistic">
+            <Button
+              label="Статистика"
+              view="clear"
+              size="m"
+              className="menu-button mybooks"
+              style={{
+                width: "100%",
+                textAlign: "left",
+                backgroundColor: isStatisticIconDark ? "" : "#674188",
+                color: isStatisticIconDark ? "" : "#FFFBF5",
+                paddingRight: 80,
+                paddingLeft: 30,
+              }}
+              iconLeft={() => {
+                return (
+                  <StatisticIcon dark={isStatisticIconDark}></StatisticIcon>
+                );
+              }}
+              onMouseEnter={() => setIsStatisticIconDark(false)}
+              onMouseLeave={() => setIsStatisticIconDark(true)}
+            ></Button>
+          </Link>
+        </>
+      ) : (
+        <>
+          <Link to="mybooks">
+            <Button
+              label="Мои книги"
+              view="clear"
+              size="m"
+              className="menu-button mybooks"
+              style={{
+                width: "100%",
+                textAlign: "left",
+                backgroundColor: isMybooksIconDark ? "" : "#674188",
+                color: isMybooksIconDark ? "" : "#FFFBF5",
+                paddingRight: 80,
+                paddingLeft: 30,
+              }}
+              iconLeft={() => {
+                return <MybooksIcon dark={isMybooksIconDark}></MybooksIcon>;
+              }}
+              onMouseEnter={() => setIsMybooksIconDark(false)}
+              onMouseLeave={() => setIsMybooksIconDark(true)}
+            ></Button>
+          </Link>
+          <br />
+          <Link to="myprofile">
+            <Button
+              label="Мои профиль"
+              view="clear"
+              size="m"
+              className="menu-button"
+              style={{
+                width: "100%",
+                textAlign: "left",
+                backgroundColor: isProfileIconDark ? "" : "#674188",
+                color: isProfileIconDark ? "" : "#FFFBF5",
+                paddingRight: 60,
+                paddingLeft: 28,
+              }}
+              iconLeft={() => {
+                return <ProfileIcon dark={isProfileIconDark}></ProfileIcon>;
+              }}
+              onMouseEnter={() => setIsProfileIconDark(false)}
+              onMouseLeave={() => setIsProfileIconDark(true)}
+            ></Button>
+          </Link>
+          <br />
+          <Button
+            label="Добавить книгу"
+            view="clear"
+            size="m"
+            className="menu-button"
+            style={{
+              width: "100%",
+              textAlign: "left",
+              backgroundColor: isAddBookIconDark ? "" : "#674188",
+              color: isAddBookIconDark ? "" : "#FFFBF5",
+              paddingRight: 40,
+              paddingLeft: 30,
+            }}
+            iconLeft={() => {
+              return <AddbookIcon dark={isAddBookIconDark}></AddbookIcon>;
+            }}
+            onMouseEnter={() => setIsAddBookIconDark(false)}
+            onMouseLeave={() => setIsAddBookIconDark(true)}
+            onClick={onClick}
+          ></Button>
+        </>
+      )}
 
-      <Link to="mybooks">
-        <Button
-          label="Мои книги"
-          view="clear"
-          size="m"
-          className="menu-button mybooks"
-          style={{
-            width: "100%",
-            textAlign: "left",
-            backgroundColor: isMybooksIconDark ? "" : "#674188",
-            color: isMybooksIconDark ? "" : "#FFFBF5",
-            paddingRight: 80,
-            paddingLeft: 30,
-          }}
-          iconLeft={() => {
-            return <MybooksIcon dark={isMybooksIconDark}></MybooksIcon>;
-          }}
-          onMouseEnter={() => setIsMybooksIconDark(false)}
-          onMouseLeave={() => setIsMybooksIconDark(true)}
-        ></Button>
-      </Link>
-      <br />
-      <Link to="myprofile">
-        <Button
-          label="Мои профиль"
-          view="clear"
-          size="m"
-          className="menu-button"
-          style={{
-            width: "100%",
-            textAlign: "left",
-            backgroundColor: isProfileIconDark ? "" : "#674188",
-            color: isProfileIconDark ? "" : "#FFFBF5",
-            paddingRight: 60,
-            paddingLeft: 28,
-          }}
-          iconLeft={() => {
-            return <ProfileIcon dark={isProfileIconDark}></ProfileIcon>;
-          }}
-          onMouseEnter={() => setIsProfileIconDark(false)}
-          onMouseLeave={() => setIsProfileIconDark(true)}
-        ></Button>
-      </Link>
-      <br />
-
-      <Button
-        label="Добавить книгу"
-        view="clear"
-        size="m"
-        className="menu-button"
-        style={{
-          width: "100%",
-          textAlign: "left",
-          backgroundColor: isAddBookIconDark ? "" : "#674188",
-          color: isAddBookIconDark ? "" : "#FFFBF5",
-          paddingRight: 40,
-          paddingLeft: 30,
-        }}
-        iconLeft={() => {
-          return <AddbookIcon dark={isAddBookIconDark}></AddbookIcon>;
-        }}
-        onMouseEnter={() => setIsAddBookIconDark(false)}
-        onMouseLeave={() => setIsAddBookIconDark(true)}
-        onClick={onClick}
-      ></Button>
       <br />
       <br />
       <br />
