@@ -187,7 +187,12 @@ const Profile: FC = (): React.ReactElement => {
                 Дата рождения
               </label>
               {isEditing ? (
-                <DatePicker id="dateOfBirth" value={data} onChange={setData} />
+                <DatePicker
+                  id="dateOfBirth"
+                  className="profile__data"
+                  value={data}
+                  onChange={setData}
+                />
               ) : (
                 <p className="profile__text">{data?.toLocaleDateString()}</p>
               )}
@@ -204,6 +209,7 @@ const Profile: FC = (): React.ReactElement => {
               {isEditing ? (
                 <DatePicker
                   id="dateOfRegister"
+                  className="profile__data"
                   value={registerData}
                   onChange={setRegisterData}
                 />

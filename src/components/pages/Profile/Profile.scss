@@ -5,21 +5,19 @@
   background-color: rgba(247, 239, 229, 1);
 }
 
-/*.profile__background {
-  position: absolute;
-  top: 0;
-  left: 0;
+.profile__background {
   width: 100%;
-  height: 100%;
+  height: 224px;
   background-image: url("../../../assets/Фон_главной_страницы.svg");
   background-size: 100% 224px;
   background-repeat: no-repeat;
-  // z-index: -1;
-}*/
+  z-index: -1;
+  margin-top: 60px;
+}
 
 .profile__name-container {
   position: relative;
-  margin: 162px 30px 13px;
+  margin: -70px 30px 13px;
   // z-index: 1;
   background-color: rgba(255, 251, 245, 1);
   display: flex;
@@ -173,5 +171,13 @@
 
   .Button:not(:disabled):not(.Button_loading):hover {
     background-color: #674188 !important;
+  }
+}
+
+.profile__data {
+  .TextField-InputContainer_view_default {
+    border: #674188 solid 1px !important;
+    background: transparent !important;
+    width: 218px !important;
   }
 }
