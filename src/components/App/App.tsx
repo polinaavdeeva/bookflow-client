@@ -9,17 +9,31 @@ import MyBooksPage from "../pages/MyBooksPage/MyBooksPage";
 import SignUp from "../pages/SignUp/SignUp";
 import Profile from "../pages/Profile/Profile";
 import AddBookPopup from "../AddBookPopup/AddBookPopup";
+import DeletePopup from "../DeletePopup/DeletePopup";
+import ComplaintPopup from "../ComplaintPopup/ComplaintPopup";
 import "./App.scss";
 
 const App: FC = (): React.ReactElement => {
   const [isAddBookPopupOpen, setAddBookPopup] = React.useState(false);
+  const [isDeletePopupOpen, setDeletePopup] = React.useState(false);
+  const [isComplaintPopupOpen, setComplaintPopup] = React.useState(false);
 
   function closeAllPopups() {
     setAddBookPopup(false);
+    setDeletePopup(false);
+    setComplaintPopup(false);
   }
 
   function handleAddPlaceClick() {
     setAddBookPopup(true);
+  }
+
+  function handleDeletePopupClick() {
+    setDeletePopup(true);
+  }
+
+  function handleComplaintPopupClick() {
+    setComplaintPopup(true);
   }
 
   return (
@@ -33,12 +47,25 @@ const App: FC = (): React.ReactElement => {
             <Route index element={<MainPage />} />
             <Route path="mybooks" element={<MyBooksPage />} />
             <Route path="*" element={<NotFoundPage />} />
-            <Route path="myprofile" element={<Profile />} />
+            <Route
+              path="myprofile"
+              element={
+                <Profile
+                  setDelete={handleDeletePopupClick}
+                  addComplaint={handleComplaintPopupClick}
+                />
+              }
+            />
           </Route>
           <Route path="sign-in" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />
         </Routes>
         <AddBookPopup isOpen={isAddBookPopupOpen} onClose={closeAllPopups} />
+        <DeletePopup isOpen={isDeletePopupOpen} onClose={closeAllPopups} />
+        <ComplaintPopup
+          isOpen={isComplaintPopupOpen}
+          onClose={closeAllPopups}
+        />
       </>
     </Theme>
   );
