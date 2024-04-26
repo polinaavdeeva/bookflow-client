@@ -72,6 +72,10 @@
   background-color: #674188;
 }
 
+.profile__edit-button:hover {
+  background-color: #674188;
+}
+
 .profile__edit-button {
   background-color: #674188 !important;
 
@@ -172,6 +176,10 @@
   .Button:not(:disabled):not(.Button_loading):hover {
     background-color: #674188 !important;
   }
+}
+
+.profile__container-button:hover {
+  background-color: #674188 !important;
 }
 
 .profile__data {

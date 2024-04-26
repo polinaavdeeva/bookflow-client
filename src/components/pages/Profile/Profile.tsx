@@ -70,12 +70,16 @@ const Profile: FC = (): React.ReactElement => {
           <h2 className="profile__name">Райан Гослинг</h2>
           <span className="profile__name-role"> — Читатель</span>
         </div>
-        <Button
-          className="profile__edit-button"
-          label="Редактировать"
-          form="round"
-          onClick={() => setIsEditing(!isEditing)}
-        />
+        {!isEditing ? (
+          <Button
+            className="profile__edit-button"
+            label="Редактировать"
+            form="round"
+            onClick={() => setIsEditing(!isEditing)}
+          />
+        ) : (
+          <></>
+        )}
       </Card>
       <Card
         className="profile__info-container"
@@ -261,6 +265,7 @@ const Profile: FC = (): React.ReactElement => {
             label="Сохранить"
             form="round"
             size="s"
+            onClick={() => setIsEditing(!isEditing)}
           />
         )}
       </Card>
