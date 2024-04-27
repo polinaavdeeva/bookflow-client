@@ -1,0 +1,28 @@
+.Theme_control_gpnDefault .Ad_Radio_Button .Radio-Input{
+    --radio-size: 14px;
+    width: 14px;
+    background-color: #C4C4C4;
+    border-color: #C4C4C4;
+    box-shadow: none;
+}
+
+.Theme_control_gpnDefault .Ad_Radio_Button span.Radio-Label 
+{
+    display:none;
+}
+
+.Theme_control_gpnDefault .Ad_Radio_Button .Radio-Input:hover{
+    --radio-size: 14px;
+    width: 14px;
+    background-color: #C4C4C4;
+    border-color: #C4C4C4;
+}
+
+.Theme_control_gpnDefault .Ad_Radio_Button .Radio-Input:checked:before{
+    --radio-size: 16px;
+    width: 16px;
+    transform: scale(1);
+    background-color:  #FFFFFF;
+    border-color: #FFFFFF;
+    
+}
