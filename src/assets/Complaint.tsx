@@ -4,7 +4,7 @@ const ComplaintIcon = ({ dark }: { dark: boolean }) => {
       width="33"
       height="33"
       viewBox="0 0 30 30"
-      fill="none"
+      fill="#8A92A6"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path fill="url(#a)" d="M0 0h24v24H0z" />
@@ -30,7 +30,7 @@ const ComplaintIcon = ({ dark }: { dark: boolean }) => {
       width="33"
       height="33"
       viewBox="0 0 30 30"
-      fill="none"
+      fill="#FFFFFF"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path fill="url(#a)" d="M0 0h24v24H0z" />

@@ -49,7 +49,7 @@ const Menu: FC<IMenuProps> = ({ onClick }) => {
                 textAlign: "left",
                 backgroundColor: isComplaintIconDark ? "" : "#674188",
                 color: isComplaintIconDark ? "" : "#FFFBF5",
-                paddingRight: 80,
+                paddingRight: 60,
                 paddingLeft: 30,
               }}
               iconLeft={() => {

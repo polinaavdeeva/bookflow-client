@@ -19,7 +19,7 @@ const MainLayout: FC<IMainLayoutProps> = ({ onClick }) => {
       <Layout
         direction="column"
         style={{
-          marginLeft: "15%",
+          marginLeft: "16%",
           flexGrow: 1,
           display: "flex",
           flexDirection: "column",
