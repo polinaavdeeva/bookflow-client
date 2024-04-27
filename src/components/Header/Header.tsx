@@ -35,7 +35,7 @@ const Header = () => {
         padding: "20px 0px 20px 24px",
         position: 'fixed',
         background: "#F7EFE5",
-        zIndex: 0}}>
+        zIndex: 1}}>
         <TextField
             className="Search"
             type="text"
@@ -51,7 +51,7 @@ const Header = () => {
                 items={items}
                 value={value}
                 onChange={setValue}
-                style={{ width: 140, height: 30, marginTop: 4, paddingRight: 20}} 
+                style={{ width: 140, height: 30, marginTop: 4, paddingRight: 20, zIndex: 2}} 
                 className="myInput"
             />
             <User

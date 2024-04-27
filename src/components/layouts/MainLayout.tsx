@@ -23,12 +23,12 @@ const MainLayout: FC<IMainLayoutProps> = ({ onClick }) => {
           flexGrow: 1,
           display: "flex",
           flexDirection: "column",
-          height: "200%",
+          height: "100%",
         }}
       >
         <Header />
-        <div style={{ marginTop: 60 }}>
-          <Outlet />
+        <div style={{height: "100%", marginTop: 60 }}>
+          <Outlet/>
           <FeedbackPopup />
           <Footer />
         </div>
