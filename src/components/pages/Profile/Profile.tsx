@@ -6,8 +6,17 @@ import { Button } from "@consta/uikit/Button";
 import { DatePicker } from "@consta/uikit/DatePicker";
 import defaultAvatar from "../../../assets/аватарка_по-умолчанию.png";
 import ratingStar from "../../../assets/рейтинг.png";
+import { Link } from "react-router-dom";
 
-const Profile: FC = (): React.ReactElement => {
+interface IProfile {
+  setDelete: () => void;
+  addComplaint: () => void;
+}
+
+const Profile: FC<IProfile> = ({
+  setDelete,
+  addComplaint,
+}): React.ReactElement => {
   const [isEditing, setIsEditing] = useState(false);
   const [firstName, setFirstName] = useState("Райан");
   const [lastName, setLastName] = useState("Гослинг");
@@ -19,6 +28,8 @@ const Profile: FC = (): React.ReactElement => {
   const [rating, setRating] = useState("4.93");
   const [data, setData] = useState<Date | null>(null);
   const [registerData, setRegisterData] = useState<Date | null>(null);
+  const [isMyProfile, setIsMyProfile] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (isEditing) {
@@ -70,12 +81,39 @@ const Profile: FC = (): React.ReactElement => {
           <h2 className="profile__name">Райан Гослинг</h2>
           <span className="profile__name-role"> — Читатель</span>
         </div>
-        <Button
-          className="profile__edit-button"
-          label="Редактировать"
-          form="round"
-          onClick={() => setIsEditing(!isEditing)}
-        />
+        {isAdmin ? (
+          <Button
+            className="profile__edit-button"
+            label="Удалить аккаунт"
+            form="round"
+            onClick={setDelete}
+          />
+        ) : isMyProfile ? (
+          !isEditing ? (
+            <Button
+              className="profile__edit-button"
+              label="Редактировать"
+              form="round"
+              onClick={() => setIsEditing(!isEditing)}
+            />
+          ) : (
+            <></>
+          )
+        ) : (
+          <div className="profile__button-container">
+            <Button
+              className="profile__edit-button"
+              label="Связаться"
+              form="round"
+            />
+            <Button
+              className="profile__edit-button"
+              label="Оставить жалобу"
+              form="round"
+              onClick={addComplaint}
+            />
+          </div>
+        )}
       </Card>
       <Card
         className="profile__info-container"
@@ -187,7 +225,12 @@ const Profile: FC = (): React.ReactElement => {
                 Дата рождения
               </label>
               {isEditing ? (
-                <DatePicker id="dateOfBirth" value={data} onChange={setData} />
+                <DatePicker
+                  id="dateOfBirth"
+                  className="profile__data"
+                  value={data}
+                  onChange={setData}
+                />
               ) : (
                 <p className="profile__text">{data?.toLocaleDateString()}</p>
               )}
@@ -204,6 +247,7 @@ const Profile: FC = (): React.ReactElement => {
               {isEditing ? (
                 <DatePicker
                   id="dateOfRegister"
+                  className="profile__data"
                   value={registerData}
                   onChange={setRegisterData}
                 />
@@ -223,41 +267,53 @@ const Profile: FC = (): React.ReactElement => {
           </div>
         </div>
       </Card>
-      <Card
-        className="profile__button-container"
-        form="round"
-        verticalSpace="2xl"
-      >
-        {!isEditing ? (
-          <>
+      {isAdmin ? (
+        <></>
+      ) : !isMyProfile ? (
+        <></>
+      ) : (
+        <Card
+          className="profile__button-container"
+          form="round"
+          verticalSpace="2xl"
+        >
+          {!isEditing ? (
+            <>
+              <Button
+                className="profile__container-button"
+                label="Удалить аккаунт"
+                form="round"
+                size="s"
+                onClick={setDelete}
+              />
+              <Link to="/sign-in">
+                <Button
+                  className="profile__container-button"
+                  label="Сменить аккаунт"
+                  form="round"
+                  size="s"
+                />
+              </Link>
+              <Link to="/sign-in">
+                <Button
+                  className="profile__container-button"
+                  label="Выйти"
+                  form="round"
+                  size="s"
+                />
+              </Link>
+            </>
+          ) : (
             <Button
               className="profile__container-button"
-              label="Удалить аккаунт"
+              label="Сохранить"
               form="round"
               size="s"
+              onClick={() => setIsEditing(!isEditing)}
             />
-            <Button
-              className="profile__container-button"
-              label="Сменить аккаунт"
-              form="round"
-              size="s"
-            />
-            <Button
-              className="profile__container-button"
-              label="Выйти"
-              form="round"
-              size="s"
-            />
-          </>
-        ) : (
-          <Button
-            className="profile__container-button"
-            label="Сохранить"
-            form="round"
-            size="s"
-          />
-        )}
-      </Card>
+          )}
+        </Card>
+      )}
     </section>
   );
 };
