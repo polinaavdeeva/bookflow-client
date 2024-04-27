@@ -5,6 +5,7 @@ import BookCard from "../../BookCard/BookCard";
 import { Tabs } from '@consta/uikit/Tabs';
 import { useState } from "react";
 import "./MyBooksPage.scss"
+import { Button } from "@consta/uikit/Button";
 
 
 
@@ -18,15 +19,16 @@ const MyBooksPage = () => {
     return (
       <Layout direction= "column" style={{flexGrow: 1, height: "90%", width: "100%", paddingLeft: "2%", paddingRight: "1.5%", paddingTop: "2%"}}>
           <Card style={{height: "100%", width: "100%", padding: 25, background: "#FFFBF5", }}>
-            <Layout direction="row" style={{paddingLeft: 10, paddingRight: 20}}>
+            <Layout direction="row" style={{paddingLeft: 10, paddingRight: 20, paddingTop: 10}}>
             <Tabs
                 value={value}
                 onChange={setValue}
                 items={items}
                 getItemLabel={getItemLabel} 
             ></Tabs>
+            <Button label="Разместить книгу" style={{background: "#674188"}} form="round"></Button>
             </Layout>
-            <hr style={{marginBottom: 20, height: 5, background:"#C3ACD0", borderRadius: 25}}></hr>
+            <hr style={{marginBottom: 20, height: 5, background:"#C3ACD0", borderRadius: 25, marginLeft: 15, marginRight: 20}}></hr>
             {value === "Мои книги на обмен" ? 
             <div style= {{height: "80%  ", width: "100%", overflowY: "auto"}}>
               
