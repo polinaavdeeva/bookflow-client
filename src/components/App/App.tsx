@@ -9,8 +9,12 @@ import MyBooksPage from "../pages/MyBooksPage/MyBooksPage";
 import SignUp from "../pages/SignUp/SignUp";
 import Profile from "../pages/Profile/Profile";
 import AddBookPopup from "../AddBookPopup/AddBookPopup";
+
 import DeletePopup from "../DeletePopup/DeletePopup";
 import ComplaintPopup from "../ComplaintPopup/ComplaintPopup";
+
+import ComplaintPage from "../pages/ComplaintPage/ComplaintPage";
+
 import "./App.scss";
 
 const App: FC = (): React.ReactElement => {
@@ -56,6 +60,7 @@ const App: FC = (): React.ReactElement => {
                 />
               }
             />
+
           </Route>
           <Route path="sign-in" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />
