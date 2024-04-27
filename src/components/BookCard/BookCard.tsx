@@ -1,7 +1,7 @@
+import { Link } from "react-router-dom";
 import { Card } from '@consta/uikit/Card';
 import { Text } from '@consta/uikit/Text';
 import { useRef } from 'react';
-import { Picture } from '@consta/uikit/Picture';
 import './BookCard.scss'
 import StarIcon from '../../assets/starIcon';
 
@@ -22,6 +22,7 @@ const BookCard = () => {
       };
 
     return (
+      <Link to="/book">
       <Card form="round" 
       style={{
           width: 160, 
@@ -32,7 +33,7 @@ const BookCard = () => {
           marginLeft: 18,
           marginTop: 10, 
           display: "inline-block", 
-          marginBottom: 10
+          marginBottom: 10,
         }}>
         <img src="https://www.colorhexa.com/8a99a6.png" style={{width: 160, height: 120, borderRadius: "20px 20px 0px 0px"}}></img>
         <div style={{padding: "15px 12px 10px 12px"}}>
@@ -46,6 +47,7 @@ const BookCard = () => {
         
         
       </Card>
+      </Link>
     );
   };
   
