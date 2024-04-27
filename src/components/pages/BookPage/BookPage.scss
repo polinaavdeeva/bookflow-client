@@ -1,0 +1,48 @@
+.book {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: rgba(247, 239, 229, 1);
+  }
+  
+  
+  .background {
+    width: 100%;
+    height: 224px;
+    background-image: url("../../../assets/Фон_главной_страницы.svg");
+    background-size: 100% 224px;
+    background-repeat: no-repeat;
+    z-index: -1;
+  }
+  
+  .main-container {
+    position: relative;
+    margin: -70px 30px 13px;
+    // z-index: 1;
+  
+    background-color: rgba(255, 251, 245, 1);
+    display: flex;
+    justify-content: space-between;
+    padding-right: 30px;
+  }
+
+  .item-text {
+    margin: 0;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 33px;
+  }
+
+  .item-label {
+    color: rgba(138, 146, 166, 1);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 26px;
+  }
+
+  .collapse-text {
+    margin: 0;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 33px;
+  }

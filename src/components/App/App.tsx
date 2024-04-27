@@ -16,6 +16,7 @@ import ComplaintPopup from "../ComplaintPopup/ComplaintPopup";
 import ComplaintPage from "../pages/ComplaintPage/ComplaintPage";
 
 import "./App.scss";
+import BookPage from "../pages/BookPage/BookPage";
 
 const App: FC = (): React.ReactElement => {
   const [isAddBookPopupOpen, setAddBookPopup] = React.useState(false);
@@ -60,10 +61,11 @@ const App: FC = (): React.ReactElement => {
                 />
               }
             />
-
+          <Route path="book" element={<BookPage/>} />
           </Route>
           <Route path="sign-in" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />
+          
         </Routes>
         <AddBookPopup isOpen={isAddBookPopupOpen} onClose={closeAllPopups} />
         <DeletePopup isOpen={isDeletePopupOpen} onClose={closeAllPopups} />
