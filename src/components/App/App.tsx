@@ -61,6 +61,7 @@ const App: FC = (): React.ReactElement => {
             />
             <Route path="book" element={<BookPage />} />
             <Route path="result-books" element={<ResultBooks />} />
+            <Route path="complaints" element={<ComplaintPage />} />
           </Route>
           <Route path="sign-in" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />
