@@ -2,22 +2,21 @@ import React, { useState } from "react";
 import { Avatar } from "@consta/uikit/Avatar";
 import { Card } from "@consta/uikit/Card";
 import { Button } from "@consta/uikit/Button";
-import defaultAvatar from "../../../assets/аватарка_по-умолчанию.png";
-import ratingStar from "../../../assets/рейтинг.png";
 import './BookPage.scss'
 import { Layout } from "@consta/uikit/Layout";
 import { Text } from "@consta/uikit/Text";
 import StarIcon from "../../../assets/starIcon";
 import { Collapse } from '@consta/uikit/Collapse';
+import Comment from "../../Comment/Comment";
+import FeedbackPopup from "../../FeedbackPopup/FeedbackPopup";
 
 const BookPage = ()=>{
     const [isCommentsOpen, setIsCommentsOpen] = useState<boolean>(false);
     const [isBooksOpen, setIsBooksOpen] = useState<boolean>(false);
+    const [isFeedbackOpen, setIsFeedbackOpen] = useState<boolean>(false);
+    const [isComplaintBookButtonShowed, setIsComplaintBookButtonShowed] = useState(false)
 
     return(
-        // <Layout direction= "column" style={{flexGrow: 1, height: "90%", width: "100%", paddingLeft: "2%", paddingRight: "1.5%", paddingTop: "2%"}}>
-            
-        // </Layout>
         <section className="book">
             <div className="background"></div>
             <Card style={{height: "100%"}}
@@ -29,7 +28,27 @@ const BookPage = ()=>{
                     <img src="https://www.colorhexa.com/8a99a6.png" 
                          style={{width: 180, height: 280, borderRadius: "20px 20px 20px 20px"}}></img>
                     <Layout direction="column" style={{paddingLeft: 40}}>
-                        <Text className="item-label">Название книги</Text>
+                        <Layout direction="row" style={{width: "100%"}}>
+                            <Text className="item-label" style={{width: "20%"}}>Название книги</Text>
+                                <Layout style={{width: "100%"}}></Layout>
+                                {isComplaintBookButtonShowed ? 
+                                    <Button 
+                                        label="Оставить жалобу" 
+                                        size="xs" 
+                                        onMouseLeave={()=>setIsComplaintBookButtonShowed(false)} 
+                                        style={{marginLeft: -20, background: "#674188"}}
+                                        form="round"/>
+                                    :
+                                    <Button 
+                                        size="xs" 
+                                        label="⋮" 
+                                        form="round" 
+                                        view="clear" 
+                                        style={{marginLeft: 145}}
+                                        onMouseEnter={()=>setIsComplaintBookButtonShowed(true)}/>
+                                }  
+                        </Layout>
+                        
                         <Text className="item-text">Название книги</Text>
                         <br/>
                         <br/>
@@ -66,14 +85,13 @@ const BookPage = ()=>{
                         <br/>
                         <Layout direction="row" style={{display:"flex", width: "100%"}}>
                             <Collapse
-                                label={<Text className="collapse-text">Отзывы</Text>}
-                                iconPosition="right"  
-                                style={{width: 90}}
+                                label={<Text className="collapse-text">Отзывы</Text>}  
+                                style={{width: "100%"}}
                                 isOpen={isCommentsOpen}
                                 onClick={() => setIsCommentsOpen(!isCommentsOpen)}
                                 >
                                 <Layout style={{paddingLeft: 30}}>
-                                    Отзыв
+                                    <Comment></Comment>
                                 </Layout>
                             </Collapse>  
                             <div style={{display:"flex", width: "100%"}}></div>
@@ -81,15 +99,31 @@ const BookPage = ()=>{
                         </Layout>
                         
                         <Collapse
-                            label={<Text className="collapse-text">Доступна для обмена</Text>}
-                            iconPosition="right"  
+                            label={<Text className="collapse-text">Доступна для обмена</Text>}  
                             style={{width: 250}}
                             isOpen={isBooksOpen}
                             onClick={() => setIsBooksOpen(!isBooksOpen)}
-                            >
-                            <Layout style={{paddingLeft: 30}}>
-                                Доступные для обмена
+                            > 
+                            <Layout direction="column" style={{paddingLeft: 30}}>
+                            <Layout direction="row" style={{marginBottom: 10}}>
+                                <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar> 
+                                <Text style={{paddingTop: 7, paddingLeft: 15}}> Райан Гослинг</Text>
+                                <Text className="item-text" style={{paddingLeft: 20}}><StarIcon></StarIcon> 4.3</Text>
                             </Layout>
+
+                            <Layout direction="row" style={{marginBottom: 10}}>
+                                <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar> 
+                                <Text style={{paddingTop: 7, paddingLeft: 15}}> Райан Гослинг</Text>
+                                <Text className="item-text" style={{paddingLeft: 20}}><StarIcon></StarIcon> 4.3</Text>
+                            </Layout>
+
+                            <Layout direction="row" style={{marginBottom: 10}}>
+                                <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar> 
+                                <Text style={{paddingTop: 7, paddingLeft: 15}}> Райан Гослинг</Text>
+                                <Text className="item-text" style={{paddingLeft: 20}}><StarIcon></StarIcon> 4.3</Text>
+                            </Layout>      
+                            </Layout>
+
                         </Collapse>
                     </Layout>
                 </Layout>
