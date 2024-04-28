@@ -9,12 +9,10 @@ import MyBooksPage from "../pages/MyBooksPage/MyBooksPage";
 import SignUp from "../pages/SignUp/SignUp";
 import Profile from "../pages/Profile/Profile";
 import AddBookPopup from "../AddBookPopup/AddBookPopup";
-
 import DeletePopup from "../DeletePopup/DeletePopup";
 import ComplaintPopup from "../ComplaintPopup/ComplaintPopup";
-
 import ComplaintPage from "../pages/ComplaintPage/ComplaintPage";
-
+import ResultBooks from "../ResultBooks/ResultBooks";
 import "./App.scss";
 import BookPage from "../pages/BookPage/BookPage";
 
@@ -61,11 +59,11 @@ const App: FC = (): React.ReactElement => {
                 />
               }
             />
-          <Route path="book" element={<BookPage/>} />
+            <Route path="book" element={<BookPage />} />
+            <Route path="result-books" element={<ResultBooks />} />
           </Route>
           <Route path="sign-in" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />
-          
         </Routes>
         <AddBookPopup isOpen={isAddBookPopupOpen} onClose={closeAllPopups} />
         <DeletePopup isOpen={isDeletePopupOpen} onClose={closeAllPopups} />
