@@ -59,7 +59,7 @@ const Header = () => {
         placeholder="Поиск"
         size="s"
         value={searchQuery || ""}
-        //onChange={handleInputChange}
+        onInput={handleInputChange}
         onKeyPress={handleKeyPress}
       />
 
