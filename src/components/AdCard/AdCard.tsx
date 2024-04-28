@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { RadioGroup } from "@consta/uikit/RadioGroup";
 import './AdCard.scss'
 
-const AdCard = () => {
+const AdCard = ({url1, url2, url3} : { url1: string | undefined, url2: string | undefined, url3: string | undefined }) => {
   type Item = { 
     name: string; 
     disabled?: boolean;
@@ -27,13 +27,13 @@ const AdCard = () => {
       <Layout style={{height: 200, width: "100%", background:" #777777", borderRadius: "0px 0px 16px 16px", position: "relative", zIndex: 0}}>
         <Layout style={{width: "100%", height: "100%", position: "absolute"}}>
                 {value.name === "1" ? // Первая страница
-                <img src="https://chelseablues.ru/images/news12/1xbet-zerkalo-na-segodnya.jpg" style={{width: "100%", height: "100%", borderRadius: "0px 0px 16px 16px"}}></img>
+                <img src={url1} style={{width: "100%", height: "100%", borderRadius: "0px 0px 16px 16px"}}></img>
                 :   
                 value.name === "2" ? // Вторая страница   
-                <img src="" style={{width: "100%", height: "100%", borderRadius: "0px 0px 16px 16px"}}></img>
+                <img src={url2} style={{width: "100%", height: "100%", borderRadius: "0px 0px 16px 16px"}}></img>
                 : 
                 value.name === "3" ? // Третья страница
-                <img src="" style={{width: "100%", height: "100%", borderRadius: "0px 0px 16px 16px"}}></img>
+                <img src={url3} style={{width: "100%", height: "100%", borderRadius: "0px 0px 16px 16px"}}></img>
                 : 
                 ""}
         </Layout>
