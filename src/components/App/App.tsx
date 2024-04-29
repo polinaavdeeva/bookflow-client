@@ -13,6 +13,7 @@ import DeletePopup from "../DeletePopup/DeletePopup";
 import ComplaintPopup from "../ComplaintPopup/ComplaintPopup";
 import ComplaintPage from "../pages/ComplaintPage/ComplaintPage";
 import ResultBooks from "../ResultBooks/ResultBooks";
+import FeedbackPopup from "../FeedbackPopup/FeedbackPopup";
 import "./App.scss";
 import BookPage from "../pages/BookPage/BookPage";
 
@@ -20,11 +21,13 @@ const App: FC = (): React.ReactElement => {
   const [isAddBookPopupOpen, setAddBookPopup] = React.useState(false);
   const [isDeletePopupOpen, setDeletePopup] = React.useState(false);
   const [isComplaintPopupOpen, setComplaintPopup] = React.useState(false);
+  const [isFeedbackPopupOpen, setFeedbackPopup] = React.useState(false);
 
   function closeAllPopups() {
     setAddBookPopup(false);
     setDeletePopup(false);
     setComplaintPopup(false);
+    setFeedbackPopup(false);
   }
 
   function handleAddPlaceClick() {
@@ -39,6 +42,10 @@ const App: FC = (): React.ReactElement => {
     setComplaintPopup(true);
   }
 
+  function handleFeedbackPopupClick() {
+    setFeedbackPopup(true);
+  }
+
   return (
     <Theme preset={presetGpnDefault}>
       <>
@@ -48,7 +55,10 @@ const App: FC = (): React.ReactElement => {
             element={<MainLayout onClick={handleAddPlaceClick} />}
           >
             <Route index element={<MainPage />} />
-            <Route path="mybooks" element={<MyBooksPage />} />
+            <Route
+              path="mybooks"
+              element={<MyBooksPage addBook={handleAddPlaceClick} />}
+            />
             <Route path="*" element={<NotFoundPage />} />
             <Route
               path="myprofile"
@@ -59,7 +69,15 @@ const App: FC = (): React.ReactElement => {
                 />
               }
             />
-            <Route path="book" element={<BookPage />} />
+            <Route
+              path="book"
+              element={
+                <BookPage
+                  addComplaint={handleComplaintPopupClick}
+                  addFeedback={handleFeedbackPopupClick}
+                />
+              }
+            />
             <Route path="result-books" element={<ResultBooks />} />
           </Route>
           <Route path="sign-in" element={<SignIn />} />
@@ -71,6 +89,7 @@ const App: FC = (): React.ReactElement => {
           isOpen={isComplaintPopupOpen}
           onClose={closeAllPopups}
         />
+        <FeedbackPopup isOpen={isFeedbackPopupOpen} onClose={closeAllPopups} />
       </>
     </Theme>
   );
