@@ -22,7 +22,7 @@ const Menu: FC<IMenuProps> = ({ onClick }) => {
   const [isExitIconDark, setIsExitIconDark] = useState<boolean>(true);
   const [isComplaintIconDark, setIsComplaintIconDark] = useState<boolean>(true);
   const [isStatisticIconDark, setIsStatisticIconDark] = useState<boolean>(true);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(true);
 
   return (
     <div className="menu-vertical">
