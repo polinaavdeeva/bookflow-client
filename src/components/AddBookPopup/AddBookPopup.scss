@@ -41,6 +41,11 @@
   display: flex;
   justify-content: flex-end;
   margin-left: auto;
+  cursor: pointer;
+}
+
+.popup__close-button:hover {
+  opacity: 0.6;
 }
 
 .popup__title {
@@ -120,6 +125,15 @@
   .Button:not(:disabled):not(.Button_loading):hover {
     background-color: #674188 !important;
   }
+}
+
+.popup__add-button:focus {
+  background-color: #674188 !important;
+}
+
+.popup__add-button:hover {
+  background-color: #674188 !important;
+  opacity: 0.6;
 }
 
 .FileIcon_size_m {

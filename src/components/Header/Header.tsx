@@ -2,7 +2,7 @@ import { Select } from "@consta/uikit/Select";
 import { TextField } from "@consta/uikit/TextField";
 import { User } from "@consta/uikit/User";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Header.scss";
 
 const Header = () => {
@@ -80,12 +80,14 @@ const Header = () => {
           }}
           className="myInput"
         />
-        <User
-          avatarUrl="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"
-          name="Райан Гослинг"
-          info="Водитель"
-          style={{ width: 200, height: 30 }}
-        />
+        <Link to="/myprofile">
+          <User
+            avatarUrl="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"
+            name="Райан Гослинг"
+            info="Водитель"
+            style={{ width: 200, height: 30 }}
+          />
+        </Link>
       </div>
     </div>
   );
