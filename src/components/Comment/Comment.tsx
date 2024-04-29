@@ -7,17 +7,21 @@ import { Button } from "@consta/uikit/Button";
 
 interface IComment {
   addComplaint: () => void;
+  com: {
+    text: string,
+    stars: number
+  }
 }
 
-const Comment: FC<IComment> = ({ addComplaint }) => {
+const Comment: FC<IComment> = ({ addComplaint, com}) => {
   const [isComplaintButtonShowed, setIsComplaintButtonShowed] = useState(false);
   return (
-    <Layout direction="column" style={{ width: "100%" }}>
+    <Layout direction="column" style={{ width: "100%", marginBottom: 20}}>
       <Layout direction="row" style={{ marginBottom: 10 }}>
         <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
         <Text style={{ paddingTop: 7, paddingLeft: 10 }}> Райан Гослинг</Text>
         <Text className="item-text" style={{ paddingLeft: 20 }}>
-          <StarIcon></StarIcon> 4.3
+          <StarIcon></StarIcon> {com.stars}
         </Text>
         <Layout style={{ width: "9.8%" }}></Layout>
         {isComplaintButtonShowed ? (
@@ -39,7 +43,7 @@ const Comment: FC<IComment> = ({ addComplaint }) => {
           />
         )}
       </Layout>
-      Главный герой произведения буквально я.
+      {com.text}
     </Layout>
   );
 };

@@ -96,7 +96,7 @@ const App: FC = (): React.ReactElement => {
           isOpen={isComplaintPopupOpen}
           onClose={closeAllPopups}
         />
-        <FeedbackPopup isOpen={isFeedbackPopupOpen} onClose={closeAllPopups} />
+        {/* <FeedbackPopup isOpen={isFeedbackPopupOpen} onClose={closeAllPopups} /> */}
       </>
     </Theme>
   );

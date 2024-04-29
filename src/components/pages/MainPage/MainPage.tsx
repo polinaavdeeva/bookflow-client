@@ -10,22 +10,41 @@ import { Layout } from "@consta/uikit/Layout";
 import { Button } from "@consta/uikit/Button";
 
 const MainPage = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerLastAddedRef = useRef<HTMLDivElement>(null);
+  const containerBestRef = useRef<HTMLDivElement>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
-  const scrollLeft = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollBy({
-        left: -200,
+  const scrollLeftLastAdded = () => {
+    if (containerLastAddedRef.current) {
+      containerLastAddedRef.current.scrollBy({
+        left: -196,
         behavior: 'smooth'
       });
     }
   };
 
-  const scrollRight = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollBy({
-        left: 200,
+  const scrollRightLastAdded = () => {
+    if (containerLastAddedRef.current) {
+      containerLastAddedRef.current.scrollBy({
+        left: 196,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollLeftBest = () => {
+    if (containerBestRef.current) {
+      containerBestRef.current.scrollBy({
+        left: -196,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollRightBest = () => {
+    if (containerBestRef.current) {
+      containerBestRef.current.scrollBy({
+        left: 196,
         behavior: 'smooth'
       });
     }
@@ -94,29 +113,33 @@ const MainPage = () => {
           marginTop: 10,
           marginLeft: 15,
           marginRight: 15,
-          height: "hug",
+          height: "max",
           background: "#FFFBF5", 
         }}
       >
         <Text className="division-text">Последнее Добавленное</Text>
-        <div style={{width:"90%"}}>
-          <div style={{display: "flex", marginLeft: 40, marginRight: 40, width: "calc(80vw - 120px)", overflowX: "auto"}}>
-            <BookCard></BookCard>
-            <BookCard></BookCard> 
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
+        <Layout direction="row" style={{width:"100%", height: 270}}>
+          <Button label="❰" view="ghost" style={{height: "100%", background: "none", color: "#674188"}} onClick={scrollLeftLastAdded}></Button>
+          <div  
+              ref={containerLastAddedRef}
+              style={{display: "flex", width: "calc(80vw - 120px)", overflowX: "hidden"}}>
+                <BookCard></BookCard>
+                <BookCard></BookCard> 
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
           </div>
-        </div> 
+          <Button label="❱" view="ghost" style={{height: "100%", background: "none", color: "#674188"}} onClick={scrollRightLastAdded}></Button>
+        </Layout> 
       </Card>
 
       <Card
@@ -131,24 +154,28 @@ const MainPage = () => {
         }}
       >
         <Text className="division-text">Лучший рейтинг</Text>
-        <div style={{width:"90%"}}>
-          <div style={{display: "flex", marginLeft: 40, marginRight: 40, width: "calc(80vw - 120px)", overflowX: "auto"}}>
-            <BookCard></BookCard>
-            <BookCard></BookCard> 
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
+        <Layout direction="row" style={{width:"100%", height: 270}}>
+          <Button label="❰" view="ghost" style={{height: "100%", background: "none", color: "#674188"}} onClick={scrollLeftBest}></Button>
+          <div  
+              ref={containerBestRef}
+              style={{display: "flex", width: "calc(80vw - 120px)", overflowX: "hidden"}}>
+                <BookCard></BookCard>
+                <BookCard></BookCard> 
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
+                <BookCard></BookCard>
           </div>
-        </div>   
+          <Button label="❱" view="ghost" style={{height: "100%", background: "none", color: "#674188"}} onClick={scrollRightBest}></Button>
+        </Layout> 
       </Card>
     </>
     }
