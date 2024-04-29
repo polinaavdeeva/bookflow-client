@@ -1,6 +1,15 @@
 import React, { FC, useState } from "react";
 import { Button } from "@consta/uikit/Button";
-import { Chart, Bars } from "rumble-charts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 import "./StatisticPage.scss";
 
 interface Item {
@@ -55,6 +64,10 @@ const StatisticPage: FC = () => {
     setCurrentSection(section);
   };
 
+  React.useEffect(() => {
+    handleSectionChange("books");
+  }, []);
+
   return (
     <section className="statistic-page">
       <h2 className="statistic-page__title">Статистика</h2>
@@ -80,18 +93,23 @@ const StatisticPage: FC = () => {
       </div>
       <div className="statistic-page__border"></div>
       <div className="statistic-page__chart">
-        <Chart
-          height={300}
-          minY={0}
-          series={[
-            {
-              data: chartData.map((item) => item.value),
-            },
-          ]}
-          width={400}
-        >
-          <Bars groupPadding="3%" innerPadding="0.5%" />
-        </Chart>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart
+            data={chartData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar
+              dataKey="value"
+              fill="#674188"
+              name={chartData[0]?.month || ""}
+            />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
       <div className="statistic-page__chart-buttons">
         <Button
