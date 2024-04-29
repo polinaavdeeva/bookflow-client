@@ -28,6 +28,10 @@
   width: 800px;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
   padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 25px;
 }
 
 .popup__close-button {
@@ -147,4 +151,26 @@
   line-height: 20px;
   border: none;
   cursor: pointer;
+}
+
+.popup__form-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  width: 328px;
+}
+
+.popup__subtitle {
+  color: rgba(138, 146, 166, 1);
+  font-weight: 400;
+  font-size: 15px;
+  margin: 0;
+}
+
+.popup__reason {
+  width: 328px;
+  border: 1px solid #674188;
+  border-radius: 4px;
+  height: 30px;
+  background-color: transparent;
 }
