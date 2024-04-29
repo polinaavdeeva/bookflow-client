@@ -24,6 +24,8 @@ const App: FC = (): React.ReactElement => {
   const [isAddBookPopupOpen, setAddBookPopup] = React.useState(false);
   const [isDeletePopupOpen, setDeletePopup] = React.useState(false);
   const [isComplaintPopupOpen, setComplaintPopup] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [isAdmin, setIsAdmin] = React.useState(false);
   const [isFeedbackPopupOpen, setFeedbackPopup] = React.useState(false);
 
   function closeAllPopups() {
@@ -49,15 +51,35 @@ const App: FC = (): React.ReactElement => {
     setFeedbackPopup(true);
   }
 
+  function handleLogin() {
+    setIsLoggedIn(true);
+  }
+
+  function handleLoginOut() {
+    setIsLoggedIn(false);
+    setIsAdmin(false);
+  }
+
+  function handleLoggedAdmin(isAdmin: boolean): void {
+    setIsAdmin(isAdmin);
+  }
+
   return (
     <Theme preset={presetGpnDefault}>
       <>
         <Routes>
           <Route
             path="/"
-            element={<MainLayout onClick={handleAddPlaceClick} />}
+            element={
+              <MainLayout
+                onClick={handleAddPlaceClick}
+                loggedOut={handleLoginOut}
+                isLoggedIn={isLoggedIn}
+                isAdmin={isAdmin}
+              />
+            }
           >
-            <Route index element={<MainPage />} />
+            <Route index element={<MainPage isAdmin={isAdmin} />} />
             <Route
               path="mybooks"
               element={<MyBooksPage addBook={handleAddPlaceClick} />}
@@ -69,6 +91,7 @@ const App: FC = (): React.ReactElement => {
                 <Profile
                   setDelete={handleDeletePopupClick}
                   addComplaint={handleComplaintPopupClick}
+                  isAdmin={isAdmin}
                 />
               }
             />
@@ -80,6 +103,8 @@ const App: FC = (): React.ReactElement => {
                 <BookPage
                   addComplaint={handleComplaintPopupClick}
                   addFeedback={handleFeedbackPopupClick}
+                  isLoggedIn={isLoggedIn}
+                  isAdmin={isAdmin}
                 />
               }
             />
@@ -87,8 +112,13 @@ const App: FC = (): React.ReactElement => {
             <Route path="result-books" element={<ResultBooks />} />
             <Route path="complaints" element={<ComplaintPage />} />
           </Route>
-          <Route path="sign-in" element={<SignIn />} />
-          <Route path="sign-up" element={<SignUp />} />
+          <Route
+            path="sign-in"
+            element={
+              <SignIn loggedIn={handleLogin} setAdmin={handleLoggedAdmin} />
+            }
+          />
+          <Route path="sign-up" element={<SignUp loggedIn={handleLogin} />} />
         </Routes>
         <AddBookPopup isOpen={isAddBookPopupOpen} onClose={closeAllPopups} />
         <DeletePopup isOpen={isDeletePopupOpen} onClose={closeAllPopups} />
