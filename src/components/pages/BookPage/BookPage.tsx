@@ -10,6 +10,12 @@ import { Collapse } from "@consta/uikit/Collapse";
 import Comment from "../../Comment/Comment";
 import FeedbackPopup from "../../FeedbackPopup/FeedbackPopup";
 
+
+type comment = {
+  text: string,
+  stars: number
+}
+
 interface IBook {
   addComplaint: () => void;
   addFeedback: () => void;
@@ -22,8 +28,21 @@ const BookPage: FC<IBook> = ({ addComplaint, addFeedback }) => {
   const [isComplaintBookButtonShowed, setIsComplaintBookButtonShowed] =
     useState(false);
 
+  const [commentList, setCommentList] = useState<comment[]>([])
+
+  const addComment = (text: string, stars: number) =>{
+      const com = {
+        text: text,
+        stars: stars,
+      }
+      let copy = commentList
+      copy.push(com)
+      setCommentList(copy)
+  }
+
   return (
     <section className="book">
+      <FeedbackPopup isOpen={isFeedbackOpen} setIsOpen={setIsFeedbackOpen} addComment={addComment}></FeedbackPopup>
       <div className="background"></div>
       <Card
         style={{ height: "100%" }}
@@ -115,8 +134,13 @@ const BookPage: FC<IBook> = ({ addComplaint, addFeedback }) => {
                 isOpen={isCommentsOpen}
                 onClick={() => setIsCommentsOpen(!isCommentsOpen)}
               >
-                <Layout style={{ paddingLeft: 30 }}>
-                  <Comment addComplaint={addComplaint}></Comment>
+                <Layout direction="column" style={{ paddingLeft: 30 }}>
+                  {commentList.length===0 && <>Будьте первыми, кто оставит отзыв!</>}
+                  {commentList.map((el)=>{
+                    return(
+                      <Comment com={el} addComplaint={addComplaint}></Comment>
+                    )
+                  })}
                 </Layout>
               </Collapse>
               <div style={{ display: "flex", width: "100%" }}></div>
@@ -124,7 +148,7 @@ const BookPage: FC<IBook> = ({ addComplaint, addFeedback }) => {
                 label="Добавить отзыв"
                 style={{ background: "#674188", marginTop: 10 }}
                 form="round"
-                onClick={addFeedback}
+                onClick={()=>setIsFeedbackOpen(true)}
               ></Button>
             </Layout>
 
