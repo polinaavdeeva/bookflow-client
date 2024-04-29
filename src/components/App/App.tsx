@@ -13,6 +13,7 @@ import DeletePopup from "../DeletePopup/DeletePopup";
 import ComplaintPopup from "../ComplaintPopup/ComplaintPopup";
 import ComplaintPage from "../pages/ComplaintPage/ComplaintPage";
 import ResultBooks from "../ResultBooks/ResultBooks";
+import StatisticPage from "../pages/StatisticPage/StatisticPage";
 import "./App.scss";
 import BookPage from "../pages/BookPage/BookPage";
 
@@ -59,6 +60,7 @@ const App: FC = (): React.ReactElement => {
                 />
               }
             />
+            <Route path="statistic" element={<StatisticPage />} />
             <Route path="book" element={<BookPage />} />
             <Route path="result-books" element={<ResultBooks />} />
           </Route>
