@@ -6,8 +6,6 @@ import { Layout } from "@consta/uikit/Layout";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 
-import FeedbackPopup from "../FeedbackPopup/FeedbackPopup";
-
 interface IMainLayoutProps {
   onClick: () => void;
 }
@@ -15,7 +13,7 @@ interface IMainLayoutProps {
 const MainLayout: FC<IMainLayoutProps> = ({ onClick }) => {
   return (
     <Layout style={{ display: "flex", background: "#F7EFE5", height: "100%" }}>
-      <Menu onClick={onClick}/>
+      <Menu onClick={onClick} />
       <Layout
         direction="column"
         style={{
@@ -27,9 +25,8 @@ const MainLayout: FC<IMainLayoutProps> = ({ onClick }) => {
         }}
       >
         <Header />
-        <div style={{height: "100%", marginTop: 60 }}>
-          <Outlet/>
-          <FeedbackPopup />
+        <div style={{ height: "100%", marginTop: 60 }}>
+          <Outlet />
           <Footer />
         </div>
       </Layout>

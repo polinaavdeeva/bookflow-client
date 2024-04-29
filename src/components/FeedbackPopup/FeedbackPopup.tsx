@@ -2,13 +2,23 @@ import React, { FC } from "react";
 import "./FeedbackPopup.scss";
 import { Button } from "@consta/uikit/Button";
 
-interface IFeedbackProps {}
+interface IFeedbackProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-const FeedbackPopup: FC<IFeedbackProps> = ({}): React.ReactElement => {
+const FeedbackPopup: FC<IFeedbackProps> = ({
+  isOpen,
+  onClose,
+}): React.ReactElement => {
   return (
-    <section className={`popup`}>
+    <section className={`popup ${isOpen ? "popup_opened" : ""}`}>
       <div className="popup__feedback-container">
-        <button className="popup__close-button" type="button"></button>
+        <button
+          className="popup__close-button"
+          type="button"
+          onClick={onClose}
+        ></button>
         <h2 className="popup__title">Добавить отзыв</h2>
         <form className="popup__form-feedback ">
           <textarea
