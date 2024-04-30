@@ -9,6 +9,7 @@ import StarIcon from "../../../assets/starIcon";
 import { Collapse } from "@consta/uikit/Collapse";
 import Comment from "../../Comment/Comment";
 import FeedbackPopup from "../../FeedbackPopup/FeedbackPopup";
+import { Link } from "react-router-dom";
 
 type comment = {
   text: string;
@@ -176,7 +177,14 @@ const BookPage: FC<IBook> = ({
             >
               <Layout direction="column" style={{ paddingLeft: 30 }}>
                 <Layout direction="row" style={{ marginBottom: 10 }}>
-                  <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
+                  {isLoggedIn ? (
+                    <Link to="/myprofile">
+                      <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
+                    </Link>
+                  ) : (
+                    <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
+                  )}
+
                   <Text style={{ paddingTop: 7, paddingLeft: 15 }}>
                     {" "}
                     Райан Гослинг
@@ -187,7 +195,13 @@ const BookPage: FC<IBook> = ({
                 </Layout>
 
                 <Layout direction="row" style={{ marginBottom: 10 }}>
-                  <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
+                  {isLoggedIn ? (
+                    <Link to="/myprofile">
+                      <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
+                    </Link>
+                  ) : (
+                    <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
+                  )}
                   <Text style={{ paddingTop: 7, paddingLeft: 15 }}>
                     {" "}
                     Райан Гослинг
@@ -198,7 +212,13 @@ const BookPage: FC<IBook> = ({
                 </Layout>
 
                 <Layout direction="row" style={{ marginBottom: 10 }}>
-                  <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
+                  {isLoggedIn ? (
+                    <Link to="/myprofile">
+                      <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
+                    </Link>
+                  ) : (
+                    <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
+                  )}
                   <Text style={{ paddingTop: 7, paddingLeft: 15 }}>
                     {" "}
                     Райан Гослинг
