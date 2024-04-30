@@ -55,7 +55,11 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
 
   return (
     <div style={{ flexGrow: 1, height: "115%", width: "100%" }}>
-      <AdCard url1="" url2="" url3="" />
+      <AdCard 
+        url1="https://idnu.ru/upload/iblock/610/610a9969112cb5ff84629d7cab4b3d04.png" 
+        url2="https://avatars.mds.yandex.net/i?id=e72f1aa1fb000d2e37a639ded5f24224103dea02-8287363-images-thumbs&ref=rim&n=33&w=480&h=167" 
+        url3="https://toyota-faq.ru/wp-content/uploads/b/d/a/bda2df013c227bdeb9106c8b6909ba7b.jpeg" />
+
       {isAdmin ? (
         <Card
           verticalSpace="xl"

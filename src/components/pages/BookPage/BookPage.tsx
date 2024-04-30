@@ -83,7 +83,7 @@ const BookPage: FC<IBook> = ({
                   label="Оставить жалобу"
                   size="xs"
                   onMouseLeave={() => setIsComplaintBookButtonShowed(false)}
-                  style={{ marginLeft: -20, background: "#674188" }}
+                  style={{ marginLeft: -20, background: "#674188"}}
                   form="round"
                   onClick={addComplaint}
                   disabled={!isLoggedIn}
@@ -95,7 +95,7 @@ const BookPage: FC<IBook> = ({
                   label="⋮"
                   form="round"
                   view="clear"
-                  style={{ marginLeft: 145 }}
+                  style={{ marginLeft: 145, fontSize: 25 }}
                   onMouseEnter={() => setIsComplaintBookButtonShowed(true)}
                 />
               )}
