@@ -10,6 +10,8 @@ import { Collapse } from "@consta/uikit/Collapse";
 import Comment from "../../Comment/Comment";
 import FeedbackPopup from "../../FeedbackPopup/FeedbackPopup";
 import { Link } from "react-router-dom";
+import DeleteBookPopup from "../../DeletePopup/DeleteBookPopup";
+import CorrectBookPopup from "../../AddBookPopup/CorrectBookPopup";
 
 type comment = {
   text: string;
@@ -32,6 +34,8 @@ const BookPage: FC<IBook> = ({
   const [isCommentsOpen, setIsCommentsOpen] = useState<boolean>(false);
   const [isBooksOpen, setIsBooksOpen] = useState<boolean>(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState<boolean>(false);
+  const [isDeleteBookOpen, setIsDeleteBookOpen] = useState<boolean>(false);
+  const [isCorrectBookOpen, setIsCorrectBookOpen] = useState<boolean>(false);
   const [isComplaintBookButtonShowed, setIsComplaintBookButtonShowed] =
     useState(false);
 
@@ -54,6 +58,9 @@ const BookPage: FC<IBook> = ({
         setIsOpen={setIsFeedbackOpen}
         addComment={addComment}
       ></FeedbackPopup>
+      <DeleteBookPopup isOpen={isDeleteBookOpen} onClose={()=>setIsDeleteBookOpen(false)}/>
+      <CorrectBookPopup isOpen={isCorrectBookOpen} onClose={()=>setIsCorrectBookOpen(false)}/>
+      
       <div className="background"></div>
       <Card
         style={{ height: "100%" }}
@@ -98,7 +105,7 @@ const BookPage: FC<IBook> = ({
                       size="xs"
                       style={{ marginLeft: 0, background: "#674188", marginBottom: 5}}
                       form="round"
-                      onClick={addComplaint}
+                      onClick={()=>setIsCorrectBookOpen(true)}
                       disabled={!isLoggedIn}
                       className="book__comment"
                       /> 
@@ -108,6 +115,7 @@ const BookPage: FC<IBook> = ({
                       style={{ marginLeft: 0, background: "#674188"}}
                       form="round"
                       disabled={!isLoggedIn}
+                      onClick={()=>setIsDeleteBookOpen(true)}
                       className="book__comment"
                       /> 
                    </Layout>)

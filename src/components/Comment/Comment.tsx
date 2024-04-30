@@ -4,6 +4,7 @@ import { Text } from "@consta/uikit/Text";
 import { FC, useState } from "react";
 import StarIcon from "../../assets/starIcon";
 import { Button } from "@consta/uikit/Button";
+import DeleteCommentPopup from "../DeletePopup/DeleteCommentPopup";
 
 interface IComment {
   addComplaint: () => void;
@@ -16,8 +17,10 @@ interface IComment {
 
 const Comment: FC<IComment> = ({ addComplaint, com, isAdmin}) => {
   const [isComplaintButtonShowed, setIsComplaintButtonShowed] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   return (
     <Layout direction="column" style={{ width: "100%", marginBottom: 20}}>
+      <DeleteCommentPopup isOpen={isDeletePopupOpen} onClose={()=>setIsDeletePopupOpen(false)}></DeleteCommentPopup>
       <Layout direction="row" style={{ marginBottom: 10 }}>
         <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
         <Text style={{ paddingTop: 7, paddingLeft: 10 }}> Райан Гослинг</Text>
@@ -40,8 +43,9 @@ const Comment: FC<IComment> = ({ addComplaint, com, isAdmin}) => {
             label="Удалить"
             size="xs"
             onMouseLeave={() => setIsComplaintButtonShowed(false)}
-            style={{ marginLeft: -7, background: "#674188" }}
+            style={{ marginLeft: 105, background: "#674188" }}
             form="round"
+            onClick={()=>setIsDeletePopupOpen(true)}
           />
           )
          : 

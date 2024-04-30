@@ -7,7 +7,7 @@ interface IDeleteProps {
   onClose: () => void;
 }
 
-const DeletePopup: FC<IDeleteProps> = ({
+const DeleteBookPopup: FC<IDeleteProps> = ({
   isOpen,
   onClose,
 }): React.ReactElement => {
@@ -21,7 +21,7 @@ const DeletePopup: FC<IDeleteProps> = ({
         ></button>
         <h2 className="popup__title">
           {" "}
-          Вы действительно хотите удалить аккаунт?
+          Вы действительно хотите удалить карточку книги?
         </h2>
         <form className="popup__form-delete ">
           <Button className="popup__delete-button" label="Да" form="round" />
@@ -32,4 +32,4 @@ const DeletePopup: FC<IDeleteProps> = ({
   );
 };
 
-export default DeletePopup;
+export default DeleteBookPopup;
