@@ -189,16 +189,15 @@ const BookPage: FC<IBook> = ({
                 </Layout>
               </Collapse>
               <div style={{ display: "flex", width: "100%" }}></div>
-              {isAdmin? "" :
               <Button
                 label="Добавить отзыв"
                 style={{ background: "#674188", marginTop: 10 }}
                 form="round"
                 onClick={() => setIsFeedbackOpen(true)}
-                disabled={!isLoggedIn}
+                disabled={!isLoggedIn || isAdmin}
                 className="book__comment"
               ></Button>
-                }
+                
             </Layout>
 
             <Collapse
