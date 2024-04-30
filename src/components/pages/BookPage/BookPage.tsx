@@ -10,6 +10,8 @@ import { Collapse } from "@consta/uikit/Collapse";
 import Comment from "../../Comment/Comment";
 import FeedbackPopup from "../../FeedbackPopup/FeedbackPopup";
 import { Link } from "react-router-dom";
+import DeleteBookPopup from "../../DeletePopup/DeleteBookPopup";
+import CorrectBookPopup from "../../AddBookPopup/CorrectBookPopup";
 
 type comment = {
   text: string;
@@ -32,6 +34,8 @@ const BookPage: FC<IBook> = ({
   const [isCommentsOpen, setIsCommentsOpen] = useState<boolean>(false);
   const [isBooksOpen, setIsBooksOpen] = useState<boolean>(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState<boolean>(false);
+  const [isDeleteBookOpen, setIsDeleteBookOpen] = useState<boolean>(false);
+  const [isCorrectBookOpen, setIsCorrectBookOpen] = useState<boolean>(false);
   const [isComplaintBookButtonShowed, setIsComplaintBookButtonShowed] =
     useState(false);
 
@@ -54,6 +58,9 @@ const BookPage: FC<IBook> = ({
         setIsOpen={setIsFeedbackOpen}
         addComment={addComment}
       ></FeedbackPopup>
+      <DeleteBookPopup isOpen={isDeleteBookOpen} onClose={()=>setIsDeleteBookOpen(false)}/>
+      <CorrectBookPopup isOpen={isCorrectBookOpen} onClose={()=>setIsCorrectBookOpen(false)}/>
+      
       <div className="background"></div>
       <Card
         style={{ height: "100%" }}
@@ -79,7 +86,8 @@ const BookPage: FC<IBook> = ({
                 Название книги
               </Text>
               <Layout style={{ width: "100%" }}></Layout>
-              {isComplaintBookButtonShowed ? (
+              {isComplaintBookButtonShowed ?
+                (!isAdmin? 
                 <Button
                   label="Оставить жалобу"
                   size="xs"
@@ -89,8 +97,30 @@ const BookPage: FC<IBook> = ({
                   onClick={addComplaint}
                   disabled={!isLoggedIn}
                   className="book__comment"
-                />
-              ) : (
+                  /> 
+                   : 
+                   (<Layout direction="column" onMouseLeave={() => setIsComplaintBookButtonShowed(false)} style={{marginTop: -15}}>
+                      <Button
+                      label="Редактировать"
+                      size="xs"
+                      style={{ marginLeft: 0, background: "#674188", marginBottom: 5}}
+                      form="round"
+                      onClick={()=>setIsCorrectBookOpen(true)}
+                      disabled={!isLoggedIn}
+                      className="book__comment"
+                      /> 
+                      <Button
+                      label="Удалить"
+                      size="xs"
+                      style={{ marginLeft: 0, background: "#674188"}}
+                      form="round"
+                      disabled={!isLoggedIn}
+                      onClick={()=>setIsDeleteBookOpen(true)}
+                      className="book__comment"
+                      /> 
+                   </Layout>)
+                )
+               : 
                 <Button
                   size="xs"
                   label="⋮"
@@ -99,7 +129,7 @@ const BookPage: FC<IBook> = ({
                   style={{ marginLeft: 145, fontSize: 25 }}
                   onMouseEnter={() => setIsComplaintBookButtonShowed(true)}
                 />
-              )}
+              }
             </Layout>
 
             <Text className="item-text">Название книги</Text>
@@ -153,7 +183,7 @@ const BookPage: FC<IBook> = ({
                   )}
                   {commentList.map((el) => {
                     return (
-                      <Comment com={el} addComplaint={addComplaint}></Comment>
+                      <Comment com={el} addComplaint={addComplaint} isAdmin={isAdmin}></Comment>
                     );
                   })}
                 </Layout>
