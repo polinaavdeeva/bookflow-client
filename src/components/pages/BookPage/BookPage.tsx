@@ -189,6 +189,7 @@ const BookPage: FC<IBook> = ({
                 </Layout>
               </Collapse>
               <div style={{ display: "flex", width: "100%" }}></div>
+              {isAdmin? "" :
               <Button
                 label="Добавить отзыв"
                 style={{ background: "#674188", marginTop: 10 }}
@@ -197,6 +198,7 @@ const BookPage: FC<IBook> = ({
                 disabled={!isLoggedIn}
                 className="book__comment"
               ></Button>
+                }
             </Layout>
 
             <Collapse
