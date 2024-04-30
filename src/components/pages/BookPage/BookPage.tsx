@@ -10,39 +10,49 @@ import { Collapse } from "@consta/uikit/Collapse";
 import Comment from "../../Comment/Comment";
 import FeedbackPopup from "../../FeedbackPopup/FeedbackPopup";
 
-
 type comment = {
-  text: string,
-  stars: number
-}
+  text: string;
+  stars: number;
+};
 
 interface IBook {
   addComplaint: () => void;
   addFeedback: () => void;
+  isLoggedIn: boolean;
+  isAdmin: boolean;
 }
 
-const BookPage: FC<IBook> = ({ addComplaint, addFeedback }) => {
+const BookPage: FC<IBook> = ({
+  addComplaint,
+  addFeedback,
+  isLoggedIn,
+  isAdmin,
+}) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState<boolean>(false);
   const [isBooksOpen, setIsBooksOpen] = useState<boolean>(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState<boolean>(false);
   const [isComplaintBookButtonShowed, setIsComplaintBookButtonShowed] =
     useState(false);
 
-  const [commentList, setCommentList] = useState<comment[]>([])
+  const [commentList, setCommentList] = useState<comment[]>([]);
 
-  const addComment = (text: string, stars: number) =>{
-      const com = {
-        text: text,
-        stars: stars,
-      }
-      let copy = commentList
-      copy.push(com)
-      setCommentList(copy)
-  }
+  const addComment = (text: string, stars: number) => {
+    const com = {
+      text: text,
+      stars: stars,
+    };
+    let copy = commentList;
+    copy.push(com);
+    setCommentList(copy);
+  };
 
   return (
     <section className="book">
-      <FeedbackPopup isOpen={isFeedbackOpen} setIsOpen={setIsFeedbackOpen} addComment={addComment}></FeedbackPopup>
+      <FeedbackPopup
+        isOpen={isFeedbackOpen}
+        setIsOpen={setIsFeedbackOpen}
+        addComment={addComment}
+      ></FeedbackPopup>
       <div className="background"></div>
       <Card
         style={{ height: "100%" }}
@@ -76,6 +86,8 @@ const BookPage: FC<IBook> = ({ addComplaint, addFeedback }) => {
                   style={{ marginLeft: -20, background: "#674188" }}
                   form="round"
                   onClick={addComplaint}
+                  disabled={!isLoggedIn}
+                  className="book__comment"
                 />
               ) : (
                 <Button
@@ -135,11 +147,13 @@ const BookPage: FC<IBook> = ({ addComplaint, addFeedback }) => {
                 onClick={() => setIsCommentsOpen(!isCommentsOpen)}
               >
                 <Layout direction="column" style={{ paddingLeft: 30 }}>
-                  {commentList.length===0 && <>Будьте первыми, кто оставит отзыв!</>}
-                  {commentList.map((el)=>{
-                    return(
+                  {commentList.length === 0 && (
+                    <>Будьте первыми, кто оставит отзыв!</>
+                  )}
+                  {commentList.map((el) => {
+                    return (
                       <Comment com={el} addComplaint={addComplaint}></Comment>
-                    )
+                    );
                   })}
                 </Layout>
               </Collapse>
@@ -148,7 +162,9 @@ const BookPage: FC<IBook> = ({ addComplaint, addFeedback }) => {
                 label="Добавить отзыв"
                 style={{ background: "#674188", marginTop: 10 }}
                 form="round"
-                onClick={()=>setIsFeedbackOpen(true)}
+                onClick={() => setIsFeedbackOpen(true)}
+                disabled={!isLoggedIn}
+                className="book__comment"
               ></Button>
             </Layout>
 

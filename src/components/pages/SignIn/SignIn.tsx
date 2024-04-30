@@ -1,11 +1,40 @@
 import { Button } from "@consta/uikit/Button";
 import { TextField } from "@consta/uikit/TextField";
-import React, { FC } from "react";
-import { Link } from "react-router-dom";
+import React, { FC, useState } from "react";
+import { Link, useNavigate } from "react-router-dom"; // Импортируем useHistory из react-router-dom
 import logo from "../../../assets/logo.png";
 import "./SignIn.scss";
 
-const SignIn: FC = (): React.ReactElement => {
+interface ISignIn {
+  loggedIn: () => void;
+  setAdmin: (boolean: boolean) => void;
+}
+
+const SignIn: FC<ISignIn> = ({ loggedIn, setAdmin }): React.ReactElement => {
+  const navigate = useNavigate();
+
+  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const emailInput = (event.target as HTMLFormElement).elements.namedItem(
+      "email"
+    ) as HTMLInputElement | null;
+
+    const passwordInput = (event.target as HTMLFormElement).elements.namedItem(
+      "password"
+    ) as HTMLInputElement | null;
+
+    const email = emailInput ? emailInput.value : "";
+    const password = passwordInput ? passwordInput.value : "";
+
+    if (email === "admin@gmail.com" && password === "admin") {
+      setAdmin(true);
+    }
+
+    loggedIn();
+
+    navigate("/");
+  };
+
   return (
     <section className="sign-in">
       <div className="sign-in__background-logo" />
@@ -16,13 +45,14 @@ const SignIn: FC = (): React.ReactElement => {
             <h2 className="sign-in__name">BookFlow</h2>
           </div>
           <h2 className="sign-in__title">Войти</h2>
-          <form className="sign-in__form">
+          <form className="sign-in__form" onSubmit={handleLogin}>
             <TextField
               className="sign-in__input"
               label="Email"
               type="text"
               size="xs"
               view="clear"
+              name="email"
             />
 
             <TextField
@@ -31,16 +61,15 @@ const SignIn: FC = (): React.ReactElement => {
               size="xs"
               type="password"
               view="clear"
+              name="password"
             />
             <div className="sign-in__button-container">
-            <Link className="sign-in__link" to="/.">
               <Button
                 className="sign-in__button"
                 type="submit"
                 label="Войти"
                 form="round"
               />
-            </Link>
             </div>
           </form>
           <div>

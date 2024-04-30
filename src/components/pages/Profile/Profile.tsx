@@ -11,11 +11,13 @@ import { Link } from "react-router-dom";
 interface IProfile {
   setDelete: () => void;
   addComplaint: () => void;
+  isAdmin: boolean;
 }
 
 const Profile: FC<IProfile> = ({
   setDelete,
   addComplaint,
+  isAdmin,
 }): React.ReactElement => {
   const [isEditing, setIsEditing] = useState(false);
   const [firstName, setFirstName] = useState("Райан");
@@ -29,7 +31,6 @@ const Profile: FC<IProfile> = ({
   const [data, setData] = useState<Date | null>(null);
   const [registerData, setRegisterData] = useState<Date | null>(null);
   const [isMyProfile, setIsMyProfile] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (isEditing) {

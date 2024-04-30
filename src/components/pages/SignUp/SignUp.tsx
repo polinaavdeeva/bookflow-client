@@ -8,7 +8,11 @@ import React, { FC, useState, ChangeEvent } from "react";
 import logo from "../../../assets/logo.png";
 import "./SignUp.scss";
 
-const SignUp: FC = (): React.ReactElement => {
+interface ISignUp {
+  loggedIn: () => void;
+}
+
+const SignUp: FC<ISignUp> = ({ loggedIn }): React.ReactElement => {
   const [isChecked, setIsChecked] = useState(true);
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -131,6 +135,7 @@ const SignUp: FC = (): React.ReactElement => {
                   label="Зарегистрироваться"
                   form="round"
                   disabled={!isChecked}
+                  onClick={loggedIn}
                 />
               </Link>
             </div>

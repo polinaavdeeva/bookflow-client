@@ -1,11 +1,16 @@
 import { Select } from "@consta/uikit/Select";
 import { TextField } from "@consta/uikit/TextField";
 import { User } from "@consta/uikit/User";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.scss";
 
-const Header = () => {
+interface IHeader {
+  isLoggedIn: boolean;
+  isAdmin: boolean;
+}
+
+const Header: FC<IHeader> = ({ isLoggedIn, isAdmin }) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const navigate = useNavigate();
 
@@ -62,33 +67,52 @@ const Header = () => {
         onInput={handleInputChange}
         onKeyPress={handleKeyPress}
       />
-
-      <div style={{ display: "flex", paddingRight: 24 }}>
-        <Select
-          placeholder="Выберите город"
-          view="clear"
-          size="xs"
-          items={items}
-          value={value}
-          onChange={setValue}
-          style={{
-            width: 140,
-            height: 30,
-            marginTop: 4,
-            paddingRight: 20,
-            zIndex: 2,
-          }}
-          className="myInput"
-        />
-        <Link to="/myprofile">
-          <User
-            avatarUrl="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"
-            name="Райан Гослинг"
-            info="Водитель"
-            style={{ width: 200, height: 30 }}
-          />
+      {isLoggedIn ? (
+        <>
+          {" "}
+          <div style={{ display: "flex", paddingRight: 24 }}>
+            {isAdmin ? (
+              <User
+                avatarUrl="https://yt3.ggpht.com/ytc/AKedOLRYP2P3RiZRosXSQqWfbo05TrV89uYqDVDsX9e0=s900-c-k-c0x00ffffff-no-rj"
+                name="Администратор"
+                info="Таксист"
+                style={{ width: 200, height: 30 }}
+              />
+            ) : (
+              <>
+                <Select
+                  placeholder="Выберите город"
+                  view="clear"
+                  size="xs"
+                  items={items}
+                  value={value}
+                  onChange={setValue}
+                  style={{
+                    width: 140,
+                    height: 30,
+                    marginTop: 4,
+                    paddingRight: 20,
+                    zIndex: 2,
+                  }}
+                  className="myInput"
+                />
+                <Link to="/myprofile">
+                  <User
+                    avatarUrl="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"
+                    name="Райан Гослинг"
+                    info="Водитель"
+                    style={{ width: 200, height: 30 }}
+                  />
+                </Link>
+              </>
+            )}
+          </div>
+        </>
+      ) : (
+        <Link to="/sign-in" className="header__link">
+          <p className="header__sign-in">Войти</p>
         </Link>
-      </div>
+      )}
     </div>
   );
 };

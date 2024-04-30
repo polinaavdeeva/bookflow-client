@@ -13,16 +13,18 @@ import StatisticIcon from "../../assets/StatisticIcon";
 
 interface IMenuProps {
   onClick: () => void;
+  loggedOut: () => void;
+  isLoggedIn: boolean;
+  isAdmin: boolean;
 }
 
-const Menu: FC<IMenuProps> = ({ onClick }) => {
+const Menu: FC<IMenuProps> = ({ onClick, loggedOut, isLoggedIn, isAdmin }) => {
   const [isMybooksIconDark, setIsMybooksIconDark] = useState<boolean>(true);
   const [isProfileIconDark, setIsProfileIconDark] = useState<boolean>(true);
   const [isAddBookIconDark, setIsAddBookIconDark] = useState<boolean>(true);
   const [isExitIconDark, setIsExitIconDark] = useState<boolean>(true);
   const [isComplaintIconDark, setIsComplaintIconDark] = useState<boolean>(true);
   const [isStatisticIconDark, setIsStatisticIconDark] = useState<boolean>(true);
-  const [isAdmin, setIsAdmin] = useState<boolean>(true);
 
   return (
     <div className="menu-vertical">
@@ -107,6 +109,7 @@ const Menu: FC<IMenuProps> = ({ onClick }) => {
               }}
               onMouseEnter={() => setIsMybooksIconDark(false)}
               onMouseLeave={() => setIsMybooksIconDark(true)}
+              disabled={!isLoggedIn}
             ></Button>
           </Link>
           <br />
@@ -129,6 +132,7 @@ const Menu: FC<IMenuProps> = ({ onClick }) => {
               }}
               onMouseEnter={() => setIsProfileIconDark(false)}
               onMouseLeave={() => setIsProfileIconDark(true)}
+              disabled={!isLoggedIn}
             ></Button>
           </Link>
           <br />
@@ -151,12 +155,11 @@ const Menu: FC<IMenuProps> = ({ onClick }) => {
             onMouseEnter={() => setIsAddBookIconDark(false)}
             onMouseLeave={() => setIsAddBookIconDark(true)}
             onClick={onClick}
+            disabled={!isLoggedIn}
           ></Button>
         </>
       )}
 
-      <br />
-      <br />
       <br />
       <br />
       <Link to="/sign-in">
@@ -178,6 +181,7 @@ const Menu: FC<IMenuProps> = ({ onClick }) => {
           }}
           onMouseEnter={() => setIsExitIconDark(false)}
           onMouseLeave={() => setIsExitIconDark(true)}
+          onClick={loggedOut}
         ></Button>
       </Link>
     </div>

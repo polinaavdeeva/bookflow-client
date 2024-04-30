@@ -8,12 +8,25 @@ import Header from "../Header/Header";
 
 interface IMainLayoutProps {
   onClick: () => void;
+  loggedOut: () => void;
+  isLoggedIn: boolean;
+  isAdmin: boolean;
 }
 
-const MainLayout: FC<IMainLayoutProps> = ({ onClick }) => {
+const MainLayout: FC<IMainLayoutProps> = ({
+  onClick,
+  loggedOut,
+  isLoggedIn,
+  isAdmin,
+}) => {
   return (
     <Layout style={{ display: "flex", background: "#F7EFE5", height: "100%" }}>
-      <Menu onClick={onClick} />
+      <Menu
+        onClick={onClick}
+        loggedOut={loggedOut}
+        isLoggedIn={isLoggedIn}
+        isAdmin={isAdmin}
+      />
       <Layout
         direction="column"
         style={{
@@ -24,7 +37,7 @@ const MainLayout: FC<IMainLayoutProps> = ({ onClick }) => {
           height: "100%",
         }}
       >
-        <Header />
+        <Header isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
         <div style={{ height: "100%", marginTop: 60 }}>
           <Outlet />
           <Footer />
