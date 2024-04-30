@@ -79,7 +79,8 @@ const BookPage: FC<IBook> = ({
                 Название книги
               </Text>
               <Layout style={{ width: "100%" }}></Layout>
-              {isComplaintBookButtonShowed ? (
+              {isComplaintBookButtonShowed ?
+                (!isAdmin? 
                 <Button
                   label="Оставить жалобу"
                   size="xs"
@@ -89,8 +90,29 @@ const BookPage: FC<IBook> = ({
                   onClick={addComplaint}
                   disabled={!isLoggedIn}
                   className="book__comment"
-                />
-              ) : (
+                  /> 
+                   : 
+                   (<Layout direction="column" onMouseLeave={() => setIsComplaintBookButtonShowed(false)} style={{marginTop: -15}}>
+                      <Button
+                      label="Редактировать"
+                      size="xs"
+                      style={{ marginLeft: 0, background: "#674188", marginBottom: 5}}
+                      form="round"
+                      onClick={addComplaint}
+                      disabled={!isLoggedIn}
+                      className="book__comment"
+                      /> 
+                      <Button
+                      label="Удалить"
+                      size="xs"
+                      style={{ marginLeft: 0, background: "#674188"}}
+                      form="round"
+                      disabled={!isLoggedIn}
+                      className="book__comment"
+                      /> 
+                   </Layout>)
+                )
+               : 
                 <Button
                   size="xs"
                   label="⋮"
@@ -99,7 +121,7 @@ const BookPage: FC<IBook> = ({
                   style={{ marginLeft: 145, fontSize: 25 }}
                   onMouseEnter={() => setIsComplaintBookButtonShowed(true)}
                 />
-              )}
+              }
             </Layout>
 
             <Text className="item-text">Название книги</Text>
@@ -153,7 +175,7 @@ const BookPage: FC<IBook> = ({
                   )}
                   {commentList.map((el) => {
                     return (
-                      <Comment com={el} addComplaint={addComplaint}></Comment>
+                      <Comment com={el} addComplaint={addComplaint} isAdmin={isAdmin}></Comment>
                     );
                   })}
                 </Layout>
