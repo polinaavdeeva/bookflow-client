@@ -38,7 +38,8 @@ const Comment: FC<IComment> = ({ addComplaint, com}) => {
             size="xs"
             label="⋮"
             view="clear"
-            style={{ marginLeft: 145 }}
+            form="round"
+            style={{ marginLeft: 144, fontSize: 25 }}
             onMouseEnter={() => setIsComplaintButtonShowed(true)}
           />
         )}
