@@ -4,6 +4,7 @@ import { User } from "@consta/uikit/User";
 import { FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.scss";
+import BookServices from "../../services/BookServices";
 
 interface IHeader {
   isLoggedIn: boolean;
@@ -20,6 +21,7 @@ const Header: FC<IHeader> = ({ isLoggedIn, isAdmin }) => {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
+      //BookServices.bookSearch(searchQuery)
       navigate(`/result-books?query=${encodeURIComponent(searchQuery)}`);
     }
   };

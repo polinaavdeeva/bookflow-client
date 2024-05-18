@@ -1,18 +1,47 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./ResultBooks.scss";
 import BookCard from "../BookCard/BookCard";
 import { Button } from "@consta/uikit/Button";
+import BookServices from "../../services/BookServices";
 
 const ResultBooks: FC = ({}): React.ReactElement => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const query = searchParams.get("query");
+  console.log(query)
+  const [books, setBooks] = useState<Book[]>()
+  const [textOnPage, setTextOnPage] = useState("Найдено по вашему запросу")
+
+  type Book ={
+    name: string,
+    description: string
+    image: string
+    author: string
+    rating: number
+    postingDate: string
+  }
+
+  const getBooks = async () =>{
+    const name = query 
+    if (query && query!==""){
+      setBooks(await BookServices.bookSearch(query))
+    } else {
+      setTextOnPage("Введён пустой поисковый запрос")
+    }
+  }
+
+  // useEffect(()=>{
+    getBooks()
+    if (books?.length === 0){
+      setTextOnPage("По вашему запросу ничего не найдено")
+    }
+  // }, [])
 
   return (
     <section className="result-books">
       <div className="result-books__title-container">
-        <h2 className="result-books__title">Найдено по вашему запросу</h2>
+        <h2 className="result-books__title">{textOnPage}</h2>
         <div className="result-books__sort-container">
           <Button
             className="result-books__sort-button"
