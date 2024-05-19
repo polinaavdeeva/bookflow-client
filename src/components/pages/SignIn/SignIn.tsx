@@ -1,39 +1,55 @@
 import { Button } from "@consta/uikit/Button";
 import { TextField } from "@consta/uikit/TextField";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Импортируем useHistory из react-router-dom
 import logo from "../../../assets/logo.png";
 import "./SignIn.scss";
+import { auth } from "../../../utils/Auth";
 
 interface ISignIn {
-  loggedIn: () => void;
+  setLogin: () => void;
   setAdmin: (boolean: boolean) => void;
 }
 
-const SignIn: FC<ISignIn> = ({ loggedIn, setAdmin }): React.ReactElement => {
+const SignIn: FC<ISignIn> = ({ setLogin, setAdmin }): React.ReactElement => {
+  const [email, setUserEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const emailInput = (event.target as HTMLFormElement).elements.namedItem(
-      "email"
-    ) as HTMLInputElement | null;
+  function handleChangeEmail(e: React.ChangeEvent<HTMLInputElement>) {
+    setUserEmail(e.target.value);
+  }
 
-    const passwordInput = (event.target as HTMLFormElement).elements.namedItem(
-      "password"
-    ) as HTMLInputElement | null;
+  function handleChangePassword(e: React.ChangeEvent<HTMLInputElement>) {
+    setPassword(e.target.value);
+  }
 
-    const email = emailInput ? emailInput.value : "";
-    const password = passwordInput ? passwordInput.value : "";
+  function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
+    evt.preventDefault();
 
     if (email === "admin@gmail.com" && password === "admin") {
       setAdmin(true);
+      navigate("/");
+    } else {
+      auth
+        .authorize(email, password)
+        .then((data) => {
+          localStorage.setItem("token", data.token);
+          setUserEmail(email);
+          setLogin();
+          navigate("/");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      console.log("Неверный email или пароль");
     }
+  }
 
-    loggedIn();
-
-    navigate("/");
-  };
+  useEffect(() => {
+    setUserEmail("");
+    setPassword("");
+  }, []);
 
   return (
     <section className="sign-in">
@@ -45,7 +61,7 @@ const SignIn: FC<ISignIn> = ({ loggedIn, setAdmin }): React.ReactElement => {
             <h2 className="sign-in__name">BookFlow</h2>
           </div>
           <h2 className="sign-in__title">Войти</h2>
-          <form className="sign-in__form" onSubmit={handleLogin}>
+          <form className="sign-in__form" onSubmit={handleSubmit}>
             <TextField
               className="sign-in__input"
               label="Email"
@@ -53,6 +69,8 @@ const SignIn: FC<ISignIn> = ({ loggedIn, setAdmin }): React.ReactElement => {
               size="xs"
               view="clear"
               name="email"
+              value={email}
+              onInput={handleChangeEmail}
             />
 
             <TextField
@@ -62,6 +80,8 @@ const SignIn: FC<ISignIn> = ({ loggedIn, setAdmin }): React.ReactElement => {
               type="password"
               view="clear"
               name="password"
+              value={password}
+              onInput={handleChangePassword}
             />
             <div className="sign-in__button-container">
               <Button
