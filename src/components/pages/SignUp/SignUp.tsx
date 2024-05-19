@@ -19,7 +19,7 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
   const [name, setName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [patronymic, setPatronymic] = useState<string>("");
-  const [gender, setGender] = useState<string>("");
+  const [gender, setGender] = useState<string>("Мужской");
   const [dateOfBirth, setDateOfBirth] = useState<
     DatePickerPropValue<"date"> | undefined
   >(undefined);
@@ -88,7 +88,7 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
     setLastName("");
     setPatronymic("");
     setDateOfBirth(undefined);
-    setGender("");
+    setGender("Мужской");
   }, [
     setEmail,
     setPassword,
