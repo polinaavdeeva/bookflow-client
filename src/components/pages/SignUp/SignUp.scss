@@ -68,6 +68,7 @@
   margin-bottom: 10px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .sign-up__input {
@@ -85,6 +86,15 @@
     border: 1px solid #674188 !important;
     border-radius: 4px;
   }
+}
+
+.sign-up__gender-input {
+  background-color: transparent;
+  width: 250px;
+  height: 25px;
+  border: 1px solid #674188;
+  border-radius: 4px;
+  margin-top: auto;
 }
 
 .sign-up__button {

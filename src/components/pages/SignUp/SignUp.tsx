@@ -1,47 +1,107 @@
 import { Button } from "@consta/uikit/Button";
-import { DatePicker } from "@consta/uikit/DatePicker";
-import { Select } from "@consta/uikit/Select";
+import { DatePicker, DatePickerPropValue } from "@consta/uikit/DatePicker";
 import { TextField } from "@consta/uikit/TextField";
 import { Checkbox } from "@consta/uikit/Checkbox";
-import { Link } from "react-router-dom";
-import React, { FC, useState, ChangeEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import React, { FC, useState, ChangeEvent, useEffect, FormEvent } from "react";
 import logo from "../../../assets/logo.png";
 import "./SignUp.scss";
+import { auth } from "../../../utils/Auth";
 
-interface ISignUp {
-  loggedIn: () => void;
+interface ISignIn {
+  setLogin: () => void;
 }
 
-const SignUp: FC<ISignUp> = ({ loggedIn }): React.ReactElement => {
-  const [isChecked, setIsChecked] = useState(true);
+const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
+  const [isChecked, setIsChecked] = useState<boolean>(true);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [patronymic, setPatronymic] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
+  const [dateOfBirth, setDateOfBirth] = useState<
+    DatePickerPropValue<"date"> | undefined
+  >(undefined);
+
+  function handleChangeEmail(e: ChangeEvent<HTMLInputElement>) {
+    setEmail(e.target.value);
+  }
+
+  function handleChangePassword(e: ChangeEvent<HTMLInputElement>) {
+    setPassword(e.target.value);
+  }
+
+  function handleChangeName(e: ChangeEvent<HTMLInputElement>) {
+    setName(e.target.value);
+  }
+
+  function handleChangeLastName(e: ChangeEvent<HTMLInputElement>) {
+    setLastName(e.target.value);
+  }
+
+  function handleChangePatronymic(e: ChangeEvent<HTMLInputElement>) {
+    setPatronymic(e.target.value);
+  }
+
+  function handleChangeDateOfBirth(
+    date: DatePickerPropValue<"date"> | undefined
+  ) {
+    setDateOfBirth(date);
+  }
+
+  function handleChangeGender(event: ChangeEvent<HTMLSelectElement>) {
+    setGender(event.target.value);
+  }
+
+  const navigate = useNavigate();
+
+  function handleSubmit(evt: FormEvent<HTMLFormElement>) {
+    evt.preventDefault();
+    console.log(email, password);
+    const birthDateString = dateOfBirth?.toISOString() || "";
+    auth
+      .register(
+        name,
+        email,
+        password,
+        gender,
+        birthDateString,
+        lastName,
+        patronymic
+      )
+      .then(() => {
+        auth.authorize(email, password).then((data) => {
+          localStorage.setItem("token", data.token);
+          setLogin();
+          navigate("/");
+        });
+      })
+      .catch((err) => {
+        console.log(err.status);
+      });
+  }
+
+  useEffect(() => {
+    setEmail("");
+    setPassword("");
+    setLastName("");
+    setPatronymic("");
+    setDateOfBirth(undefined);
+    setGender("");
+  }, [
+    setEmail,
+    setPassword,
+    setDateOfBirth,
+    setGender,
+    setName,
+    setLastName,
+    setPatronymic,
+  ]);
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
   };
-
-  const [data, setData] = useState<Date | null>(null);
-
-  type Item = {
-    label: string;
-    id: number;
-  };
-
-  const items: Item[] = [
-    {
-      label: "Женский",
-      id: 1,
-    },
-    {
-      label: "Мужской",
-      id: 2,
-    },
-    {
-      label: "Другой",
-      id: 3,
-    },
-  ];
-
-  const [value, setValue] = useState<Item | null>();
 
   return (
     <section className="sign-up">
@@ -54,7 +114,7 @@ const SignUp: FC<ISignUp> = ({ loggedIn }): React.ReactElement => {
             <h2 className="sign-up__name">BookFlow</h2>
           </div>
           <h2 className="sign-up__title">Регистрация</h2>
-          <form className="sign-up__form">
+          <form className="sign-up__form" onSubmit={handleSubmit}>
             <div className="sign-up__inputs-container">
               <TextField
                 className="sign-up__input"
@@ -62,6 +122,8 @@ const SignUp: FC<ISignUp> = ({ loggedIn }): React.ReactElement => {
                 type="text"
                 size="xs"
                 view="clear"
+                value={lastName || ""}
+                onInput={handleChangeLastName}
               />
 
               <TextField
@@ -70,6 +132,8 @@ const SignUp: FC<ISignUp> = ({ loggedIn }): React.ReactElement => {
                 type="text"
                 size="xs"
                 view="clear"
+                value={name || ""}
+                onInput={handleChangeName}
               />
             </div>
             <div className="sign-up__inputs-container">
@@ -79,24 +143,25 @@ const SignUp: FC<ISignUp> = ({ loggedIn }): React.ReactElement => {
                 type="text"
                 size="xs"
                 view="clear"
+                value={patronymic || ""}
+                onInput={handleChangePatronymic}
               />
-
-              <Select
-                className="sign-up__input"
-                label="Пол"
-                items={items}
-                value={value}
-                onChange={setValue}
-                size="xs"
-                view="clear"
-              />
+              <select
+                name="gender"
+                value={gender}
+                className="sign-up__gender-input"
+                onChange={handleChangeGender}
+              >
+                <option value="Мужской">Мужской</option>
+                <option value="Женский">Женский</option>
+              </select>
             </div>
             <div className="sign-up__inputs-container">
               <DatePicker
                 className="sign-up__input"
                 label="Дата рождения"
-                value={data}
-                onChange={setData}
+                value={dateOfBirth || undefined}
+                onChange={handleChangeDateOfBirth}
                 size="xs"
                 view="clear"
               />
@@ -108,6 +173,8 @@ const SignUp: FC<ISignUp> = ({ loggedIn }): React.ReactElement => {
                 type="text"
                 size="xs"
                 view="clear"
+                value={email || ""}
+                onInput={handleChangeEmail}
               />
 
               <TextField
@@ -116,6 +183,8 @@ const SignUp: FC<ISignUp> = ({ loggedIn }): React.ReactElement => {
                 size="xs"
                 type="password"
                 view="clear"
+                value={password || ""}
+                onInput={handleChangePassword}
               />
             </div>
             <div className="sign-up__checkbox-container">
@@ -128,16 +197,13 @@ const SignUp: FC<ISignUp> = ({ loggedIn }): React.ReactElement => {
               />
             </div>
             <div className="sign-up__button-container">
-              <Link to="/.">
-                <Button
-                  className="sign-up__button"
-                  type="submit"
-                  label="Зарегистрироваться"
-                  form="round"
-                  disabled={!isChecked}
-                  onClick={loggedIn}
-                />
-              </Link>
+              <Button
+                className="sign-up__button"
+                type="submit"
+                label="Зарегистрироваться"
+                form="round"
+                disabled={!isChecked}
+              />
             </div>
           </form>
           <div>
