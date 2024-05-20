@@ -4,6 +4,7 @@ import "./ResultBooks.scss";
 import BookCard from "../BookCard/BookCard";
 import { Button } from "@consta/uikit/Button";
 import BookServices from "../../utils/BookServices";
+import { NULL } from "sass";
 
 const ResultBooks: FC = ({}): React.ReactElement => {
   const location = useLocation();
@@ -20,8 +21,7 @@ const ResultBooks: FC = ({}): React.ReactElement => {
     image: string
     author: string
     rating: number
-    _v: number
-    _id: string
+    id: string
     postingDate: string
   }
 
@@ -32,21 +32,31 @@ const ResultBooks: FC = ({}): React.ReactElement => {
       setIsLoadingBooks(false)
 
       if (!isLoadingBooks){
-        setBooks(resp)
-        console.log(resp)
-        console.log(books)
-      }
-        
+        let booksArr = new Array
+        resp.map((el: any)=>{
+          const book: Book = {
+            name: el.name,
+            description: el.description,
+            image: el.image,
+            author: el.author,
+            rating: el.rating,
+            id: el._id,
+            postingDate: el.postingDate
+          }
+          booksArr.push(book)
+        })
+        setBooks(booksArr)
+      }    
+      setTextOnPage("Найдено по вашему запросу")  
     } else {
       setTextOnPage("Введён пустой поисковый запрос")
     }
   }
 
   useEffect(()=>{
+    const arr = new Array
+    setBooks(arr)
     getBooks()
-    if (books?.length === 0){
-      setTextOnPage("По вашему запросу ничего не найдено")
-    }
    }, [query])
 
   return (
@@ -101,22 +111,9 @@ const ResultBooks: FC = ({}): React.ReactElement => {
           />
         </div>
       </div>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
-      <BookCard></BookCard>
+      {books?.map((book)=>{
+        return(<BookCard bookData={book}></BookCard>)
+      })}
     </section>
   );
 };
