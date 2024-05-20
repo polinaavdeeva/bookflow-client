@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import "./ResultBooks.scss";
 import BookCard from "../BookCard/BookCard";
 import { Button } from "@consta/uikit/Button";
-import BookServices from "../../services/BookServices";
+import BookServices from "../../utils/BookServices";
 
 const ResultBooks: FC = ({}): React.ReactElement => {
   const location = useLocation();
@@ -12,31 +12,42 @@ const ResultBooks: FC = ({}): React.ReactElement => {
   console.log(query)
   const [books, setBooks] = useState<Book[]>()
   const [textOnPage, setTextOnPage] = useState("Найдено по вашему запросу")
+  const [isLoadingBooks, setIsLoadingBooks] = useState(false)
 
   type Book ={
-    name: string,
+    name: string
     description: string
     image: string
     author: string
     rating: number
+    _v: number
+    _id: string
     postingDate: string
   }
 
   const getBooks = async () =>{
-    const name = query 
     if (query && query!==""){
-      setBooks(await BookServices.bookSearch(query))
+      setIsLoadingBooks(true)
+        const resp = await BookServices.bookSearch(query)
+      setIsLoadingBooks(false)
+
+      if (!isLoadingBooks){
+        setBooks(resp)
+        console.log(resp)
+        console.log(books)
+      }
+        
     } else {
       setTextOnPage("Введён пустой поисковый запрос")
     }
   }
 
-  // useEffect(()=>{
+  useEffect(()=>{
     getBooks()
     if (books?.length === 0){
       setTextOnPage("По вашему запросу ничего не найдено")
     }
-  // }, [])
+   }, [query])
 
   return (
     <section className="result-books">
