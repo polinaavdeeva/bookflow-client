@@ -71,6 +71,12 @@
   align-items: center;
 }
 
+.sign-up_data {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+
 .sign-up__input {
   .TextField-InputContainer {
     background-color: transparent !important;
@@ -169,4 +175,27 @@
     color: #674188;
     text-decoration: none;
   }
+}
+
+.sign-up__data {
+  width: 180px;
+  height: 25px;
+  border: #674188 solid 1px !important;
+  background: transparent !important;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 28px;
+  padding-left: 15px;
+}
+
+.sign-up__item-label {
+  color: rgba(138, 146, 166, 1);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 26px;
+}
+
+input[type="date"]::-webkit-datetime-edit {
+  font-size: 0.8em;
 }

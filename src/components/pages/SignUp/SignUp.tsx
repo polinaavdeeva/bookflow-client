@@ -20,9 +20,7 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
   const [lastName, setLastName] = useState<string>("");
   const [patronymic, setPatronymic] = useState<string>("");
   const [gender, setGender] = useState<string>("Мужской");
-  const [dateOfBirth, setDateOfBirth] = useState<
-    DatePickerPropValue<"date"> | undefined
-  >(undefined);
+  const [dateOfBirth, setDateOfBirth] = useState<string>("");
 
   function handleChangeEmail(e: ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
@@ -44,11 +42,11 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
     setPatronymic(e.target.value);
   }
 
-  function handleChangeDateOfBirth(
-    date: DatePickerPropValue<"date"> | undefined
-  ) {
-    setDateOfBirth(date);
-  }
+  const handleChangeDateOfBirth = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDateOfBirth(event.target.value);
+  };
 
   function handleChangeGender(event: ChangeEvent<HTMLSelectElement>) {
     setGender(event.target.value);
@@ -59,14 +57,13 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
   function handleSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
     console.log(email, password);
-    const birthDateString = dateOfBirth?.toISOString() || "";
     auth
       .register(
         name,
         email,
         password,
         gender,
-        birthDateString,
+        dateOfBirth,
         lastName,
         patronymic
       )
@@ -87,7 +84,7 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
     setPassword("");
     setLastName("");
     setPatronymic("");
-    setDateOfBirth(undefined);
+    setDateOfBirth("");
     setGender("Мужской");
   }, [
     setEmail,
@@ -156,14 +153,15 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
                 <option value="Женский">Женский</option>
               </select>
             </div>
-            <div className="sign-up__inputs-container">
-              <DatePicker
-                className="sign-up__input"
-                label="Дата рождения"
-                value={dateOfBirth || undefined}
+            <div className="sign-up__inputs-container sign-up_data">
+              <label className="sign-up__item-label" htmlFor="dateOfBirth">
+                Дата рождения
+              </label>
+              <input
+                className="sign-up__data"
+                type="date"
+                value={dateOfBirth}
                 onChange={handleChangeDateOfBirth}
-                size="xs"
-                view="clear"
               />
             </div>
             <div className="sign-up__inputs-container">
