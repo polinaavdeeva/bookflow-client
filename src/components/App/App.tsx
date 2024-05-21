@@ -25,10 +25,10 @@ import BookPage from "../pages/BookPage/BookPage";
 interface User {
   name: string;
   email: string;
-  password: string;
-  city: string;
-  dateOfBirth: string;
   gender: string;
+  dateOfBirth: string;
+  lastName: string;
+  patronymic: string;
 }
 
 const App: FC = (): React.ReactElement => {
