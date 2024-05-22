@@ -3,7 +3,9 @@ import { TextField } from "@consta/uikit/TextField";
 import { User } from "@consta/uikit/User";
 import { FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { CurrentUserContext } from "../../context/CurrentUserContext";
 import "./Header.scss";
+import React from "react";
 
 interface IHeader {
   isLoggedIn: boolean;
@@ -12,6 +14,7 @@ interface IHeader {
 
 const Header: FC<IHeader> = ({ isLoggedIn, isAdmin }) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const { currentUser } = React.useContext(CurrentUserContext);
   const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,8 +103,8 @@ const Header: FC<IHeader> = ({ isLoggedIn, isAdmin }) => {
                 <Link to="/myprofile">
                   <User
                     avatarUrl="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"
-                    name="Райан Гослинг"
-                    info="Водитель"
+                    name={`${currentUser?.name} ${currentUser?.lastName}`}
+                    info="Пользователь"
                     style={{ width: 200, height: 30 }}
                   />
                 </Link>

@@ -3,10 +3,10 @@ import React from "react";
 interface User {
   name: string;
   email: string;
-  password: string;
-  city: string;
-  dateOfBirth: string;
   gender: string;
+  dateOfBirth: string;
+  lastName: string;
+  patronymic: string;
 }
 
 interface CurrentUserContextProps {

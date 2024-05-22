@@ -42,7 +42,6 @@ const SignIn: FC<ISignIn> = ({ setLogin, setAdmin }): React.ReactElement => {
         .catch((err) => {
           console.log(err);
         });
-      console.log("Неверный email или пароль");
     }
   }
 

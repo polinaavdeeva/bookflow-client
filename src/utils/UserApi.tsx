@@ -14,7 +14,7 @@ class UserApi {
   }
 
   getUserInfo(): Promise<any> {
-    const token = localStorage.getItem("jwt");
+    const token = localStorage.getItem("token");
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
         "Content-Type": "application/json",
@@ -26,11 +26,12 @@ class UserApi {
   editUserInfo(data: {
     name: string;
     email: string;
-    city: string;
     gender: string;
     dateOfBirth: string;
+    lastName: string;
+    patronymic: string;
   }): Promise<any> {
-    const token = localStorage.getItem("jwt");
+    const token = localStorage.getItem("token");
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: {
@@ -40,7 +41,8 @@ class UserApi {
       body: JSON.stringify({
         name: data.name,
         email: data.email,
-        city: data.city,
+        lastName: data.lastName,
+        patronymic: data.patronymic,
         gender: data.gender,
         dateOfBirth: data.dateOfBirth,
       }),

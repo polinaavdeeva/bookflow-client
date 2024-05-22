@@ -3,10 +3,11 @@ import "./Profile.scss";
 import { Avatar } from "@consta/uikit/Avatar";
 import { Card } from "@consta/uikit/Card";
 import { Button } from "@consta/uikit/Button";
-import { DatePicker } from "@consta/uikit/DatePicker";
 import defaultAvatar from "../../../assets/аватарка_по-умолчанию.png";
 import ratingStar from "../../../assets/рейтинг.png";
 import { Link } from "react-router-dom";
+import { CurrentUserContext } from "../../../context/CurrentUserContext";
+import { userApi } from "../../../utils/UserApi";
 
 interface IProfile {
   setDelete: () => void;
@@ -19,18 +20,23 @@ const Profile: FC<IProfile> = ({
   addComplaint,
   isAdmin,
 }): React.ReactElement => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [firstName, setFirstName] = useState("Райан");
-  const [lastName, setLastName] = useState("Гослинг");
-  const [patronymic, setPatronymic] = useState("Райанович");
-  const [gender, setGender] = useState("Мужской");
-  const [email, setEmail] = useState("gosling@gmail.com");
-  const [dateOfRegistration, setDateOfRegistration] = useState("10.04.2024");
-  const [dateOfBirth, setDateOfBirth] = useState("01.01.1990");
-  const [rating, setRating] = useState("4.93");
-  const [data, setData] = useState<Date | null>(null);
-  const [registerData, setRegisterData] = useState<Date | null>(null);
-  const [isMyProfile, setIsMyProfile] = useState(true);
+  const { currentUser, setCurrentUser } = React.useContext(CurrentUserContext);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [firstName, setFirstName] = useState<string>(currentUser?.name || "");
+  const [lastName, setLastName] = useState<string>(currentUser?.lastName || "");
+  const [patronymic, setPatronymic] = useState<string>(
+    currentUser?.patronymic || ""
+  );
+  const [gender, setGender] = useState<string>(currentUser?.gender || "");
+  const [email, setEmail] = useState<string>(currentUser?.email || "");
+  const [dateOfRegistration, setDateOfRegistration] =
+    useState<string>("10.04.2024");
+  const [rating, setRating] = useState<string>("4.93");
+  const [dateOfBirth, setDateOfBirth] = useState<string>(
+    currentUser?.dateOfBirth || ""
+  );
+  const [registerData, setRegisterData] = useState<string>("20-05-2-24");
+  const [isMyProfile, setIsMyProfile] = useState<boolean>(true);
 
   const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (isEditing) {
@@ -64,6 +70,42 @@ const Profile: FC<IProfile> = ({
     }
   };
 
+  const handleChangeDateOfBirth = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDateOfBirth(event.target.value);
+  };
+
+  function handleSubmit() {
+    const userData = {
+      name: firstName,
+      email: email,
+      lastName: lastName,
+      patronymic: patronymic,
+      gender: gender,
+      dateOfBirth: dateOfBirth,
+    };
+
+    userApi
+      .editUserInfo(userData)
+      .then((data) => {
+        setCurrentUser(data);
+        setIsEditing(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  React.useEffect(() => {
+    setFirstName(currentUser?.name || "");
+    setDateOfBirth(currentUser?.dateOfBirth || "");
+    setEmail(currentUser?.email || "");
+    setGender(currentUser?.gender || "");
+    setLastName(currentUser?.lastName || "");
+    setPatronymic(currentUser?.patronymic || "");
+  }, [currentUser]);
+
   return (
     <section className="profile">
       <div className="profile__background"></div>
@@ -79,7 +121,9 @@ const Profile: FC<IProfile> = ({
             name="..."
             url={defaultAvatar}
           />
-          <h2 className="profile__name">Райан Гослинг</h2>
+          <h2 className="profile__name">
+            {currentUser?.name} {currentUser?.lastName}
+          </h2>
           <span className="profile__name-role"> — Читатель</span>
         </div>
         {isAdmin ? (
@@ -226,14 +270,15 @@ const Profile: FC<IProfile> = ({
                 Дата рождения
               </label>
               {isEditing ? (
-                <DatePicker
+                <input
                   id="dateOfBirth"
+                  type="date"
                   className="profile__data"
-                  value={data}
-                  onChange={setData}
+                  value={dateOfBirth}
+                  onChange={handleChangeDateOfBirth}
                 />
               ) : (
-                <p className="profile__text">{data?.toLocaleDateString()}</p>
+                <p className="profile__text"> {dateOfBirth}</p>
               )}
             </div>
           </div>
@@ -246,16 +291,14 @@ const Profile: FC<IProfile> = ({
                 Дата регистрации
               </label>
               {isEditing ? (
-                <DatePicker
+                <input
                   id="dateOfRegister"
+                  type="date"
                   className="profile__data"
                   value={registerData}
-                  onChange={setRegisterData}
                 />
               ) : (
-                <p className="profile__text">
-                  {registerData?.toLocaleDateString()}
-                </p>
+                <p className="profile__text">{registerData}</p>
               )}
             </div>
             <div className="profile__rating">
@@ -310,7 +353,7 @@ const Profile: FC<IProfile> = ({
               label="Сохранить"
               form="round"
               size="s"
-              onClick={() => setIsEditing(!isEditing)}
+              onClick={handleSubmit}
             />
           )}
         </Card>
