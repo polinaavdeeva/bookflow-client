@@ -1,11 +1,25 @@
 import { Link } from "react-router-dom";
 import { Card } from '@consta/uikit/Card';
 import { Text } from '@consta/uikit/Text';
-import { useRef } from 'react';
+import { FC, useRef } from 'react';
 import './BookCard.scss'
 import StarIcon from '../../assets/starIcon';
 
-const BookCard = () => {
+type Book ={
+  name: string
+  description: string
+  image: string
+  author: string
+  rating: number
+  id: string
+  postingDate: string
+}
+
+interface IBookCard {
+  bookData: Book|null
+}
+
+const BookCard: FC<IBookCard> = ({bookData = null}) => {
     //https://www.colorhexa.com/8a99a6.png
     
     const componentRef = useRef<HTMLImageElement>(null);
@@ -37,11 +51,11 @@ const BookCard = () => {
         }}>
         <img src="https://www.colorhexa.com/8a99a6.png" style={{width: 160, height: 120, borderRadius: "20px 20px 0px 0px"}}></img>
         <div style={{padding: "15px 12px 10px 12px"}}>
-            <Text className="card-text">Название книги</Text>
-            <Text className="card-text-secondary">Автор</Text>
+            <Text className="card-text">{bookData?.name}</Text>
+            <Text className="card-text-secondary">{bookData?.author}</Text>
             <div style={{paddingTop: 10, display:"flex"}}>
                 <StarIcon></StarIcon>
-                <Text className="card-number">4,3</Text>
+                <Text className="card-number">{bookData?.rating}</Text>
             </div>
         </div>
         

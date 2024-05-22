@@ -188,6 +188,7 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
                   overflowX: "hidden",
                 }}
               >
+                {/* <BookCard></BookCard>
                 <BookCard></BookCard>
                 <BookCard></BookCard>
                 <BookCard></BookCard>
@@ -200,8 +201,7 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
                 <BookCard></BookCard>
                 <BookCard></BookCard>
                 <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
+                <BookCard></BookCard> */}
               </div>
               <Button
                 label="❱"
@@ -239,6 +239,7 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
                   overflowX: "hidden",
                 }}
               >
+                {/* <BookCard></BookCard>
                 <BookCard></BookCard>
                 <BookCard></BookCard>
                 <BookCard></BookCard>
@@ -251,8 +252,7 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
                 <BookCard></BookCard>
                 <BookCard></BookCard>
                 <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
+                <BookCard></BookCard> */}
               </div>
               <Button
                 label="❱"

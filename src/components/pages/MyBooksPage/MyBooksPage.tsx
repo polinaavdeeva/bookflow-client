@@ -66,6 +66,7 @@ const MyBooksPage: FC<IMyBooksProps> = ({ addBook }) => {
         ></hr>
         {value === "Мои книги на обмен" ? (
           <div style={{ height: "80%  ", width: "100%", overflowY: "auto" }}>
+            {/* <BookCard></BookCard>
             <BookCard></BookCard>
             <BookCard></BookCard>
             <BookCard></BookCard>
@@ -85,11 +86,11 @@ const MyBooksPage: FC<IMyBooksProps> = ({ addBook }) => {
             <BookCard></BookCard>
             <BookCard></BookCard>
             <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
+            <BookCard></BookCard> */}
           </div>
         ) : (
           <div style={{ height: "80%  ", width: "100%", overflowY: "auto" }}>
+            {/* <BookCard></BookCard>
             <BookCard></BookCard>
             <BookCard></BookCard>
             <BookCard></BookCard>
@@ -102,8 +103,7 @@ const MyBooksPage: FC<IMyBooksProps> = ({ addBook }) => {
             <BookCard></BookCard>
             <BookCard></BookCard>
             <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
+            <BookCard></BookCard> */}
           </div>
         )}
       </Card>
