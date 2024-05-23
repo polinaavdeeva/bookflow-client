@@ -49,7 +49,7 @@ const BookCard: FC<IBookCard> = ({bookData = null}) => {
           display: "inline-block", 
           marginBottom: 10,
         }}>
-        <img src="https://www.colorhexa.com/8a99a6.png" style={{width: 160, height: 120, borderRadius: "20px 20px 0px 0px"}}></img>
+        <img src={bookData?.image} style={{width: 160, height: 120, borderRadius: "20px 20px 0px 0px"}}></img>
         <div style={{padding: "15px 12px 10px 12px"}}>
             <Text className="card-text">{bookData?.name}</Text>
             <Text className="card-text-secondary">{bookData?.author}</Text>
