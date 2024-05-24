@@ -10,10 +10,11 @@ const ResultBooks: FC = ({}): React.ReactElement => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const query = searchParams.get("query");
-  console.log(query)
-  const [books, setBooks] = useState<Book[]>()
+  const [books, setBooks] = useState<Array<Book>>([])
   const [textOnPage, setTextOnPage] = useState("Найдено по вашему запросу")
   const [isLoadingBooks, setIsLoadingBooks] = useState(false)
+  const [sortedBooks, setSortedBooks] = useState<Array<Book>>()
+  const [ratingFilter, setRatingFilter] = useState(0)
 
   type Book ={
     name: string
@@ -46,6 +47,7 @@ const ResultBooks: FC = ({}): React.ReactElement => {
           booksArr.push(book)
         })
         setBooks(booksArr)
+        setSortedBooks(booksArr)
       }    
       setTextOnPage("Найдено по вашему запросу")  
     } else {
@@ -55,9 +57,28 @@ const ResultBooks: FC = ({}): React.ReactElement => {
 
   useEffect(()=>{
     const arr = new Array
-    setBooks(arr)
+    setBooks(arr) 
     getBooks()
    }, [query])
+
+  const sortBooksFunc = (sortType: String)=>{
+  console.log(sortType)
+    const tempBooks = [...books].sort((a, b) => {
+      switch (sortType) {
+        case 'RATING_UP':
+          return a.rating - b.rating;
+        case 'RATING_DOWN':
+          return b.rating - a.rating;
+        case 'NAME_UP':
+          return a.name.localeCompare(b.name);
+        case 'NAME_DOWN':
+          return b.name.localeCompare(a.name);
+        default:
+          return a.name.localeCompare(b.name);
+      }
+    });
+  setSortedBooks(tempBooks.filter((el) => {el.rating > ratingFilter}))
+  }
 
   return (
     <section className="result-books">
@@ -74,21 +95,25 @@ const ResultBooks: FC = ({}): React.ReactElement => {
               className="result-books__sort-button"
               label="По возрастанию рейтинга"
               form="round"
+              onClick={()=>{sortBooksFunc("RATING_UP")}}
             />
             <Button
               className="result-books__sort-button"
               label="По убыванию рейтинга"
               form="round"
+              onClick={()=>{sortBooksFunc("RATING_DOWN")}}
             />
             <Button
               className="result-books__sort-button"
               label="От А до Я"
               form="round"
+              onClick={()=>{sortBooksFunc("NAME_UP")}}
             />
             <Button
               className="result-books__sort-button"
               label="От Я до А"
               form="round"
+              onClick={()=>{sortBooksFunc("NAME_DOWN")}}
             />
           </div>
         </div>
@@ -111,7 +136,7 @@ const ResultBooks: FC = ({}): React.ReactElement => {
           />
         </div>
       </div>
-      {books?.map((book)=>{
+      {sortedBooks?.map((book)=>{
         return(<BookCard bookData={book}></BookCard>)
       })}
     </section>
