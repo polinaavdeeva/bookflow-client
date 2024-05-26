@@ -21,6 +21,10 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
   const [patronymic, setPatronymic] = useState<string>("");
   const [gender, setGender] = useState<string>("Мужской");
   const [dateOfBirth, setDateOfBirth] = useState<string>("");
+  const defaultRegistrationDate = new Date();
+  const [registrationDate, setRegistrationDate] = useState<Date>(
+    defaultRegistrationDate
+  );
 
   function handleChangeEmail(e: ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
@@ -65,7 +69,8 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
         gender,
         dateOfBirth,
         lastName,
-        patronymic
+        patronymic,
+        registrationDate
       )
       .then(() => {
         auth.authorize(email, password).then((data) => {

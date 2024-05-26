@@ -45,6 +45,10 @@
   border: 1.5px solid white !important;
 }
 
+.Avatar-Image {
+  object-fit: cover;
+}
+
 .profile__name {
   font-weight: 500;
   font-size: 22px;

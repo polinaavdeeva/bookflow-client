@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import "./Profile.scss";
 import { Avatar } from "@consta/uikit/Avatar";
 import { Card } from "@consta/uikit/Card";
@@ -8,6 +8,7 @@ import ratingStar from "../../../assets/рейтинг.png";
 import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../../../context/CurrentUserContext";
 import { userApi } from "../../../utils/UserApi";
+import { File } from "@consta/uikit/File";
 
 interface IProfile {
   setDelete: () => void;
@@ -29,14 +30,39 @@ const Profile: FC<IProfile> = ({
   );
   const [gender, setGender] = useState<string>(currentUser?.gender || "");
   const [email, setEmail] = useState<string>(currentUser?.email || "");
-  const [dateOfRegistration, setDateOfRegistration] =
-    useState<string>("10.04.2024");
   const [rating, setRating] = useState<string>("4.93");
   const [dateOfBirth, setDateOfBirth] = useState<string>(
     currentUser?.dateOfBirth || ""
   );
-  const [registerData, setRegisterData] = useState<string>("20-05-2-24");
+  const [registerData, setRegisterData] = useState<Date | undefined>(
+    currentUser?.registrationDate
+  );
   const [isMyProfile, setIsMyProfile] = useState<boolean>(true);
+  const [avatar, setAvatar] = useState<File | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    userApi
+      .getUserAvatar()
+      .then((data) => {})
+      .catch((error) => {
+        console.log(`Ошибка ${error}`);
+      });
+  }, []);
+
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setAvatar(event.target.files[0]);
+      userApi
+        .uploadAvatar(event.target.files[0])
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
 
   const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (isEditing) {
@@ -95,6 +121,8 @@ const Profile: FC<IProfile> = ({
       .catch((error) => {
         console.log(error);
       });
+
+    console.log(avatar);
   }
 
   React.useEffect(() => {
@@ -104,6 +132,8 @@ const Profile: FC<IProfile> = ({
     setGender(currentUser?.gender || "");
     setLastName(currentUser?.lastName || "");
     setPatronymic(currentUser?.patronymic || "");
+    setRegisterData(currentUser?.registrationDate || undefined);
+    //setAvatar(null);
   }, [currentUser]);
 
   return (
@@ -119,7 +149,13 @@ const Profile: FC<IProfile> = ({
             className="profile__avatar"
             size="l"
             name="..."
-            url={defaultAvatar}
+            url={avatar ? URL.createObjectURL(avatar) : ""}
+          />
+          <input
+            type="file"
+            accept="image/*"
+            className="profile__avatar-upload"
+            onChange={handleAvatarChange}
           />
           <h2 className="profile__name">
             {currentUser?.name} {currentUser?.lastName}
@@ -290,16 +326,10 @@ const Profile: FC<IProfile> = ({
               >
                 Дата регистрации
               </label>
-              {isEditing ? (
-                <input
-                  id="dateOfRegister"
-                  type="date"
-                  className="profile__data"
-                  value={registerData}
-                />
-              ) : (
-                <p className="profile__text">{registerData}</p>
-              )}
+              <p className="profile__text">
+                {registerData &&
+                  new Date(registerData).toISOString().slice(0, 10)}
+              </p>
             </div>
             <div className="profile__rating">
               <p className="profile__rating-title">Рейтинг</p>

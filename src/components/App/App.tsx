@@ -29,6 +29,7 @@ interface User {
   dateOfBirth: string;
   lastName: string;
   patronymic: string;
+  registrationDate: Date | undefined;
 }
 
 const App: FC = (): React.ReactElement => {
