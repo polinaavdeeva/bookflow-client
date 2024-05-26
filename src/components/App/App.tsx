@@ -30,6 +30,8 @@ interface User {
   lastName: string;
   patronymic: string;
   registrationDate: Date | undefined;
+  rating: number | null;
+  _id: string;
 }
 
 const App: FC = (): React.ReactElement => {

@@ -47,6 +47,18 @@ class UserApi {
     }).then(this._checkResponse);
   }
 
+  sendRating(userId: string, rating: number): Promise<any> {
+    const token = localStorage.getItem("token");
+    return fetch(`${this._baseUrl}/users/${userId}/rating`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ rating }),
+    }).then(this._checkResponse);
+  }
+
   editUserInfo(data: {
     name: string;
     email: string;
