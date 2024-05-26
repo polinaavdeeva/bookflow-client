@@ -7,6 +7,7 @@ interface User {
   dateOfBirth: string;
   lastName: string;
   patronymic: string;
+  registrationDate: Date | undefined;
 }
 
 interface CurrentUserContextProps {

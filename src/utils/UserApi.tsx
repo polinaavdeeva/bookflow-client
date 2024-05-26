@@ -23,6 +23,30 @@ class UserApi {
     }).then(this._checkResponse);
   }
 
+  getUserAvatar(): Promise<any> {
+    const token = localStorage.getItem("token");
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    }).then(this._checkResponse);
+  }
+
+  uploadAvatar(avatarFile: File): Promise<any> {
+    const formData = new FormData();
+    formData.append("avatar", avatarFile);
+
+    const token = localStorage.getItem("token");
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    }).then(this._checkResponse);
+  }
+
   editUserInfo(data: {
     name: string;
     email: string;

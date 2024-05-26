@@ -36,7 +36,8 @@ class Auth {
     gender: string,
     dateOfBirth: string,
     lastName: string,
-    patronymic: string
+    patronymic: string,
+    registrationDate: Date | undefined
   ) {
     return fetch(`${this._baseUrl}/signup`, {
       method: "POST",
@@ -52,6 +53,7 @@ class Auth {
         patronymic: patronymic,
         gender: gender,
         dateOfBirth: dateOfBirth,
+        registrationDate: registrationDate,
       }),
     }).then(this._checkResponse);
   }
