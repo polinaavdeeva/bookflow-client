@@ -3,18 +3,33 @@ import { Card } from "@consta/uikit/Card";
 import { Text } from "@consta/uikit/Text";
 import BookCard from "../../BookCard/BookCard";
 import { Tabs } from "@consta/uikit/Tabs";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import "./MyBooksPage.scss";
 import { Button } from "@consta/uikit/Button";
+import BookServices from "../../../utils/BookServices";
+import { CurrentUserContext } from "../../../context/CurrentUserContext";
+import React from "react";
 
 interface IMyBooksProps {
   addBook: () => void;
 }
 
 const MyBooksPage: FC<IMyBooksProps> = ({ addBook }) => {
+  const { currentUser, setCurrentUser } = React.useContext(CurrentUserContext);
   const items: string[] = ["Мои книги на обмен", "Полученные при обмене"];
+  const [myBooks, setMyBooks] = useState<any[]>([]);
 
   const getItemLabel = (label: string) => label;
+
+  useEffect(() => {
+    BookServices.getBooksByOwner(currentUser?._id || "")
+      .then((data) => {
+        setMyBooks(data);
+      })
+      .catch((error) => {
+        console.error("Ошибка при получении книг пользователя:", error);
+      });
+  }, []);
 
   const [value, setValue] = useState<string>(items[0]);
   return (
@@ -66,45 +81,14 @@ const MyBooksPage: FC<IMyBooksProps> = ({ addBook }) => {
         ></hr>
         {value === "Мои книги на обмен" ? (
           <div style={{ height: "80%  ", width: "100%", overflowY: "auto" }}>
-            {/* <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard> */}
+            {myBooks.map((book: any) => {
+              return <BookCard bookData={book}></BookCard>;
+            })}
           </div>
         ) : (
-          <div style={{ height: "80%  ", width: "100%", overflowY: "auto" }}>
-            {/* <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard>
-            <BookCard></BookCard> */}
-          </div>
+          <div
+            style={{ height: "80%  ", width: "100%", overflowY: "auto" }}
+          ></div>
         )}
       </Card>
     </Layout>
