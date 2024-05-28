@@ -71,6 +71,12 @@ const AddBookPopup: FC<IAddBookProps> = ({
       }),
       });
       console.log('Book uploaded:', response);
+      setName("")
+      setAuthor("")
+      setDescription("")
+      setImage(null)
+      setPreview("")
+      onClose()
     } catch (error) {
       console.error('Error uploading book:', error);
     }
@@ -138,6 +144,7 @@ const AddBookPopup: FC<IAddBookProps> = ({
                   type="text"
                   placeholder="Название книги"
                   onChange={(e) => setName(e.target.value)}
+                  value={name}
                 />
               </div>
               <div className="popup__input-row">
@@ -150,6 +157,7 @@ const AddBookPopup: FC<IAddBookProps> = ({
                   type="text"
                   placeholder="Имя автора"
                   onChange={(e) => setAuthor(e.target.value)}
+                  value={author}
                 />
               </div>
             </div>
@@ -162,6 +170,7 @@ const AddBookPopup: FC<IAddBookProps> = ({
                 id="annotation"
                 placeholder="Аннотация"
                 onChange={(e) => setDescription(e.target.value)}
+                value={description}
               ></textarea>
             </div>
           </div>
