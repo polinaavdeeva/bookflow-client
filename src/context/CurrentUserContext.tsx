@@ -8,6 +8,8 @@ interface User {
   lastName: string;
   patronymic: string;
   registrationDate: Date | undefined;
+  rating: number | null;
+  _id: string;
 }
 
 interface CurrentUserContextProps {

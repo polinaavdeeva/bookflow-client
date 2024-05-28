@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../../../context/CurrentUserContext";
 import { userApi } from "../../../utils/UserApi";
 import { File } from "@consta/uikit/File";
+import RatingPopup from "../../RatingPopup/RatingPopup";
 
 interface IProfile {
   setDelete: () => void;
@@ -30,7 +31,9 @@ const Profile: FC<IProfile> = ({
   );
   const [gender, setGender] = useState<string>(currentUser?.gender || "");
   const [email, setEmail] = useState<string>(currentUser?.email || "");
-  const [rating, setRating] = useState<string>("4.93");
+  const [rating, setRating] = useState<number | null>(
+    currentUser?.rating || null
+  );
   const [dateOfBirth, setDateOfBirth] = useState<string>(
     currentUser?.dateOfBirth || ""
   );
@@ -39,16 +42,16 @@ const Profile: FC<IProfile> = ({
   );
   const [isMyProfile, setIsMyProfile] = useState<boolean>(true);
   const [avatar, setAvatar] = useState<File | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isRatingPopupOpen, setRatingPopupOpen] = useState<boolean>(false);
 
-  useEffect(() => {
+  /* useEffect(() => {
     userApi
       .getUserAvatar()
       .then((data) => {})
       .catch((error) => {
         console.log(`Ошибка ${error}`);
       });
-  }, []);
+  }, []);*/
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -133,11 +136,15 @@ const Profile: FC<IProfile> = ({
     setLastName(currentUser?.lastName || "");
     setPatronymic(currentUser?.patronymic || "");
     setRegisterData(currentUser?.registrationDate || undefined);
-    //setAvatar(null);
+    setRating(currentUser?.rating || null);
   }, [currentUser]);
 
   return (
     <section className="profile">
+      <RatingPopup
+        isOpen={isRatingPopupOpen}
+        onClose={() => setRatingPopupOpen(false)}
+      />
       <div className="profile__background"></div>
       <Card
         className="profile__name-container"
@@ -333,10 +340,20 @@ const Profile: FC<IProfile> = ({
             </div>
             <div className="profile__rating">
               <p className="profile__rating-title">Рейтинг</p>
-              <div className="profile__rating-num-container">
-                <p className="prifile__rating-num">{rating}</p>
-                <img src={ratingStar} alt="Рейтинг" />
-              </div>
+              {isMyProfile ? (
+                <div className="profile__rating-num-container">
+                  <p className="prifile__rating-num">{rating}</p>
+                  <img src={ratingStar} alt="Рейтинг" />
+                </div>
+              ) : (
+                <div
+                  className="profile__rating-num-container"
+                  onClick={() => setRatingPopupOpen(true)}
+                >
+                  <p className="prifile__rating-num">{rating}</p>
+                  <img src={ratingStar} alt="Рейтинг" />
+                </div>
+              )}
             </div>
           </div>
         </div>
