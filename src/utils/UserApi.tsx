@@ -84,6 +84,14 @@ class UserApi {
       }),
     }).then(this._checkResponse);
   }
+
+  getUserById(id: string): Promise<any> {
+    return fetch(`${this._baseUrl}/users/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(this._checkResponse);
+  }
 }
 
 export const userApi = new UserApi({
