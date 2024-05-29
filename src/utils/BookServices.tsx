@@ -33,7 +33,7 @@ class BookServices {
   static getBookById = async (bookId: any) => {
     const baseUrl = "http://localhost:4000";
     try {
-      const response = await fetch(`${baseUrl}/books/${bookId}`, {
+      const response = await fetch(`${baseUrl}/booksbyid/${bookId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

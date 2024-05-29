@@ -137,6 +137,7 @@ const ResultBooks: FC = ({}): React.ReactElement => {
         </div>
       </div>
       {sortedBooks?.map((book)=>{
+        console.log(book)
         return(<BookCard bookData={book}></BookCard>)
       })}
     </section>
