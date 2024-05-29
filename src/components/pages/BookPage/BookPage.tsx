@@ -20,6 +20,7 @@ import { User } from "@consta/uikit/User";
 type comment = {
   content: string;
   stars: number;
+  author: string;
 };
 
 type Book ={
@@ -95,14 +96,11 @@ const BookPage: FC<IBook> = ({
     getComments();
   }, [bookId]);
 
-
-
-
-
   const addComment = (text: string, stars: number) => {
     const com = {
       content: text,
       stars: stars,
+      author: "author"
     };
     let copy = commentList;
     copy.push(com);
