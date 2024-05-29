@@ -16,6 +16,7 @@ import { useLocation } from 'react-router-dom';
 import BookServices from "../../../utils/BookServices";
 import { commentApi } from "../../../utils/CommentApi";
 import { User } from "@consta/uikit/User";
+import { userApi } from "../../../utils/UserApi";
 
 type comment = {
   content: string;
@@ -31,6 +32,12 @@ type Book ={
   rating: number
   id: string
   postingDate: string
+}
+
+type UserInfo = {
+  name: string,
+  lastName: string,
+  rating: number
 }
 
 interface IBook {
@@ -60,11 +67,15 @@ const BookPage: FC<IBook> = ({
   const [bookInfo, setBookInfo] = useState<Book>();
   const [imageSrc, setImageSrc] = useState("")
   const [commentList, setCommentList] = useState<comment[]>([]);
+  const [ownerInfo, setOwnerInfo] = useState<UserInfo>()
 
   const findBookInfo = async () => {
     try {
       await BookServices.getBookById(bookId).then((resp)=>{
         setBookInfo(resp)
+        userApi.getUserById(resp.owner).then((res)=>{
+          setOwnerInfo(res.user)
+        })
       }  
       );
     } catch (error) {
@@ -89,6 +100,7 @@ const BookPage: FC<IBook> = ({
     
     console.log(commentList)
   }
+
 
   useEffect(() => {
     findBookInfo();
@@ -245,6 +257,7 @@ const BookPage: FC<IBook> = ({
               onClick={() => setIsBooksOpen(!isBooksOpen)}
             >
               <Layout direction="column" style={{ paddingLeft: 30 }}>
+
                 <Layout direction="row" style={{ marginBottom: 10 }}>
                   {isLoggedIn ? (
                     <Link to="/myprofile">
@@ -256,46 +269,13 @@ const BookPage: FC<IBook> = ({
 
                   <Text style={{ paddingTop: 7, paddingLeft: 15 }}>
                     {" "}
-                    Райан Гослинг
+                    {ownerInfo?.name + " " + ownerInfo?.lastName}
                   </Text>
                   <Text className="item-text" style={{ paddingLeft: 20 }}>
-                    <StarIcon></StarIcon> 4.3
+                    <StarIcon></StarIcon> {ownerInfo?.rating}
                   </Text>
                 </Layout>
-
-                <Layout direction="row" style={{ marginBottom: 10 }}>
-                  {isLoggedIn ? (
-                    <Link to="/myprofile">
-                      <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
-                    </Link>
-                  ) : (
-                    <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
-                  )}
-                  <Text style={{ paddingTop: 7, paddingLeft: 15 }}>
-                    {" "}
-                    Райан Гослинг
-                  </Text>
-                  <Text className="item-text" style={{ paddingLeft: 20 }}>
-                    <StarIcon></StarIcon> 4.3
-                  </Text>
-                </Layout>
-
-                <Layout direction="row" style={{ marginBottom: 10 }}>
-                  {isLoggedIn ? (
-                    <Link to="/myprofile">
-                      <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
-                    </Link>
-                  ) : (
-                    <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
-                  )}
-                  <Text style={{ paddingTop: 7, paddingLeft: 15 }}>
-                    {" "}
-                    Райан Гослинг
-                  </Text>
-                  <Text className="item-text" style={{ paddingLeft: 20 }}>
-                    <StarIcon></StarIcon> 4.3
-                  </Text>
-                </Layout>
+ 
               </Layout>
             </Collapse>
           </Layout>
