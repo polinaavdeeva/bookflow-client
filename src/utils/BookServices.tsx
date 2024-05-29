@@ -30,6 +30,26 @@ class BookServices {
     }
   }
 
+  static getBookById = async (bookId: any) => {
+    const baseUrl = "http://localhost:4000";
+    try {
+      const response = await fetch(`${baseUrl}/booksbyid/${bookId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching the book:', error);
+    }
+  };
+
   static bookSearch = async (name: string) => {
     const baseUrl = "http://localhost:4000";
     try {

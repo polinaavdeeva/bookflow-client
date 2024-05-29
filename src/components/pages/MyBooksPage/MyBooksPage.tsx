@@ -14,6 +14,16 @@ interface IMyBooksProps {
   addBook: () => void;
 }
 
+type Book ={
+  name: string
+  description: string
+  image: string
+  author: string
+  rating: number
+  id: string
+  postingDate: string
+}
+
 const MyBooksPage: FC<IMyBooksProps> = ({ addBook }) => {
   const { currentUser, setCurrentUser } = React.useContext(CurrentUserContext);
   const items: string[] = ["Мои книги на обмен", "Полученные при обмене"];
@@ -24,7 +34,20 @@ const MyBooksPage: FC<IMyBooksProps> = ({ addBook }) => {
   useEffect(() => {
     BookServices.getBooksByOwner(currentUser?._id || "")
       .then((data) => {
-        setMyBooks(data);
+        let booksArr = new Array
+        data.map((el: any)=>{
+          const book: Book = {
+            name: el.name,
+            description: el.description,
+            image: el.image,
+            author: el.author,
+            rating: el.rating,
+            id: el._id,
+            postingDate: el.postingDate
+          }
+          booksArr.push(book)
+        })
+        setMyBooks(booksArr)
       })
       .catch((error) => {
         console.error("Ошибка при получении книг пользователя:", error);
@@ -42,6 +65,7 @@ const MyBooksPage: FC<IMyBooksProps> = ({ addBook }) => {
         paddingLeft: "2%",
         paddingRight: "1.5%",
         paddingTop: "2%",
+        minHeight: "82vh"
       }}
     >
       <Card
@@ -82,6 +106,7 @@ const MyBooksPage: FC<IMyBooksProps> = ({ addBook }) => {
         {value === "Мои книги на обмен" ? (
           <div style={{ height: "80%  ", width: "100%", overflowY: "auto" }}>
             {myBooks.map((book: any) => {
+              console.log(book)
               return <BookCard bookData={book}></BookCard>;
             })}
           </div>

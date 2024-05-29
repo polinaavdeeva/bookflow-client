@@ -2,28 +2,38 @@ import React, { FC, useState } from "react";
 import "./FeedbackPopup.scss";
 import { Button } from "@consta/uikit/Button";
 import { TextField } from "@consta/uikit/TextField";
+import { commentApi } from "../../utils/CommentApi";
 
 interface IFeedbackProps {
   isOpen: boolean;
   setIsOpen: (val: boolean) => void;
   addComment: (text: string, stars: number) => void;
+  bookId: string | any;
 }
 
 const FeedbackPopup: FC<IFeedbackProps> = ({
   isOpen,
   setIsOpen,
   addComment,
+  bookId
 }): React.ReactElement => {
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [stars, setStars] = useState<number>(0)
+
+  const sendComment = async () =>{
+    await commentApi.addComment(searchQuery, bookId).then(
+      (resp)=>{console.log(resp)}
+    )
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
   const saveAndExit = () =>{
-    addComment(searchQuery, stars)
+    //addComment(searchQuery, stars)
+    sendComment()
     setIsOpen(false)
   }
 

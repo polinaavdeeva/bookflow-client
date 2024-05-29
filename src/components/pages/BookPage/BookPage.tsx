@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Avatar } from "@consta/uikit/Avatar";
 import { Card } from "@consta/uikit/Card";
 import { Button } from "@consta/uikit/Button";
@@ -9,14 +9,28 @@ import StarIcon from "../../../assets/starIcon";
 import { Collapse } from "@consta/uikit/Collapse";
 import Comment from "../../Comment/Comment";
 import FeedbackPopup from "../../FeedbackPopup/FeedbackPopup";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import DeleteBookPopup from "../../DeletePopup/DeleteBookPopup";
 import CorrectBookPopup from "../../AddBookPopup/CorrectBookPopup";
+import { useLocation } from 'react-router-dom';
+import BookServices from "../../../utils/BookServices";
+import { commentApi } from "../../../utils/CommentApi";
+import { User } from "@consta/uikit/User";
 
 type comment = {
-  text: string;
+  content: string;
   stars: number;
 };
+
+type Book ={
+  name: string
+  description: string
+  image: string
+  author: string
+  rating: number
+  id: string
+  postingDate: string
+}
 
 interface IBook {
   addComplaint: () => void;
@@ -38,12 +52,56 @@ const BookPage: FC<IBook> = ({
   const [isCorrectBookOpen, setIsCorrectBookOpen] = useState<boolean>(false);
   const [isComplaintBookButtonShowed, setIsComplaintBookButtonShowed] =
     useState(false);
+  
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const bookId = searchParams.get('id')
+  const [bookInfo, setBookInfo] = useState<Book>();
+  const [imageSrc, setImageSrc] = useState("")
   const [commentList, setCommentList] = useState<comment[]>([]);
+
+  const findBookInfo = async () => {
+    try {
+      await BookServices.getBookById(bookId).then((resp)=>{
+        setBookInfo(resp)
+      }  
+      );
+    } catch (error) {
+      console.error('Error fetching the image:', error);
+    }
+  };
+
+  const fetchImage = async () => {
+    try {
+      const imageBlob = await BookServices.getBookImage(bookId);
+      const imageUrl = URL.createObjectURL(imageBlob);
+      setImageSrc(imageUrl);
+    } catch (error) {
+      console.error('Error fetching the image:', error);
+    }
+  };
+
+  const getComments = async () => {
+    await commentApi.getAllCommentsForBook(bookId).then((resp)=>{
+      setCommentList(resp)
+    })
+    
+    console.log(commentList)
+  }
+
+  useEffect(() => {
+    findBookInfo();
+    fetchImage();
+    getComments();
+  }, [bookId]);
+
+
+
+
 
   const addComment = (text: string, stars: number) => {
     const com = {
-      text: text,
+      content: text,
       stars: stars,
     };
     let copy = commentList;
@@ -57,6 +115,7 @@ const BookPage: FC<IBook> = ({
         isOpen={isFeedbackOpen}
         setIsOpen={setIsFeedbackOpen}
         addComment={addComment}
+        bookId={bookId}
       ></FeedbackPopup>
       <DeleteBookPopup isOpen={isDeleteBookOpen} onClose={()=>setIsDeleteBookOpen(false)}/>
       <CorrectBookPopup isOpen={isCorrectBookOpen} onClose={()=>setIsCorrectBookOpen(false)}/>
@@ -73,7 +132,7 @@ const BookPage: FC<IBook> = ({
           style={{ paddingRight: "5%", paddingLeft: "5%" }}
         >
           <img
-            src="https://www.colorhexa.com/8a99a6.png"
+            src={imageSrc}
             style={{
               width: 180,
               height: 280,
@@ -132,41 +191,22 @@ const BookPage: FC<IBook> = ({
               }
             </Layout>
 
-            <Text className="item-text">Название книги</Text>
+            <Text className="item-text">{bookInfo?.name}</Text>
             <br />
             <br />
             <Text className="item-label">Автор</Text>
-            <Text className="item-text">Автор</Text>
+            <Text className="item-text">{bookInfo?.author}</Text>
             <br />
             <br />
             <Text className="item-label">Рейтинг</Text>
             <Text className="item-text">
-              <StarIcon></StarIcon> 4.3
+              <StarIcon></StarIcon> {bookInfo?.rating}
             </Text>
             <br />
             <br />
             <Text className="item-label">Аннотация</Text>
-            <Text className="item-text">
-              Я в своем познании настолько преисполнился, что я как будто бы уже
-              сто триллионов миллиардов лет проживаю на триллионах и триллионах
-              таких же планет, как эта Земля, мне этот мир абсолютно понятен, и
-              я здесь ищу только одного - покоя, умиротворения и вот этой
-              гармонии, от слияния с бесконечно вечным, от созерцания великого
-              фрактального подобия и от вот этого замечательного всеединства
-              существа, бесконечно вечного, куда ни посмотри, хоть вглубь -
-              бесконечно малое, хоть ввысь - бесконечное большое, понимаешь? А
-              ты мне опять со своим вот этим, иди суетись дальше, это твоё
-              распределение, это твой путь и твой горизонт познания и ощущения
-              твоей природы, он несоизмеримо мелок по сравнению с моим,
-              понимаешь? Я как будто бы уже давно глубокий старец, бессмертный,
-              ну или там уже почти бессмертный, который на этой планете от её
-              самого зарождения, ещё когда только Солнце только-только
-              сформировалось как звезда, и вот это газопылевое облако, вот,
-              после взрыва, Солнца, когда оно вспыхнуло, как звезда, начало
-              формировать вот эти коацерваты, планеты, понимаешь, я на этой
-              Земле уже как будто почти пять миллиардов лет живу и знаю её вдоль
-              и поперёк этот весь мир, а ты мне какие-то... мне не важно на твои
-              тачки, на твои яхты, на твои квартиры, там, на твоё благо.
+            <Text className="item-text" style={{width: "60vw"}}>
+              {bookInfo?.description}
             </Text>
             <br />
             <br />

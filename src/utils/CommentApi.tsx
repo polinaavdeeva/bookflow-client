@@ -5,7 +5,7 @@ class CommentApi {
     this._baseUrl = baseUrl;
   }
 
-  getAllCommentsForBook = (bookId: string) => {
+  getAllCommentsForBook = (bookId: string | any) => {
     return fetch(`${this._baseUrl}/comments/book/${bookId}`)
       .then((response) => {
         if (!response.ok) {
