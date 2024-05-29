@@ -1,13 +1,14 @@
 import { Card } from "@consta/uikit/Card";
 import { Text } from "@consta/uikit/Text";
 
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 import "./MainPage.scss";
 import AdCard from "../../AdCard/AdCard";
 import BookCard from "../../BookCard/BookCard";
 import { Layout } from "@consta/uikit/Layout";
 import { Button } from "@consta/uikit/Button";
+import BookServices from "../../../utils/BookServices";
 
 interface IMainPage {
   isAdmin: boolean;
@@ -16,6 +17,59 @@ interface IMainPage {
 const MainPage: FC<IMainPage> = ({ isAdmin }) => {
   const containerLastAddedRef = useRef<HTMLDivElement>(null);
   const containerBestRef = useRef<HTMLDivElement>(null);
+
+  const [books, setBooks] = useState<Array<Book>>([])
+  const [lastAddedBooks, setLastAddedBooks] = useState<Array<Book>>([])
+  const [bestBooks, setBestBooks] = useState<Array<Book>>([])
+
+
+  type Book ={
+    name: string
+    description: string
+    image: string
+    author: string
+    rating: number
+    id: string
+    postingDate: string
+  }
+
+  const getBooks = async () =>{
+      const resp = await BookServices.bookSearch(" ")
+
+        let booksArr = new Array
+        resp.map((el: any)=>{
+          const book: Book = {
+            name: el.name,
+            description: el.description,
+            image: el.image,
+            author: el.author,
+            rating: el.rating,
+            id: el._id,
+            postingDate: el.postingDate
+          }
+          booksArr.push(book)
+        })
+        setBooks(booksArr)
+  }
+
+  const sortByPostingDate = (books: Book[]) => {
+    setLastAddedBooks([...books].sort((a, b) => new Date(b.postingDate).getTime()  - new Date(a.postingDate).getTime()).reverse().slice(0, 10));
+  };
+
+  const sortByRating = (books: Book[]) => {
+    setBestBooks([...books].sort((a, b) => b.rating - a.rating).slice(0, 10));
+  };
+
+  useEffect(()=>{
+    setBooks([])
+    getBooks();
+   }, [])
+
+   useEffect(()=>{
+    sortByPostingDate(books);
+    sortByRating(books);
+   }, [books])
+
 
   const scrollLeftLastAdded = () => {
     if (containerLastAddedRef.current) {
@@ -52,6 +106,8 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
       });
     }
   };
+
+
 
   return (
     <div style={{ flexGrow: 1, height: "115%", width: "100%" }}>
@@ -188,20 +244,9 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
                   overflowX: "hidden",
                 }}
               >
-                {/* <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard> */}
+                {lastAddedBooks?.map((book)=>{
+                    return(<BookCard bookData={book}></BookCard>)
+                  })}
               </div>
               <Button
                 label="❱"
@@ -239,20 +284,9 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
                   overflowX: "hidden",
                 }}
               >
-                {/* <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard>
-                <BookCard></BookCard> */}
+                {bestBooks?.map((book)=>{
+                    return(<BookCard bookData={book}></BookCard>)
+                  })}
               </div>
               <Button
                 label="❱"
