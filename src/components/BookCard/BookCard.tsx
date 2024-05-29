@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { Card } from '@consta/uikit/Card';
 import { Text } from '@consta/uikit/Text';
-import { FC, useRef } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import './BookCard.scss'
 import StarIcon from '../../assets/starIcon';
+import BookServices from "../../utils/BookServices";
 
 type Book ={
   name: string
@@ -22,6 +23,7 @@ interface IBookCard {
 const BookCard: FC<IBookCard> = ({bookData = null}) => {
     //https://www.colorhexa.com/8a99a6.png
     
+    const [imageSrc, setImageSrc] = useState("")
     const componentRef = useRef<HTMLImageElement>(null);
     
     const getImageSettings = (key: string) => {
@@ -35,6 +37,23 @@ const BookCard: FC<IBookCard> = ({bookData = null}) => {
         };
       };
 
+    const fetchImage = async () => {
+        try {
+          const imageBlob = await BookServices.getBookImage(bookData?.id);
+          console.log("fetched")
+          const imageUrl = URL.createObjectURL(imageBlob);
+          setImageSrc(imageUrl);
+        } catch (error) {
+          console.error('Error fetching the image:', error);
+        }
+      };
+
+    
+      useEffect(() => {
+        fetchImage();
+      }, [bookData?.id]);
+   
+
     return (
       <Link to="/book">
       <Card form="round" 
@@ -46,10 +65,10 @@ const BookCard: FC<IBookCard> = ({bookData = null}) => {
           marginRight: 18, 
           marginLeft: 18,
           marginTop: 10, 
-          display: "inline-block", 
+          display: "inline-block",  
           marginBottom: 10,
         }}>
-        <img src={bookData?.image} style={{width: 160, height: 120, borderRadius: "20px 20px 0px 0px"}}></img>
+        <img src={imageSrc}  style={{width: 160, height: 120, borderRadius: "20px 20px 0px 0px"}}></img>
         <div style={{padding: "15px 12px 10px 12px"}}>
             <Text className="card-text">{bookData?.name}</Text>
             <Text className="card-text-secondary">{bookData?.author}</Text>

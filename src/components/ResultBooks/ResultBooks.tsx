@@ -14,7 +14,7 @@ const ResultBooks: FC = ({}): React.ReactElement => {
   const [textOnPage, setTextOnPage] = useState("Найдено по вашему запросу")
   const [isLoadingBooks, setIsLoadingBooks] = useState(false)
   const [sortedBooks, setSortedBooks] = useState<Array<Book>>()
-  const [ratingFilter, setRatingFilter] = useState(0)
+  //const [ratingFilter, setRatingFilter] = useState(0)
 
   type Book ={
     name: string
@@ -77,7 +77,7 @@ const ResultBooks: FC = ({}): React.ReactElement => {
           return a.name.localeCompare(b.name);
       }
     });
-  setSortedBooks(tempBooks.filter((el) => {el.rating > ratingFilter}))
+  setSortedBooks(tempBooks)
   }
 
   return (

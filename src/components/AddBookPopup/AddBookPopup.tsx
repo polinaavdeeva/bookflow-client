@@ -6,6 +6,8 @@ import { File } from "@consta/uikit/File";
 import { FileField, FileFieldProps } from '@consta/uikit/FileField';
 import ExitIcon from "../../assets/ExitIcon";
 import { Attachment } from '@consta/uikit/Attachment';
+import BookServices from "../../utils/BookServices";
+import { CurrentUserContext } from "../../context/CurrentUserContext";
 
 interface IAddBookProps {
   isOpen: boolean;
@@ -21,8 +23,11 @@ const AddBookPopup: FC<IAddBookProps> = ({
   const [description, setDescription] = useState('');
   const [author, setAuthor] = useState('');
   const [rating, setRating] = useState(0);
-  const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useState<File|null>();
   const [preview, setPreview] = useState<string | null>(null);
+  const { currentUser, setCurrentUser } = React.useContext(CurrentUserContext);
+  const [bookId, setBookId] = useState()
+
   
   const currentDate = new Date();
   const postingDate = `${currentDate.getDate().toString().padStart(2, '0')}.${(currentDate.getMonth() + 1).toString().padStart(2, '0')}.${currentDate.getFullYear()}`;
@@ -51,7 +56,6 @@ const AddBookPopup: FC<IAddBookProps> = ({
     }
     const token = localStorage.getItem("token");
     console.log(image)
-
     try {
       const response = await fetch('http://localhost:4000/books', {
         
@@ -66,11 +70,25 @@ const AddBookPopup: FC<IAddBookProps> = ({
           description: description,
           author: author,
           rating: 0,
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv1ektojNlZz78K8up9AK3veOAxkOYspJgQSgODIDLog&s",
-          postingDate: postingDate.toString()
+          //image: image,
+          postingDate: postingDate.toString(),
+          owner: currentUser?._id,
       }),
       });
-      console.log('Book uploaded:', response);
+
+      const result = await response.json().then(
+        (resp)=>{
+          BookServices.uploadBookImage(image, resp._id).then((data: any) => {
+          console.log(resp._id)
+          console.log(data);
+        })
+          .catch((error: any) => {
+          console.error(error);
+     });
+        }
+      );
+      console.log('Book uploaded:', result);
+      //setBookId(result._id)
       setName("")
       setAuthor("")
       setDescription("")
