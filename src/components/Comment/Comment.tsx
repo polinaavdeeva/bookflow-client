@@ -9,7 +9,7 @@ import DeleteCommentPopup from "../DeletePopup/DeleteCommentPopup";
 interface IComment {
   addComplaint: () => void;
   com: {
-    text: string,
+    content: string,
     stars: number,
   }
   isAdmin: boolean
@@ -59,7 +59,7 @@ const Comment: FC<IComment> = ({ addComplaint, com, isAdmin}) => {
           />
         }
       </Layout>
-      {com.text}
+      {com.content}
     </Layout>
   );
 };

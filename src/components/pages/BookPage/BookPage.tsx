@@ -14,9 +14,11 @@ import DeleteBookPopup from "../../DeletePopup/DeleteBookPopup";
 import CorrectBookPopup from "../../AddBookPopup/CorrectBookPopup";
 import { useLocation } from 'react-router-dom';
 import BookServices from "../../../utils/BookServices";
+import { commentApi } from "../../../utils/CommentApi";
+import { User } from "@consta/uikit/User";
 
 type comment = {
-  text: string;
+  content: string;
   stars: number;
 };
 
@@ -56,6 +58,7 @@ const BookPage: FC<IBook> = ({
   const bookId = searchParams.get('id')
   const [bookInfo, setBookInfo] = useState<Book>();
   const [imageSrc, setImageSrc] = useState("")
+  const [commentList, setCommentList] = useState<comment[]>([]);
 
   const findBookInfo = async () => {
     try {
@@ -78,18 +81,27 @@ const BookPage: FC<IBook> = ({
     }
   };
 
+  const getComments = async () => {
+    await commentApi.getAllCommentsForBook(bookId).then((resp)=>{
+      setCommentList(resp)
+    })
+    
+    console.log(commentList)
+  }
+
   useEffect(() => {
     findBookInfo();
     fetchImage();
+    getComments();
   }, [bookId]);
 
 
 
-  const [commentList, setCommentList] = useState<comment[]>([]);
+
 
   const addComment = (text: string, stars: number) => {
     const com = {
-      text: text,
+      content: text,
       stars: stars,
     };
     let copy = commentList;
@@ -103,6 +115,7 @@ const BookPage: FC<IBook> = ({
         isOpen={isFeedbackOpen}
         setIsOpen={setIsFeedbackOpen}
         addComment={addComment}
+        bookId={bookId}
       ></FeedbackPopup>
       <DeleteBookPopup isOpen={isDeleteBookOpen} onClose={()=>setIsDeleteBookOpen(false)}/>
       <CorrectBookPopup isOpen={isCorrectBookOpen} onClose={()=>setIsCorrectBookOpen(false)}/>
