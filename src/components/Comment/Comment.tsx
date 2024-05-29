@@ -1,29 +1,54 @@
 import { Avatar } from "@consta/uikit/Avatar";
 import { Layout } from "@consta/uikit/Layout";
 import { Text } from "@consta/uikit/Text";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import StarIcon from "../../assets/starIcon";
 import { Button } from "@consta/uikit/Button";
 import DeleteCommentPopup from "../DeletePopup/DeleteCommentPopup";
+import { userApi } from "../../utils/UserApi";
 
 interface IComment {
   addComplaint: () => void;
   com: {
     content: string,
     stars: number,
+    author: string,
   }
   isAdmin: boolean
 }
 
 const Comment: FC<IComment> = ({ addComplaint, com, isAdmin}) => {
+  type UserInfo = {
+    user: {
+      name: string,
+      lastName: string,
+    }
+  }
   const [isComplaintButtonShowed, setIsComplaintButtonShowed] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState<UserInfo | any>()
+
+  const getUserInfo = () =>{
+    userApi.getUserById(com.author).then(
+        (resp)=>{
+          setUserInfo(resp)
+          console.log(userInfo)
+        }
+    )
+  }
+
+  useEffect(() => {
+    getUserInfo()
+  }, [com]);
+
+
+
   return (
     <Layout direction="column" style={{ width: "100%", marginBottom: 20}}>
       <DeleteCommentPopup isOpen={isDeletePopupOpen} onClose={()=>setIsDeletePopupOpen(false)}></DeleteCommentPopup>
       <Layout direction="row" style={{ marginBottom: 10 }}>
         <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
-        <Text style={{ paddingTop: 7, paddingLeft: 10 }}> Райан Гослинг</Text>
+        <Text style={{ paddingTop: 7, paddingLeft: 10 }}> {userInfo?.user.name + " " + userInfo?.user.lastName}</Text>
         <Text className="item-text" style={{ paddingLeft: 20 }}>
           <StarIcon></StarIcon> {com.stars}
         </Text>
