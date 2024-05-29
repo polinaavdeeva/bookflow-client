@@ -40,7 +40,6 @@ const BookCard: FC<IBookCard> = ({bookData = null}) => {
     const fetchImage = async () => {
         try {
           const imageBlob = await BookServices.getBookImage(bookData?.id);
-          console.log("fetched")
           const imageUrl = URL.createObjectURL(imageBlob);
           setImageSrc(imageUrl);
         } catch (error) {
@@ -55,7 +54,7 @@ const BookCard: FC<IBookCard> = ({bookData = null}) => {
    
 
     return (
-      <Link to="/book">
+      <Link to={`/book?id=${bookData?.id}`} state={bookData}>
       <Card form="round" 
       style={{
           width: 160, 
