@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 import "./Header.scss";
 import React from "react";
+import defaultAvatar from "../../assets/аватарка_по-умолчанию.png";
 
 interface IHeader {
   isLoggedIn: boolean;
@@ -102,7 +103,7 @@ const Header: FC<IHeader> = ({ isLoggedIn, isAdmin }) => {
                 />
                 <Link to="/myprofile">
                   <User
-                    avatarUrl="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"
+                    avatarUrl={defaultAvatar}
                     name={`${currentUser?.name} ${currentUser?.lastName}`}
                     info="Пользователь"
                     style={{ width: 200, height: 30 }}

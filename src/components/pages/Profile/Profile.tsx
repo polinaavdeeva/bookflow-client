@@ -156,7 +156,7 @@ const Profile: FC<IProfile> = ({
             className="profile__avatar"
             size="l"
             name="..."
-            url={avatar ? URL.createObjectURL(avatar) : ""}
+            url={avatar ? URL.createObjectURL(avatar) :  defaultAvatar}
           />
           <input
             type="file"

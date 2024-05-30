@@ -73,9 +73,9 @@ const BookPage: FC<IBook> = ({
     try {
       await BookServices.getBookById(bookId).then((resp)=>{
         setBookInfo(resp)
-        userApi.getUserById(resp.owner).then((res)=>{
-          setOwnerInfo(res.user)
-        })
+        // userApi.getUserById(resp.owner).then((res)=>{
+        //   setOwnerInfo(res.user)
+        // })
       }  
       );
     } catch (error) {
@@ -97,8 +97,6 @@ const BookPage: FC<IBook> = ({
     await commentApi.getAllCommentsForBook(bookId).then((resp)=>{
       setCommentList(resp)
     })
-    
-    console.log(commentList)
   }
 
 
@@ -107,6 +105,10 @@ const BookPage: FC<IBook> = ({
     fetchImage();
     getComments();
   }, [bookId]);
+
+  useEffect(() => {
+    getComments();
+  }, [commentList]);
 
   const addComment = (text: string, stars: number) => {
     const com = {

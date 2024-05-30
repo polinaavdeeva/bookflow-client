@@ -29,12 +29,12 @@ const Comment: FC<IComment> = ({ addComplaint, com, isAdmin}) => {
   const [userInfo, setUserInfo] = useState<UserInfo | any>()
 
   const getUserInfo = () =>{
-    userApi.getUserById(com.author).then(
-        (resp)=>{
-          setUserInfo(resp)
-          console.log(userInfo)
-        }
-    )
+    // userApi.getUserById(com.author).then(
+    //     (resp)=>{
+    //       setUserInfo(resp)
+    //       console.log(userInfo)
+    //     }
+    // )
   }
 
   useEffect(() => {
