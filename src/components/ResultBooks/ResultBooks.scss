@@ -1,0 +1,139 @@
+.result-books {
+  box-sizing: border-box;
+  background-color: rgba(255, 251, 245, 1);
+  margin: 0 25px;
+  padding: 32px 42px;
+  border-radius: 8px;
+  min-height: 90vh;
+}
+
+.result-books__title-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.result-books__title {
+  font-weight: 500;
+  font-size: 26px;
+  margin: 0;
+}
+
+.result-books__sort-button:hover {
+  background-color: #674188;
+  opacity: 0.6;
+}
+
+.result-books__sort-button:focus {
+  background-color: #674188;
+}
+
+.result-books__sort-button {
+  background-color: #674188 !important;
+
+  .Button:not(:disabled):not(.Button_loading):hover {
+    background-color: #674188 !important;
+  }
+}
+
+.result-books__filter-container {
+  display: flex;
+  column-gap: 15px;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.result-books__status-container {
+  display: flex;
+  column-gap: 15px;
+  align-items: center;
+}
+
+.result-books__rating-container {
+  display: flex;
+  column-gap: 15px;
+  align-items: center;
+}
+
+.result-books__filter-title {
+  color: rgba(138, 146, 166, 1);
+  font-weight: 500;
+  font-size: 16px;
+  margin: 0;
+}
+
+.result-books__rating-title {
+  font-weight: 500;
+  font-size: 16px;
+  margin: 0;
+}
+
+.result-books__number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #674188;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.result-books__number:hover {
+  opacity: 0.6;
+}
+
+.result-books__status-title {
+  font-weight: 500;
+  font-size: 16px;
+  margin: 0;
+}
+
+.result-books__status-button:hover {
+  background-color: #674188;
+  opacity: 0.6;
+}
+
+.result-books__status-button:focus {
+  background-color: #674188;
+}
+
+.result-books__status-button {
+  background-color: #674188 !important;
+  height: 37px !important;
+
+  .Button:not(:disabled):not(.Button_loading):hover {
+    background-color: #674188 !important;
+  }
+}
+
+.result-books__sort-container {
+  position: relative;
+}
+
+.result-books__sort-button {
+  margin-bottom: 10px;
+}
+
+.result-books__sort-buttons-container {
+  position: absolute;
+  top: 100%;
+  left: -110px;
+  display: none;
+  padding: 10px;
+}
+
+.result-books__sort-container:hover .result-books__sort-buttons-container {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.result-books__sort-buttons-container button {
+  display: block;
+  width: auto;
+  margin-bottom: 5px;
+}

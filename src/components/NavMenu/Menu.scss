@@ -1,6 +1,36 @@
-.menu-vertical{
-    background: #FFFBF5;
-    width: 257px;
-    height: 100%;
-    gap: 16px;
+.menu-vertical {
+  background: #fffbf5;
+  width: 16%;
+  flex-shrink: 0;
+  gap: 16px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+}
+
+.text-on-top {
+  font-family: Inter;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 29.9px;
+  text-align: left;
+  text-decoration: none;
+  width: 10vw;
+}
+
+.menu-button.Button {
+  color: "#8A92A6";
+}
+
+.menu-button.Button:focus,
+.menu-button.Button:focus-within,
+.menu-button.Button:hover,
+.menu-button.Button:active {
+  box-shadow: none;
+}
+
+.menu-button.Button:not(.Button_loading):hover,
+.menu-button.Button:not(:disabled):hover,
+.menu-button.Button:not(:disabled):not(.Button_loading):hover {
+  box-shadow: none;
 }
