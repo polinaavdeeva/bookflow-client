@@ -15,3 +15,36 @@
     text-align: left;
     color: #8A92A6;
 }
+
+.image-editor {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .image-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .image {
+    width: 40vw;
+    height: 30vh;
+    background-color: #f0f0f0;
+    margin-right: 10px;
+  }
+  
+  .file-input {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background: #674188;
+    color: white;
+    border-radius: 20px;
+    text-align: center;
+    width: "max-content";  
+  }
+
+  #file-input {
+    display: none;
+  }

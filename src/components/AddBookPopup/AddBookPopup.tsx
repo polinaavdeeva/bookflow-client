@@ -128,7 +128,7 @@ const AddBookPopup: FC<IAddBookProps> = ({
                     display: inline-block;
                     padding: 6px 12px;
                     cursor: pointer;
-                    background-color: brown;
+                    background-color: #674188;
                     color: white;
                     border-radius: 4px;
                     text-align: center;
