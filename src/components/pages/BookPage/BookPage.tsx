@@ -73,9 +73,9 @@ const BookPage: FC<IBook> = ({
     try {
       await BookServices.getBookById(bookId).then((resp)=>{
         setBookInfo(resp)
-        // userApi.getUserById(resp.owner).then((res)=>{
-        //   setOwnerInfo(res.user)
-        // })
+        userApi.getUserById(resp.owner).then((res)=>{
+           setOwnerInfo(res.user)
+        })
       }  
       );
     } catch (error) {

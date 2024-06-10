@@ -86,7 +86,7 @@ class UserApi {
   }
 
   getUserById(id: string): Promise<any> {
-    return fetch(`${this._baseUrl}/users/user/${id}`, {
+    return fetch(`${this._baseUrl}/users/${id}`, {
       headers: {
         "Content-Type": "application/json",
       },
