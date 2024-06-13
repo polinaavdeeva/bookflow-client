@@ -102,6 +102,25 @@ class BookServices {
       console.error('There was a problem with the upload operation:', error);
     }
   }
+
+  static receiveBook = async (bookId: string) => {
+    const baseUrl = "http://localhost:4000";
+
+    try {
+      const response = await fetch(`${baseUrl}/books/receive`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ bookId }),
+      });
+
+      const data = await response.json();
+    } catch (err) {
+      console.error(err);
+    }
+  }
 }
+
 
 export default BookServices;
