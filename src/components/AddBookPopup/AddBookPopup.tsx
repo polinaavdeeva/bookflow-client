@@ -72,7 +72,7 @@ const AddBookPopup: FC<IAddBookProps> = ({
           rating: 0,
           //image: image,
           postingDate: postingDate.toString(),
-          owner: currentUser?._id,
+          owner: [currentUser?._id],
       }),
       });
 

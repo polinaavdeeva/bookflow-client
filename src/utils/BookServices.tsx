@@ -103,16 +103,18 @@ class BookServices {
     }
   }
 
-  static receiveBook = async (bookId: string) => {
+  static receiveBook = async (bookId: any, ownerId: any) => {
     const baseUrl = "http://localhost:4000";
+    const token = localStorage.getItem("token");
 
     try {
       const response = await fetch(`${baseUrl}/books/receive`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ bookId }),
+          body: JSON.stringify({ bookId, ownerId }),
       });
 
       const data = await response.json();
@@ -120,6 +122,31 @@ class BookServices {
       console.error(err);
     }
   }
+
+  static getAllReceivedBooks = async () => {
+    const baseUrl = "http://localhost:4000";
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`${baseUrl}/books/receivedMy`, {
+        method: 'GET',
+        headers: {
+          authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+  
+      const books = await response.json();
+      return books;
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+      throw error;
+    }
+  };
 }
 
 

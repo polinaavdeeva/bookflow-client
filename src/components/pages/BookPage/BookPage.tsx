@@ -37,7 +37,8 @@ type Book ={
 type UserInfo = {
   name: string,
   lastName: string,
-  rating: number
+  rating: number,
+  _id: string
 }
 
 interface IBook {
@@ -75,7 +76,7 @@ const BookPage: FC<IBook> = ({
         setBookInfo(resp)
         userApi.getUserById(resp.owner).then((res)=>{
            setOwnerInfo(res.user)
-        })
+        }).catch(()=>console.log("something is wrong"))
       }  
       );
     } catch (error) {
@@ -108,7 +109,7 @@ const BookPage: FC<IBook> = ({
 
   useEffect(() => {
     getComments();
-  }, [commentList]);
+  }, []);
 
   const addComment = (text: string, stars: number) => {
     const com = {
@@ -259,6 +260,7 @@ const BookPage: FC<IBook> = ({
               onClick={() => setIsBooksOpen(!isBooksOpen)}
             >
               <Layout direction="column" style={{ paddingLeft: 30 }}>
+                {ownerInfo &&
 
                 <Layout direction="row" style={{ marginBottom: 10 }}>
                   {isLoggedIn ? (
@@ -276,7 +278,15 @@ const BookPage: FC<IBook> = ({
                   <Text className="item-text" style={{ paddingLeft: 20 }}>
                     <StarIcon></StarIcon> {ownerInfo?.rating}
                   </Text>
+                  <Button 
+                    label="получить" 
+                    onClick={()=>BookServices.receiveBook(bookId, ownerInfo?._id)}
+                    size="xs"
+                    style={{ marginLeft: 20, marginTop: 5, background: "#674188"}}
+                    form="round"
+                  />
                 </Layout>
+              }
  
               </Layout>
             </Collapse>

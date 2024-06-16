@@ -28,6 +28,7 @@ const MyBooksPage: FC<IMyBooksProps> = ({ addBook }) => {
   const { currentUser, setCurrentUser } = React.useContext(CurrentUserContext);
   const items: string[] = ["Мои книги на обмен", "Полученные при обмене"];
   const [myBooks, setMyBooks] = useState<any[]>([]);
+  const [myReceivedBooks, setMyReceivedBooks] = useState<any[]>([]);
 
   const getItemLabel = (label: string) => label;
 
@@ -48,6 +49,26 @@ const MyBooksPage: FC<IMyBooksProps> = ({ addBook }) => {
           booksArr.push(book)
         })
         setMyBooks(booksArr)
+      })
+      .catch((error) => {
+        console.error("Ошибка при получении книг пользователя:", error);
+      });
+
+      BookServices.getAllReceivedBooks().then((data) => {
+        let booksArr = new Array
+        data.map((el: any)=>{
+          const book: Book = {
+            name: el.name,
+            description: el.description,
+            image: el.image,
+            author: el.author,
+            rating: el.rating,
+            id: el._id,
+            postingDate: el.postingDate
+          }
+          booksArr.push(book)
+        })
+        setMyReceivedBooks(booksArr)
       })
       .catch((error) => {
         console.error("Ошибка при получении книг пользователя:", error);
@@ -111,9 +132,12 @@ const MyBooksPage: FC<IMyBooksProps> = ({ addBook }) => {
             })}
           </div>
         ) : (
-          <div
-            style={{ height: "80%  ", width: "100%", overflowY: "auto" }}
-          ></div>
+          <div style={{ height: "80%  ", width: "100%", overflowY: "auto" }}>
+            {myReceivedBooks.map((book: any) => {
+              console.log(book)
+              return <BookCard bookData={book}></BookCard>;
+            })}
+          </div>
         )}
       </Card>
     </Layout>

@@ -86,11 +86,11 @@ class UserApi {
   }
 
   getUserById(id: string): Promise<any> {
-    return fetch(`${this._baseUrl}/users/${id}`, {
+    return fetch(`${this._baseUrl}/superusers/${id}`, {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then(this._checkResponse);
+    }).then(this._checkResponse).catch(()=>console.log("err in superusers"));
   }
 }
 
