@@ -90,7 +90,7 @@ class UserApi {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then(this._checkResponse);
+    }).then(this._checkResponse).catch(()=>console.log("err in superusers"));
   }
 }
 
