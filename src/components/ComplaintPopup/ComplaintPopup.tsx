@@ -1,43 +1,71 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import "./ComplaintPopup.scss";
 import { Button } from "@consta/uikit/Button";
+import { complaintApi } from "../../utils/ComplaintApi";
+import { useLocation } from "react-router-dom";
 
 interface IComplaintProps {
   isOpen: boolean;
   onClose: () => void;
+  userId: string | undefined;
 }
 
 const ComplaintPopup: FC<IComplaintProps> = ({
   isOpen,
   onClose,
+  userId,
 }): React.ReactElement => {
-  const [reason, setReason] = React.useState<string>("");
+  const [reason, setReason] = useState<string>("Аккаунт пользователя");
+  const [text, setText] = useState<string>("");
+
+  const location = useLocation();
+  const [bookId, setBookId] = useState<string | null>(null);
+
+  const resetForm = () => {
+    setReason("Аккаунт пользователя");
+    setText("");
+  };
+
+  const handleClose = () => {
+    resetForm();
+    onClose();
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
+      resetForm();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const bookIdFromURL = params.get("id");
+    setBookId(bookIdFromURL);
+  }, [location]);
 
   const handleReasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setReason(event.target.value);
   };
 
-  type Item = {
-    label: string;
-    id: number;
+  const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(event.target.value);
   };
 
-  const items: Item[] = [
-    {
-      label: "Аккаунт пользователя",
-      id: 1,
-    },
-    {
-      label: "Некорректный отзыв",
-      id: 2,
-    },
-    {
-      label: "Неправильное заполнение карточки книги",
-      id: 3,
-    },
-  ];
-
-  const [value, setValue] = useState<Item | null>();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (reason && text) {
+      complaintApi
+        .addComplaints({ reason, text, userId, bookId })
+        .then((data) => {
+          resetForm();
+          setText("");
+          onClose();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
 
   return (
     <section className={`popup ${isOpen ? "popup_opened" : ""}`}>
@@ -45,7 +73,7 @@ const ComplaintPopup: FC<IComplaintProps> = ({
         <button
           className="popup__close-button"
           type="button"
-          onClick={onClose}
+          onClick={handleClose}
         ></button>
         <h2 className="popup__title">Пожаловаться</h2>
 
@@ -68,16 +96,18 @@ const ComplaintPopup: FC<IComplaintProps> = ({
 
         <div className="popup__form-container">
           <p className="popup__subtitle">Опишите проблему</p>
-          <form className="popup__form-feedback ">
+          <form className="popup__form-feedback " onSubmit={handleSubmit}>
             <textarea
               className="popup__feedback-input"
               id="annotation"
               placeholder="..."
+              onChange={handleTextChange}
             ></textarea>
             <Button
               className="popup__add-button"
               label="Отправить"
               form="round"
+              type="submit"
             />
           </form>
         </div>

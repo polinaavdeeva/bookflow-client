@@ -1,25 +1,53 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import "./ComplaintPage.scss";
+import { complaintApi } from "../../../utils/ComplaintApi";
 import Complaint from "../../Complaint/Complaint";
 
+interface ComplaintData {
+  _id: string;
+  userId: string;
+  reason: string;
+  text: string;
+  userName: string;
+  bookId: string;
+}
+
 const ComplaintPage: FC = (): React.ReactElement => {
-  const [componentCount, setComponentCount] = useState(1);
+  const [complaints, setComplaints] = useState<ComplaintData[]>([]);
 
-  const addComponent = () => {
-    setComponentCount(componentCount + 1);
-  };
+  useEffect(() => {
+    complaintApi
+      .getAllComplaints()
+      .then((data) => {
+        setComplaints(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
-  const removeComponent = () => {
-    setComponentCount(componentCount - 1);
+  const handleDelete = (id: string) => {
+    setComplaints((prevComplaints) =>
+      prevComplaints.filter((complaint) => complaint._id !== id)
+    );
   };
 
   return (
     <section className="complaint-page">
-      {componentCount > 0 ? (
+      {complaints.length > 0 ? (
         <>
           <h2 className="complaint-page__title">Новые сообщения с жалобами</h2>
-          <Complaint></Complaint>
-          <Complaint></Complaint>
+          {complaints.map((complaint) => (
+            <Complaint
+              key={complaint._id}
+              id={complaint._id}
+              reason={complaint.reason}
+              text={complaint.text}
+              userId={complaint.userId}
+              onDelete={handleDelete}
+              bookId={complaint.bookId}
+            />
+          ))}
         </>
       ) : (
         <h2 className="complaint-page__title">
