@@ -1,7 +1,7 @@
 import { Button } from "@consta/uikit/Button";
 import { TextField } from "@consta/uikit/TextField";
-import React, { FC, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Импортируем useHistory из react-router-dom
+import React, { FC, useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.png";
 import "./SignIn.scss";
 import { auth } from "../../../utils/Auth";

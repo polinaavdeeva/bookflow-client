@@ -178,6 +178,7 @@ const App: FC = (): React.ReactElement => {
           <ComplaintPopup
             isOpen={isComplaintPopupOpen}
             onClose={closeAllPopups}
+            userId={currentUser?._id}
           />
         </>
       </Theme>

@@ -1,45 +1,80 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import "./Complaint.scss";
 import { Button } from "@consta/uikit/Button";
 import { User } from "@consta/uikit/User";
 import defailtPhoto from "../../assets/аватарка_по-умолчанию.png";
+import { complaintApi } from "../../utils/ComplaintApi";
+import { useNavigate } from "react-router-dom";
 
-const Complaint: FC = (): React.ReactElement => {
+interface IComplaintProps {
+  id: string;
+  reason: string;
+  text: string;
+  userId: string;
+  onDelete: (id: string) => void;
+  bookId: string;
+}
+
+const Complaint: FC<IComplaintProps> = ({
+  id,
+  reason,
+  text,
+  userId,
+  onDelete,
+  bookId,
+}): React.ReactElement => {
+  const [userName, setUserName] = useState<string>("");
+  const [userLastName, setUserLastName] = useState<string>("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    complaintApi
+      .getUserById(userId)
+      .then((res) => {
+        const user = res.user;
+        setUserName(user.name);
+        setUserLastName(user.lastName);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  const handleDelete = () => {
+    complaintApi
+      .deleteComplaint(id)
+      .then(() => {
+        onDelete(id);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleGoToSource = () => {
+    navigate(`/book?id=${bookId}`);
+  };
+
   return (
     <section className="complaint">
-      <p className="complaint__title">Неправильно заполение карточки</p>
+      <p className="complaint__title">{reason}</p>
       <div className="complaint__container-info">
-        <User avatarUrl={defailtPhoto} name="Ирина Кислова" />
-        <p className="complaint__text">
-          Но высококачественный прототип будущего проекта прекрасно подходит для
-          реализации экспериментов, поражающих по своей масштабности и
-          грандиозности. Есть над чем задуматься: сторонники тоталитаризма в
-          науке формируют глобальную экономическую сеть и при этом — объективно
-          рассмотрены соответствующими инстанциями. В рамках спецификации
-          современных стандартов, многие известные личности ассоциативно
-          распределены по отраслям. С другой стороны, курс на
-          социально-ориентированный национальный проект, в своём классическом
-          представлении, допускает внедрение стандартных подходов. Лишь
-          реплицированные с зарубежных источников, современные исследования и по
-          сей день остаются уделом либералов, которые жаждут быть функционально
-          разнесены на независимые элементы. Разнообразный и богатый опыт
-          говорит нам, что реализация намеченных плановых заданий прекрасно
-          подходит для реализации поэтапного и последовательного развития
-          общества. А также непосредственные участники технического прогресса
-          неоднозначны и буд
-        </p>
+        <User avatarUrl={defailtPhoto} name={`${userName} ${userLastName}`} />
+        <p className="complaint__text">{text}</p>
         <div className="complaint__button-container">
           <Button
             className="complaint__button"
             label="Перейти к источнику"
             form="round"
             size="s"
+            onClick={handleGoToSource}
           />
           <Button
             className="complaint__button"
             label="Просмотрено"
             form="round"
             size="s"
+            onClick={handleDelete}
           />
         </div>
       </div>
