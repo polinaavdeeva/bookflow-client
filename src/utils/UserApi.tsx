@@ -47,7 +47,7 @@ class UserApi {
     }).then(this._checkResponse);
   }
 
-  sendRating(userId: string, rating: number): Promise<any> {
+  sendRating(userId: string | undefined, rating: number): Promise<any> {
     const token = localStorage.getItem("token");
     return fetch(`${this._baseUrl}/users/${userId}/rating`, {
       method: "POST",
@@ -90,7 +90,9 @@ class UserApi {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then(this._checkResponse).catch(()=>console.log("err in superusers"));
+    })
+      .then(this._checkResponse)
+      .catch(() => console.log("err in superusers"));
   }
 }
 

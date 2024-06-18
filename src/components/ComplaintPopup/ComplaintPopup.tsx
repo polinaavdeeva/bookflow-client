@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import "./ComplaintPopup.scss";
 import { Button } from "@consta/uikit/Button";
 import { complaintApi } from "../../utils/ComplaintApi";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 interface IComplaintProps {
   isOpen: boolean;
@@ -15,8 +15,10 @@ const ComplaintPopup: FC<IComplaintProps> = ({
   onClose,
   userId,
 }): React.ReactElement => {
+  const { id } = useParams<{ id: string }>();
   const [reason, setReason] = useState<string>("Аккаунт пользователя");
   const [text, setText] = useState<string>("");
+  const [idFromLocation, setIdFromLocation] = useState<string | null>(null);
 
   const location = useLocation();
   const [bookId, setBookId] = useState<string | null>(null);
@@ -43,6 +45,13 @@ const ComplaintPopup: FC<IComplaintProps> = ({
     setBookId(bookIdFromURL);
   }, [location]);
 
+  useEffect(() => {
+    const pathname = location.pathname;
+    const lastIndex = pathname.lastIndexOf("/");
+    const id = pathname.substring(lastIndex + 1);
+    setIdFromLocation(id);
+  }, [location]);
+
   const handleReasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setReason(event.target.value);
   };
@@ -55,10 +64,17 @@ const ComplaintPopup: FC<IComplaintProps> = ({
     event.preventDefault();
     if (reason && text) {
       complaintApi
-        .addComplaints({ reason, text, userId, bookId })
+        .addComplaints({
+          reason,
+          text,
+          userId,
+          bookId,
+          id: idFromLocation || "",
+        })
         .then((data) => {
           resetForm();
           setText("");
+
           onClose();
         })
         .catch((error) => {

@@ -13,6 +13,7 @@ interface IComplaintProps {
   userId: string;
   onDelete: (id: string) => void;
   bookId: string;
+  pageComplaint: string;
 }
 
 const Complaint: FC<IComplaintProps> = ({
@@ -22,6 +23,7 @@ const Complaint: FC<IComplaintProps> = ({
   userId,
   onDelete,
   bookId,
+  pageComplaint,
 }): React.ReactElement => {
   const [userName, setUserName] = useState<string>("");
   const [userLastName, setUserLastName] = useState<string>("");
@@ -52,7 +54,11 @@ const Complaint: FC<IComplaintProps> = ({
   };
 
   const handleGoToSource = () => {
-    navigate(`/book?id=${bookId}`);
+    if (pageComplaint && pageComplaint.trim() !== "") {
+      navigate(`/profile/${pageComplaint}`);
+    } else {
+      navigate(`/book?id=${bookId}`);
+    }
   };
 
   return (

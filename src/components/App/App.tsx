@@ -13,6 +13,7 @@ import DeletePopup from "../DeletePopup/DeletePopup";
 import ComplaintPopup from "../ComplaintPopup/ComplaintPopup";
 import ComplaintPage from "../pages/ComplaintPage/ComplaintPage";
 import ResultBooks from "../ResultBooks/ResultBooks";
+import OtherProfile from "../pages/Profile/OtherProfile";
 import StatisticPage from "../pages/StatisticPage/StatisticPage";
 import ProtectedRouteElement from "../ProtectedRouteElement/ProtectedRouteElement";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
@@ -157,6 +158,17 @@ const App: FC = (): React.ReactElement => {
                     addComplaint={handleComplaintPopupClick}
                     addFeedback={handleFeedbackPopupClick}
                     isLoggedIn={isLoggedIn}
+                    isAdmin={isAdmin}
+                  />
+                }
+              />
+
+              <Route
+                path="profile/:id"
+                element={
+                  <OtherProfile
+                    setDelete={handleDeletePopupClick}
+                    addComplaint={handleComplaintPopupClick}
                     isAdmin={isAdmin}
                   />
                 }
