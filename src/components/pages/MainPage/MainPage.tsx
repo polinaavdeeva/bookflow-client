@@ -112,7 +112,7 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
   //элементы управления рекламой
   const [images, setImages] = useState(['', '', '']);
   const [imageUpdated, setImageUpdated] = useState(false)
-  const baseUrl = "http://localhost:4000";
+  const baseUrl = "https://bookflow-api.vercel.app";
 
   const fetchImages = async () => {
     try {
