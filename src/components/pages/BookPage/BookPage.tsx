@@ -83,7 +83,6 @@ const BookPage: FC<IBook> = ({
         let copy: any | UserInfo[] = []
         resp.owner.map((owner: string)=>{
           userApi.getUserById(owner).then((res)=>{
-            console.log(res)
             copy?.push(res)
         }).catch(()=>console.log("something is wrong"))
         })
@@ -297,7 +296,6 @@ const BookPage: FC<IBook> = ({
                       BookServices.receiveBook(bookId, ownerInfo.user._id).then(()=>{
                         setOwnerInfoInModal(ownerInfo.user)
                         setGetBookModalOpen(true)
-                        console.log(true)
                       })
                     }
                     }
