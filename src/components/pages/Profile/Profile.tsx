@@ -5,7 +5,7 @@ import { Card } from "@consta/uikit/Card";
 import { Button } from "@consta/uikit/Button";
 import defaultAvatar from "../../../assets/аватарка_по-умолчанию.png";
 import ratingStar from "../../../assets/рейтинг.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../../../context/CurrentUserContext";
 import { userApi } from "../../../utils/UserApi";
 import { File } from "@consta/uikit/File";
@@ -15,12 +15,16 @@ interface IProfile {
   setDelete: () => void;
   addComplaint: () => void;
   isAdmin: boolean;
+  loggedOut: () => void;
+  setAdmin: () => void;
 }
 
 const Profile: FC<IProfile> = ({
   setDelete,
   addComplaint,
   isAdmin,
+  loggedOut,
+  setAdmin,
 }): React.ReactElement => {
   const { currentUser, setCurrentUser } = React.useContext(CurrentUserContext);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -44,6 +48,14 @@ const Profile: FC<IProfile> = ({
   const [avatar, setAvatar] = useState<File | null>(null);
   const [avatarUrl, setAvatarUrl] = useState("")
   const [isRatingPopupOpen, setRatingPopupOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  function logOut() {
+    localStorage.clear();
+    loggedOut();
+    setAdmin();
+    navigate("/", { replace: true });
+  }
 
   const getAvatar = async ()=>{
     await userApi.getUserAvatar(currentUser?._id).then(
@@ -400,6 +412,7 @@ const Profile: FC<IProfile> = ({
                   label="Выйти"
                   form="round"
                   size="s"
+                  onClick={logOut}
                 />
               </Link>
             </>

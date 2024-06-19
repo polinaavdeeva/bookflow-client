@@ -30,6 +30,12 @@ const SignIn: FC<ISignIn> = ({ setLogin, setAdmin }): React.ReactElement => {
     if (email === "admin@gmail.com" && password === "admin") {
       setAdmin(true);
       navigate("/");
+      auth.authorize(email, password).then((data) => {
+        localStorage.setItem("token", data.token);
+        setUserEmail(email);
+        setLogin();
+        navigate("/");
+      });
     } else {
       auth
         .authorize(email, password)

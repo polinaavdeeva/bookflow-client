@@ -10,21 +10,37 @@ import AddbookIcon from "../../assets/AddbookIcon copy";
 import ExitIcon from "../../assets/ExitIcon";
 import ComplaintIcon from "../../assets/Complaint";
 import StatisticIcon from "../../assets/StatisticIcon";
+import { useNavigate } from "react-router-dom";
 
 interface IMenuProps {
   onClick: () => void;
   loggedOut: () => void;
   isLoggedIn: boolean;
   isAdmin: boolean;
+  setAdmin: () => void;
 }
 
-const Menu: FC<IMenuProps> = ({ onClick, loggedOut, isLoggedIn, isAdmin }) => {
+const Menu: FC<IMenuProps> = ({
+  onClick,
+  loggedOut,
+  isLoggedIn,
+  isAdmin,
+  setAdmin,
+}) => {
   const [isMybooksIconDark, setIsMybooksIconDark] = useState<boolean>(true);
   const [isProfileIconDark, setIsProfileIconDark] = useState<boolean>(true);
   const [isAddBookIconDark, setIsAddBookIconDark] = useState<boolean>(true);
   const [isExitIconDark, setIsExitIconDark] = useState<boolean>(true);
   const [isComplaintIconDark, setIsComplaintIconDark] = useState<boolean>(true);
   const [isStatisticIconDark, setIsStatisticIconDark] = useState<boolean>(true);
+  const navigate = useNavigate();
+
+  function logOut() {
+    localStorage.clear();
+    loggedOut();
+    setAdmin();
+    navigate("/", { replace: true });
+  }
 
   return (
     <div className="menu-vertical">
@@ -181,7 +197,7 @@ const Menu: FC<IMenuProps> = ({ onClick, loggedOut, isLoggedIn, isAdmin }) => {
           }}
           onMouseEnter={() => setIsExitIconDark(false)}
           onMouseLeave={() => setIsExitIconDark(true)}
-          onClick={loggedOut}
+          onClick={logOut}
         ></Button>
       </Link>
     </div>

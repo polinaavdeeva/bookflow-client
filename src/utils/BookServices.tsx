@@ -1,12 +1,4 @@
 class BookServices {
-  private _checkResponse(response: Response) {
-    if (response.ok) {
-      return response.json();
-    } else {
-      return Promise.reject({ status: response.status, res: response });
-    }
-  }
-
   static async getBooksByOwner(owner: string): Promise<any> {
     try {
       const token = localStorage.getItem("token");
@@ -39,14 +31,14 @@ class BookServices {
           "Content-Type": "application/json",
         },
       });
-  
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
-  
+
       return await response.json();
     } catch (error) {
-      console.error('Error fetching the book:', error);
+      console.error("Error fetching the book:", error);
     }
   };
 
@@ -63,45 +55,45 @@ class BookServices {
     }
   };
 
- static getBookImage = async (bookId: any) => {
+  static getBookImage = async (bookId: any) => {
     const baseUrl = "http://localhost:4000";
     //const token = localStorage.getItem("token");
     return fetch(`${baseUrl}/books/image?bookId=${bookId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-      }
-    }).then(response => {
+      },
+    }).then((response) => {
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
       return response.blob();
     });
-  }
+  };
 
   static uploadBookImage = async (imageFile: any, bookId: any) => {
     const baseUrl = "http://localhost:4000";
     const formData = new FormData();
     formData.append("image", imageFile);
     formData.append("_id", bookId);
-    console.log(bookId)
+    console.log(bookId);
 
     try {
       const response = await fetch(`${baseUrl}/books/image`, {
-        method: 'POST',
+        method: "POST",
         body: formData,
       });
-  
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
-  
+
       const result = await response.json();
-      console.log('Upload successful:', result);
+      console.log("Upload successful:", result);
     } catch (error) {
-      console.error('There was a problem with the upload operation:', error);
+      console.error("There was a problem with the upload operation:", error);
     }
-  }
+  };
 
   static receiveBook = async (bookId: any, ownerId: any) => {
     const baseUrl = "http://localhost:4000";
@@ -109,19 +101,19 @@ class BookServices {
 
     try {
       const response = await fetch(`${baseUrl}/books/receive`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ bookId, ownerId }),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ bookId, ownerId }),
       });
 
       const data = await response.json();
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   static getAllReceivedBooks = async () => {
     const baseUrl = "http://localhost:4000";
@@ -129,21 +121,21 @@ class BookServices {
 
     try {
       const response = await fetch(`${baseUrl}/books/receivedMy`, {
-        method: 'GET',
+        method: "GET",
         headers: {
           authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       });
-  
+
       if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
+        throw new Error("Network response was not ok " + response.statusText);
       }
-  
+
       const books = await response.json();
       return books;
     } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
+      console.error("There was a problem with the fetch operation:", error);
       throw error;
     }
   };
@@ -154,27 +146,47 @@ class BookServices {
 
     try {
       const response = await fetch(`${baseUrl}/existingBooks`, {
-        method: 'POST',
+        method: "POST",
         headers: {
           authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }, 
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ book_id }),
       });
-  
+
       if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
+        throw new Error("Network response was not ok " + response.statusText);
       }
-  
+
       const books = await response.json();
       return books;
     } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
+      console.error("There was a problem with the fetch operation:", error);
       throw error;
     }
-  }
+  };
 
+  static deleteBook = (bookId: string) => {
+    const token = localStorage.getItem("token");
+    return fetch(`http://localhost:4000/books/${bookId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Ошибка при удалении книги");
+        }
+        return response.json();
+      })
+      .then((data) => data.message)
+      .catch((error) => {
+        console.error("Ошибка при удалении комментария:", error.message);
+        throw error;
+      });
+  };
 }
-
 
 export default BookServices;

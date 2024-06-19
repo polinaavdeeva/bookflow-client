@@ -60,7 +60,6 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
 
   function handleSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
-    console.log(email, password);
     auth
       .register(
         name,

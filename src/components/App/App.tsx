@@ -130,6 +130,7 @@ const App: FC = (): React.ReactElement => {
                   loggedOut={handleLoginOut}
                   isLoggedIn={isLoggedIn}
                   isAdmin={isAdmin}
+                  setAdmin={() => handleLoggedAdmin(false)}
                 />
               }
             >
@@ -146,6 +147,8 @@ const App: FC = (): React.ReactElement => {
                     setDelete={handleDeletePopupClick}
                     addComplaint={handleComplaintPopupClick}
                     isAdmin={isAdmin}
+                    loggedOut={handleLoginOut}
+                    setAdmin={() => handleLoggedAdmin(false)}
                   />
                 }
               />
@@ -167,7 +170,7 @@ const App: FC = (): React.ReactElement => {
                 path="profile/:id"
                 element={
                   <OtherProfile
-                    setDelete={handleDeletePopupClick}
+                    onDelete={handleDeletePopupClick}
                     addComplaint={handleComplaintPopupClick}
                     isAdmin={isAdmin}
                   />
@@ -186,7 +189,7 @@ const App: FC = (): React.ReactElement => {
             <Route path="sign-up" element={<SignUp setLogin={handleLogin} />} />
           </Routes>
           <AddBookPopup isOpen={isAddBookPopupOpen} onClose={closeAllPopups} />
-          <DeletePopup isOpen={isDeletePopupOpen} onClose={closeAllPopups} />
+
           <ComplaintPopup
             isOpen={isComplaintPopupOpen}
             onClose={closeAllPopups}
