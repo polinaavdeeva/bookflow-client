@@ -8,6 +8,7 @@ import DeleteCommentPopup from "../DeletePopup/DeleteCommentPopup";
 import { userApi } from "../../utils/UserApi";
 import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
+import defaultAvatar from "../../assets/аватарка_по-умолчанию.png";
 
 interface IComment {
   addComplaint: () => void;
@@ -24,6 +25,7 @@ const Comment: FC<IComment> = ({ addComplaint, com, isAdmin }) => {
     user: {
       name: string;
       lastName: string;
+      _id: string;
     };
   };
   const [isComplaintButtonShowed, setIsComplaintButtonShowed] = useState(false);
@@ -37,8 +39,24 @@ const Comment: FC<IComment> = ({ addComplaint, com, isAdmin }) => {
     });
   };
 
+  const [avatarUrl, setAvatarUrl] = useState("")
+  
+  const getAvatar = async ()=>{
+    await userApi.getUserAvatar(com.author).then(
+      (resp)=>{
+        const avUrl= URL.createObjectURL(resp);    
+        if (resp.type !== 'application/json'){
+          setAvatarUrl(avUrl)
+        } else {
+          setAvatarUrl("")
+        }
+      }
+    )
+  }
+
   useEffect(() => {
     getUserInfo();
+    getAvatar();
   }, [com]);
 
   return (
@@ -48,7 +66,7 @@ const Comment: FC<IComment> = ({ addComplaint, com, isAdmin }) => {
         onClose={() => setIsDeletePopupOpen(false)}
       ></DeleteCommentPopup>
       <Layout direction="row" style={{ marginBottom: 10 }}>
-        <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
+        <Avatar url={avatarUrl && avatarUrl !== ""? avatarUrl: defaultAvatar}></Avatar>
         {currentUser?._id == com.author ? (
           <Link to="/myprofile">
             <Text style={{ paddingTop: 7, paddingLeft: 10 }}>

@@ -23,14 +23,16 @@ class UserApi {
     }).then(this._checkResponse);
   }
 
-  getUserAvatar(): Promise<any> {
+  getUserAvatar(userId : any): Promise<any> {
     const token = localStorage.getItem("token");
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
+    return fetch(`${this._baseUrl}/usersavatar/${userId}`, {
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${token}`,
       },
-    }).then(this._checkResponse);
+    }).then((response)=>{
+      return response.blob();
+    });
   }
 
   uploadAvatar(avatarFile: File): Promise<any> {
