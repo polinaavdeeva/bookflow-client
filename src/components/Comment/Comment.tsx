@@ -12,6 +12,7 @@ import { CurrentUserContext } from "../../context/CurrentUserContext";
 interface IComment {
   addComplaint: () => void;
   com: {
+    _id: string;
     content: string;
     stars: number;
     author: string;
@@ -44,6 +45,7 @@ const Comment: FC<IComment> = ({ addComplaint, com, isAdmin }) => {
   return (
     <Layout direction="column" style={{ width: "100%", marginBottom: 20 }}>
       <DeleteCommentPopup
+        commentId={com._id}
         isOpen={isDeletePopupOpen}
         onClose={() => setIsDeletePopupOpen(false)}
       ></DeleteCommentPopup>

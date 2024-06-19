@@ -8,21 +8,23 @@ import defaultAvatar from "../../../assets/аватарка_по-умолчан�
 import ratingStar from "../../../assets/рейтинг.png";
 import { userApi } from "../../../utils/UserApi";
 import RatingPopup from "../../RatingPopup/RatingPopup";
+import DeletePopup from "../../DeletePopup/DeletePopup";
 
 interface IOtherProfile {
-  setDelete: () => void;
+  onDelete: () => void;
   addComplaint: () => void;
   isAdmin: boolean;
 }
 
 const OtherProfile: FC<IOtherProfile> = ({
-  setDelete,
+  onDelete,
   addComplaint,
   isAdmin,
 }) => {
   const { id } = useParams<{ id: string }>();
   const [userInfo, setUserInfo] = useState<any>(null);
   const [isRatingPopupOpen, setRatingPopupOpen] = useState<boolean>(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState<boolean>(false);
 
   const fetchUserInfo = async () => {
     if (id) {
@@ -52,6 +54,11 @@ const OtherProfile: FC<IOtherProfile> = ({
         isOpen={isRatingPopupOpen}
         onClose={() => setRatingPopupOpen(false)}
       />
+      <DeletePopup
+        userId={id}
+        isOpen={isDeletePopupOpen}
+        onClose={() => setIsDeletePopupOpen(false)}
+      />
       <div className="profile__background"></div>
       <Card
         className="profile__name-container"
@@ -71,24 +78,35 @@ const OtherProfile: FC<IOtherProfile> = ({
           <span className="profile__name-role"> — Читатель</span>
         </div>
         <div className="profile__button-container">
-          <Button
-            className="profile__edit-button"
-            label="Связаться"
-            form="round"
-            onClick={handleContactClick}
-          />
-          <Button
-            className="profile__edit-button"
-            label="Оценить"
-            form="round"
-            onClick={handleRatingClick}
-          />
-          <Button
-            className="profile__edit-button"
-            label="Оставить жалобу"
-            form="round"
-            onClick={addComplaint}
-          />
+          {isAdmin ? (
+            <Button
+              className="profile__edit-button"
+              label="Удалить"
+              form="round"
+              onClick={() => setIsDeletePopupOpen(true)}
+            />
+          ) : (
+            <>
+              <Button
+                className="profile__edit-button"
+                label="Оставить жалобу"
+                form="round"
+                onClick={addComplaint}
+              />
+              <Button
+                className="profile__edit-button"
+                label="Связаться"
+                form="round"
+                onClick={handleContactClick}
+              />
+              <Button
+                className="profile__edit-button"
+                label="Оценить"
+                form="round"
+                onClick={handleRatingClick}
+              />
+            </>
+          )}
         </div>
       </Card>
       <Card

@@ -12,36 +12,37 @@ import FeedbackPopup from "../../FeedbackPopup/FeedbackPopup";
 import { Link, useSearchParams } from "react-router-dom";
 import DeleteBookPopup from "../../DeletePopup/DeleteBookPopup";
 import CorrectBookPopup from "../../AddBookPopup/CorrectBookPopup";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import BookServices from "../../../utils/BookServices";
 import { commentApi } from "../../../utils/CommentApi";
 import { User } from "@consta/uikit/User";
 import { userApi } from "../../../utils/UserApi";
 
 type comment = {
+  _id: string;
   content: string;
   stars: number;
   author: string;
 };
 
-type Book ={
-  name: string
-  description: string
-  image: string
-  author: string
-  rating: number
-  id: string
-  postingDate: string
-}
+type Book = {
+  name: string;
+  description: string;
+  image: string;
+  author: string;
+  rating: number;
+  id: string;
+  postingDate: string;
+};
 
 type UserInfo = {
   user: any;
-  name: string,
-  lastName: string,
-  rating: number,
-  _id: string,
-  email: string
-}
+  name: string;
+  lastName: string;
+  rating: number;
+  _id: string;
+  email: string;
+};
 
 interface IBook {
   addComplaint: () => void;
@@ -63,34 +64,35 @@ const BookPage: FC<IBook> = ({
   const [isCorrectBookOpen, setIsCorrectBookOpen] = useState<boolean>(false);
   const [isComplaintBookButtonShowed, setIsComplaintBookButtonShowed] =
     useState(false);
-  
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const bookId = searchParams.get('id')
+  const bookId = searchParams.get("id");
   const [bookInfo, setBookInfo] = useState<Book>();
-  const [imageSrc, setImageSrc] = useState("")
+  const [imageSrc, setImageSrc] = useState("");
   const [commentList, setCommentList] = useState<comment[]>([]);
-  const [ownersInfo, setOwnersInfo] = useState<UserInfo[]>([])
-  const [getBookModalOpen, setGetBookModalOpen] = useState(false)
-  const [ownerInfoInModal, setOwnerInfoInModal] = useState<UserInfo>()
+  const [ownersInfo, setOwnersInfo] = useState<UserInfo[]>([]);
+  const [getBookModalOpen, setGetBookModalOpen] = useState(false);
+  const [ownerInfoInModal, setOwnerInfoInModal] = useState<UserInfo>();
 
   const findBookInfo = async () => {
-    setOwnersInfo([])
+    setOwnersInfo([]);
     try {
-      await BookServices.getBookById(bookId).then((resp)=>{
-        setOwnersInfo([])
-        setBookInfo(resp)
-        let copy: any | UserInfo[] = []
-        resp.owner.map((owner: string)=>{
-          userApi.getUserById(owner).then((res)=>{
-            copy?.push(res)
-        }).catch(()=>console.log("something is wrong"))
-        })
-        setOwnersInfo(copy)
-      }  
-      );
+      await BookServices.getBookById(bookId).then((resp) => {
+        setOwnersInfo([]);
+        setBookInfo(resp);
+        let copy: any | UserInfo[] = [];
+        resp.owner.map((owner: string) => {
+          userApi
+            .getUserById(owner)
+            .then((res) => {
+              copy?.push(res);
+            })
+            .catch(() => console.log("something is wrong"));
+        });
+        setOwnersInfo(copy);
+      });
     } catch (error) {
-      console.error('Error fetching the image:', error);
+      console.error("Error fetching the image:", error);
     }
   };
 
@@ -100,17 +102,16 @@ const BookPage: FC<IBook> = ({
       const imageUrl = URL.createObjectURL(imageBlob);
       setImageSrc(imageUrl);
     } catch (error) {
-      console.error('Error fetching the image:', error);
+      console.error("Error fetching the image:", error);
     }
   };
 
   const getComments = async () => {
-    await commentApi.getAllCommentsForBook(bookId).then((resp)=>{
-      setCommentList(resp)
-    })
-  }
+    await commentApi.getAllCommentsForBook(bookId).then((resp) => {
+      setCommentList(resp);
+    });
+  };
 
-  
   useEffect(() => {
     findBookInfo();
     fetchImage();
@@ -123,9 +124,10 @@ const BookPage: FC<IBook> = ({
 
   const addComment = (text: string, stars: number) => {
     const com = {
+      _id: "comment_id",
       content: text,
       stars: stars,
-      author: "author"
+      author: "author",
     };
     let copy = commentList;
     copy.push(com);
@@ -140,9 +142,16 @@ const BookPage: FC<IBook> = ({
         addComment={addComment}
         bookId={bookId}
       ></FeedbackPopup>
-      <DeleteBookPopup isOpen={isDeleteBookOpen} onClose={()=>setIsDeleteBookOpen(false)}/>
-      <CorrectBookPopup isOpen={isCorrectBookOpen} onClose={()=>setIsCorrectBookOpen(false)}/>
-      
+      <DeleteBookPopup
+        bookId={bookId}
+        isOpen={isDeleteBookOpen}
+        onClose={() => setIsDeleteBookOpen(false)}
+      />
+      <CorrectBookPopup
+        isOpen={isCorrectBookOpen}
+        onClose={() => setIsCorrectBookOpen(false)}
+      />
+
       <div className="background"></div>
       <Card
         style={{ height: "100%" }}
@@ -168,41 +177,36 @@ const BookPage: FC<IBook> = ({
                 Название книги
               </Text>
               <Layout style={{ width: "100%" }}></Layout>
-              {isComplaintBookButtonShowed ?
-                (!isAdmin? 
-                <Button
-                  label="Оставить жалобу"
-                  size="xs"
-                  onMouseLeave={() => setIsComplaintBookButtonShowed(false)}
-                  style={{ marginLeft: -20, background: "#674188"}}
-                  form="round"
-                  onClick={addComplaint}
-                  disabled={!isLoggedIn}
-                  className="book__comment"
-                  /> 
-                   : 
-                   (<Layout direction="column" onMouseLeave={() => setIsComplaintBookButtonShowed(false)} style={{marginTop: -15}}>
-                      <Button
-                      label="Редактировать"
-                      size="xs"
-                      style={{ marginLeft: 0, background: "#674188", marginBottom: 5}}
-                      form="round"
-                      onClick={()=>setIsCorrectBookOpen(true)}
-                      disabled={!isLoggedIn}
-                      className="book__comment"
-                      /> 
-                      <Button
+              {isComplaintBookButtonShowed ? (
+                !isAdmin ? (
+                  <Button
+                    label="Оставить жалобу"
+                    size="xs"
+                    onMouseLeave={() => setIsComplaintBookButtonShowed(false)}
+                    style={{ marginLeft: -20, background: "#674188" }}
+                    form="round"
+                    onClick={addComplaint}
+                    disabled={!isLoggedIn}
+                    className="book__comment"
+                  />
+                ) : (
+                  <Layout
+                    direction="column"
+                    onMouseLeave={() => setIsComplaintBookButtonShowed(false)}
+                    style={{ marginTop: -15 }}
+                  >
+                    <Button
                       label="Удалить"
                       size="xs"
-                      style={{ marginLeft: 0, background: "#674188"}}
+                      style={{ marginLeft: 0, background: "#674188" }}
                       form="round"
                       disabled={!isLoggedIn}
-                      onClick={()=>setIsDeleteBookOpen(true)}
+                      onClick={() => setIsDeleteBookOpen(true)}
                       className="book__comment"
-                      /> 
-                   </Layout>)
+                    />
+                  </Layout>
                 )
-               : 
+              ) : (
                 <Button
                   size="xs"
                   label="⋮"
@@ -211,7 +215,7 @@ const BookPage: FC<IBook> = ({
                   style={{ marginLeft: 145, fontSize: 25 }}
                   onMouseEnter={() => setIsComplaintBookButtonShowed(true)}
                 />
-              }
+              )}
             </Layout>
 
             <Text className="item-text">{bookInfo?.name}</Text>
@@ -228,7 +232,7 @@ const BookPage: FC<IBook> = ({
             <br />
             <br />
             <Text className="item-label">Аннотация</Text>
-            <Text className="item-text" style={{width: "60vw"}}>
+            <Text className="item-text" style={{ width: "60vw" }}>
               {bookInfo?.description}
             </Text>
             <br />
@@ -246,7 +250,11 @@ const BookPage: FC<IBook> = ({
                   )}
                   {commentList.map((el) => {
                     return (
-                      <Comment com={el} addComplaint={addComplaint} isAdmin={isAdmin}></Comment>
+                      <Comment
+                        com={el}
+                        addComplaint={addComplaint}
+                        isAdmin={isAdmin}
+                      ></Comment>
                     );
                   })}
                 </Layout>
@@ -260,7 +268,6 @@ const BookPage: FC<IBook> = ({
                 disabled={!isLoggedIn || isAdmin}
                 className="book__comment"
               ></Button>
-                
             </Layout>
 
             <Collapse
@@ -271,42 +278,47 @@ const BookPage: FC<IBook> = ({
             >
               <Layout direction="column" style={{ paddingLeft: 30 }}>
                 {ownersInfo?.map((ownerInfo) => {
-                
-              return(
+                  return (
+                    <Layout direction="row" style={{ marginBottom: 10 }}>
+                      {isLoggedIn ? (
+                        <Link to="/myprofile">
+                          <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
+                        </Link>
+                      ) : (
+                        <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
+                      )}
 
-                <Layout direction="row" style={{ marginBottom: 10}}>
-                  {isLoggedIn ? (
-                    <Link to="/myprofile">
-                      <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
-                    </Link>
-                  ) : (
-                    <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
-                  )}
-
-                  <Text style={{ paddingTop: 7, paddingLeft: 15, width: 140 }}>
-                    {" "}
-                    {ownerInfo.user.name + " " + ownerInfo.user.lastName}
-                  </Text>
-                  <Text className="item-text" style={{ paddingLeft: 20 }}>
-                    <StarIcon></StarIcon> {ownerInfo.user.rating}
-                  </Text>
-                  <Button 
-                    label="получить" 
-                    onClick={()=>{  
-                      BookServices.receiveBook(bookId, ownerInfo.user._id).then(()=>{
-                        setOwnerInfoInModal(ownerInfo.user)
-                        setGetBookModalOpen(true)
-                      })
-                    }
-                    }
-                    size="xs"
-                    style={{ marginLeft: 10, marginTop: 5, background: "#674188"}}
-                    form="round"
-                  />
-                </Layout>
-              )
-            })}
- 
+                      <Text
+                        style={{ paddingTop: 7, paddingLeft: 15, width: 140 }}
+                      >
+                        {" "}
+                        {ownerInfo.user.name + " " + ownerInfo.user.lastName}
+                      </Text>
+                      <Text className="item-text" style={{ paddingLeft: 20 }}>
+                        <StarIcon></StarIcon> {ownerInfo.user.rating}
+                      </Text>
+                      <Button
+                        label="получить"
+                        onClick={() => {
+                          BookServices.receiveBook(
+                            bookId,
+                            ownerInfo.user._id
+                          ).then(() => {
+                            setOwnerInfoInModal(ownerInfo.user);
+                            setGetBookModalOpen(true);
+                          });
+                        }}
+                        size="xs"
+                        style={{
+                          marginLeft: 10,
+                          marginTop: 5,
+                          background: "#674188",
+                        }}
+                        form="round"
+                      />
+                    </Layout>
+                  );
+                })}
               </Layout>
             </Collapse>
           </Layout>
@@ -314,19 +326,28 @@ const BookPage: FC<IBook> = ({
       </Card>
 
       <section className={`popup ${getBookModalOpen ? "popup_opened" : ""}`}>
-        <div className="popup__container" style={{width: 600, height: 220}}> 
-            <h2 className="popup__title">Получение книги</h2>
-            <div style={{textAlign: 'center', paddingBottom: 3}}>Благодорим вас за приобретение книги.</div>
-            <div style={{textAlign: 'center', paddingBottom: 3}}>Для получения книги свяжитесь с её владельцем:</div>
-            <div style={{textAlign: 'center', paddingBottom: 30, color: "#674188"}}>{ownerInfoInModal?.email}</div>
-            <Button
-              className="popup__add-button"
-              label="Хорошо"
-              form="round"
-              onClick={()=>{setGetBookModalOpen(false)}}
-            />
-          </div>  
-
+        <div className="popup__container" style={{ width: 600, height: 220 }}>
+          <h2 className="popup__title">Получение книги</h2>
+          <div style={{ textAlign: "center", paddingBottom: 3 }}>
+            Благодорим вас за приобретение книги.
+          </div>
+          <div style={{ textAlign: "center", paddingBottom: 3 }}>
+            Для получения книги свяжитесь с её владельцем:
+          </div>
+          <div
+            style={{ textAlign: "center", paddingBottom: 30, color: "#674188" }}
+          >
+            {ownerInfoInModal?.email}
+          </div>
+          <Button
+            className="popup__add-button"
+            label="Хорошо"
+            form="round"
+            onClick={() => {
+              setGetBookModalOpen(false);
+            }}
+          />
+        </div>
       </section>
     </section>
   );

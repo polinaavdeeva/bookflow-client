@@ -54,7 +54,11 @@ const Complaint: FC<IComplaintProps> = ({
   };
 
   const handleGoToSource = () => {
-    if (pageComplaint && pageComplaint.trim() !== "") {
+    if (
+      pageComplaint &&
+      pageComplaint.trim() !== "" &&
+      pageComplaint !== "book"
+    ) {
       navigate(`/profile/${pageComplaint}`);
     } else {
       navigate(`/book?id=${bookId}`);

@@ -11,6 +11,7 @@ interface IMainLayoutProps {
   loggedOut: () => void;
   isLoggedIn: boolean;
   isAdmin: boolean;
+  setAdmin: () => void;
 }
 
 const MainLayout: FC<IMainLayoutProps> = ({
@@ -18,6 +19,7 @@ const MainLayout: FC<IMainLayoutProps> = ({
   loggedOut,
   isLoggedIn,
   isAdmin,
+  setAdmin,
 }) => {
   return (
     <Layout style={{ display: "flex", background: "#F7EFE5", height: "100%" }}>
@@ -26,6 +28,7 @@ const MainLayout: FC<IMainLayoutProps> = ({
         loggedOut={loggedOut}
         isLoggedIn={isLoggedIn}
         isAdmin={isAdmin}
+        setAdmin={setAdmin}
       />
       <Layout
         direction="column"

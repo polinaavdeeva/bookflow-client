@@ -94,6 +94,28 @@ class UserApi {
       .then(this._checkResponse)
       .catch(() => console.log("err in superusers"));
   }
+
+  deleteUser = (userId: string) => {
+    const token = localStorage.getItem("token");
+    return fetch(`${this._baseUrl}/users/${userId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Ошибка при удалении пользователя");
+        }
+        return response.json();
+      })
+      .then((data) => data.message)
+      .catch((error) => {
+        console.error("Ошибка при удалении пользователя:", error.message);
+        throw error;
+      });
+  };
 }
 
 export const userApi = new UserApi({
