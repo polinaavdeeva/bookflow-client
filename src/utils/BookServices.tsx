@@ -147,6 +147,33 @@ class BookServices {
       throw error;
     }
   };
+
+  static addBookIfExsists = async (book_id: any) => {
+    const baseUrl = "http://localhost:4000";
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`${baseUrl}/existingBooks`, {
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }, 
+        body: JSON.stringify({ book_id }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+  
+      const books = await response.json();
+      return books;
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+      throw error;
+    }
+  }
+
 }
 
 
