@@ -71,7 +71,7 @@ const BookPage: FC<IBook> = ({
   const [imageSrc, setImageSrc] = useState("")
   const [commentList, setCommentList] = useState<comment[]>([]);
   const [ownersInfo, setOwnersInfo] = useState<UserInfo[]>([])
-  const [getBookModalOpen, setGetBookModalOpen] = useState(true)
+  const [getBookModalOpen, setGetBookModalOpen] = useState(false)
   const [ownerInfoInModal, setOwnerInfoInModal] = useState<UserInfo>()
 
   const findBookInfo = async () => {
