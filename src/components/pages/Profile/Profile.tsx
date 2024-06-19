@@ -42,7 +42,21 @@ const Profile: FC<IProfile> = ({
   );
   const [isMyProfile, setIsMyProfile] = useState<boolean>(true);
   const [avatar, setAvatar] = useState<File | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState("")
   const [isRatingPopupOpen, setRatingPopupOpen] = useState<boolean>(false);
+
+  const getAvatar = async ()=>{
+    await userApi.getUserAvatar(currentUser?._id).then(
+      (resp)=>{
+        const avUrl= URL.createObjectURL(resp);    
+        if (resp.type !== 'application/json'){
+          setAvatarUrl(avUrl)
+        } else {
+          setAvatarUrl("")
+        }
+      }
+    )
+  }
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -126,6 +140,7 @@ const Profile: FC<IProfile> = ({
     setPatronymic(currentUser?.patronymic || "");
     setRegisterData(currentUser?.registrationDate || undefined);
     setRating(currentUser?.rating || null);
+    getAvatar()
   }, [currentUser]);
 
   return (
@@ -141,7 +156,8 @@ const Profile: FC<IProfile> = ({
             className="profile__avatar"
             size="l"
             name="..."
-            url={avatar ? URL.createObjectURL(avatar) : defaultAvatar}
+            // url={avatar ? URL.createObjectURL(avatar) : defaultAvatar}
+            url = {avatar ? URL.createObjectURL(avatar) : avatarUrl && avatarUrl !== "" ? avatarUrl: defaultAvatar}
           />
           <input
             type="file"

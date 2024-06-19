@@ -1,12 +1,13 @@
 import { Select } from "@consta/uikit/Select";
 import { TextField } from "@consta/uikit/TextField";
 import { User } from "@consta/uikit/User";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 import "./Header.scss";
 import React from "react";
 import defaultAvatar from "../../assets/аватарка_по-умолчанию.png";
+import { userApi } from "../../utils/UserApi";
 
 interface IHeader {
   isLoggedIn: boolean;
@@ -50,6 +51,24 @@ const Header: FC<IHeader> = ({ isLoggedIn, isAdmin }) => {
   ];
 
   const [value, setValue] = useState<Item | null>();
+
+  const [avatarUrl, setAvatarUrl] = useState("")
+  const getAvatar = async ()=>{
+    await userApi.getUserAvatar(currentUser?._id).then(
+      (resp)=>{
+        const avUrl= URL.createObjectURL(resp);    
+        if (resp.type !== 'application/json'){
+          setAvatarUrl(avUrl)
+        } else {
+          setAvatarUrl("")
+        }
+      }
+    )
+  }
+
+  useEffect(()=>{
+    getAvatar()
+  }, [currentUser])
 
   return (
     <div
@@ -103,7 +122,7 @@ const Header: FC<IHeader> = ({ isLoggedIn, isAdmin }) => {
                 />
                 <Link to="/myprofile">
                   <User
-                    avatarUrl={defaultAvatar}
+                    avatarUrl={avatarUrl && avatarUrl !== ""? avatarUrl: defaultAvatar}
                     name={`${currentUser?.name} ${currentUser?.lastName}`}
                     info="Пользователь"
                     style={{ width: 200, height: 30 }}

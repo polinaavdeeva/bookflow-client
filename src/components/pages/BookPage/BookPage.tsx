@@ -17,6 +17,7 @@ import BookServices from "../../../utils/BookServices";
 import { commentApi } from "../../../utils/CommentApi";
 import { User } from "@consta/uikit/User";
 import { userApi } from "../../../utils/UserApi";
+import defaultAvatar from "../../../assets/аватарка_по-умолчанию.png";
 
 type comment = {
   content: string;
@@ -271,16 +272,27 @@ const BookPage: FC<IBook> = ({
             >
               <Layout direction="column" style={{ paddingLeft: 30 }}>
                 {ownersInfo?.map((ownerInfo) => {
+                  
+                    let avatarUrl = ""
+                    userApi.getUserAvatar(ownerInfo._id).then(
+                        (resp)=>{
+                          const avUrl= URL.createObjectURL(resp);    
+                          if (resp.type !== 'application/json'){
+                            avatarUrl = avUrl
+                          }
+                        }
+                      )
+                    
                 
               return(
 
                 <Layout direction="row" style={{ marginBottom: 10}}>
                   {isLoggedIn ? (
                     <Link to="/myprofile">
-                      <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
+                      <Avatar url={avatarUrl && avatarUrl !== "" ? avatarUrl : defaultAvatar}></Avatar>
                     </Link>
                   ) : (
-                    <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
+                    <Avatar url={avatarUrl && avatarUrl !== "" ? avatarUrl : defaultAvatar}></Avatar>
                   )}
 
                   <Text style={{ paddingTop: 7, paddingLeft: 15, width: 140 }}>
