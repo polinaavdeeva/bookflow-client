@@ -2,9 +2,10 @@ import { FC, useEffect, useState } from "react";
 import "./Complaint.scss";
 import { Button } from "@consta/uikit/Button";
 import { User } from "@consta/uikit/User";
-import defailtPhoto from "../../assets/аватарка_по-умолчанию.png";
+import defaultPhoto from "../../assets/аватарка_по-умолчанию.png";
 import { complaintApi } from "../../utils/ComplaintApi";
 import { useNavigate } from "react-router-dom";
+import { userApi } from "../../utils/UserApi";
 
 interface IComplaintProps {
   id: string;
@@ -27,6 +28,8 @@ const Complaint: FC<IComplaintProps> = ({
 }): React.ReactElement => {
   const [userName, setUserName] = useState<string>("");
   const [userLastName, setUserLastName] = useState<string>("");
+  const [avatarUrl, setAvatarUrl] = useState("")
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,6 +43,17 @@ const Complaint: FC<IComplaintProps> = ({
       .catch((error) => {
         console.error(error);
       });
+
+    userApi.getUserAvatar(userId).then(
+        (resp)=>{
+          const avUrl= URL.createObjectURL(resp);    
+          if (resp.type !== 'application/json'){
+            setAvatarUrl(avUrl)
+          } else {
+            setAvatarUrl("")
+          }
+        }
+      )
   }, []);
 
   const handleDelete = () => {
@@ -65,11 +79,13 @@ const Complaint: FC<IComplaintProps> = ({
     }
   };
 
+
+
   return (
     <section className="complaint">
       <p className="complaint__title">{reason}</p>
       <div className="complaint__container-info">
-        <User avatarUrl={defailtPhoto} name={`${userName} ${userLastName}`} />
+        <User avatarUrl={avatarUrl && avatarUrl !== ""? avatarUrl: defaultPhoto} name={`${userName} ${userLastName}`} />
         <p className="complaint__text">{text}</p>
         <div className="complaint__button-container">
           <Button
