@@ -150,26 +150,35 @@ const Profile: FC<IProfile> = ({
         className="profile__name-container"
         form="round"
         verticalSpace="2xl"
-      >
-        <div className="profile__avatar-container">
-          <Avatar
-            className="profile__avatar"
-            size="l"
-            name="..."
-            // url={avatar ? URL.createObjectURL(avatar) : defaultAvatar}
-            url = {avatar ? URL.createObjectURL(avatar) : avatarUrl && avatarUrl !== "" ? avatarUrl: defaultAvatar}
-          />
-          <input
-            type="file"
-            accept="image/*"
-            className="profile__avatar-upload"
-            onChange={handleAvatarChange}
-          />
-          <h2 className="profile__name">
-            {currentUser?.name} {currentUser?.lastName}
-          </h2>
-          <span className="profile__name-role"> — Читатель</span>
-        </div>
+      > 
+          <div className="profile__avatar-container">
+            <Avatar
+              className="profile__avatar"
+              size="l"
+              name="..."
+              url = {avatar ? URL.createObjectURL(avatar) : avatarUrl && avatarUrl !== "" ? avatarUrl: defaultAvatar}
+            />
+            {isEditing &&
+            <div style={{paddingRight: 20}}>
+              <label htmlFor="file-avatar" className="custom-file-upload">
+                Загрузить файл
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                className="profile__avatar-upload"
+                onChange={handleAvatarChange}
+                id="file-avatar"
+                style={{display: "none"}}
+              />
+            </div>
+            }
+            <h2 className="profile__name">
+              {currentUser?.name} {currentUser?.lastName}
+            </h2>
+            <span className="profile__name-role"> — Читатель</span>
+          </div>
+
         {isAdmin ? (
           <Button
             className="profile__edit-button"
