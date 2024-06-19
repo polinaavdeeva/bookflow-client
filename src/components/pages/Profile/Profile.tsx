@@ -44,15 +44,6 @@ const Profile: FC<IProfile> = ({
   const [avatar, setAvatar] = useState<File | null>(null);
   const [isRatingPopupOpen, setRatingPopupOpen] = useState<boolean>(false);
 
-  /* useEffect(() => {
-    userApi
-      .getUserAvatar()
-      .then((data) => {})
-      .catch((error) => {
-        console.log(`Ошибка ${error}`);
-      });
-  }, []);*/
-
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setAvatar(event.target.files[0]);
@@ -124,8 +115,6 @@ const Profile: FC<IProfile> = ({
       .catch((error) => {
         console.log(error);
       });
-
-    console.log(avatar);
   }
 
   React.useEffect(() => {
@@ -141,10 +130,6 @@ const Profile: FC<IProfile> = ({
 
   return (
     <section className="profile">
-      <RatingPopup
-        isOpen={isRatingPopupOpen}
-        onClose={() => setRatingPopupOpen(false)}
-      />
       <div className="profile__background"></div>
       <Card
         className="profile__name-container"
@@ -156,7 +141,7 @@ const Profile: FC<IProfile> = ({
             className="profile__avatar"
             size="l"
             name="..."
-            url={avatar ? URL.createObjectURL(avatar) :  defaultAvatar}
+            url={avatar ? URL.createObjectURL(avatar) : defaultAvatar}
           />
           <input
             type="file"
@@ -342,14 +327,13 @@ const Profile: FC<IProfile> = ({
               <p className="profile__rating-title">Рейтинг</p>
               {isMyProfile ? (
                 <div className="profile__rating-num-container">
-                  <p className="prifile__rating-num">{rating}</p>
+                  <p className="prifile__rating-num">
+                    {rating === null ? 0 : ""}
+                  </p>
                   <img src={ratingStar} alt="Рейтинг" />
                 </div>
               ) : (
-                <div
-                  className="profile__rating-num-container"
-                  onClick={() => setRatingPopupOpen(true)}
-                >
+                <div className="profile__rating-num-container">
                   <p className="prifile__rating-num">{rating}</p>
                   <img src={ratingStar} alt="Рейтинг" />
                 </div>

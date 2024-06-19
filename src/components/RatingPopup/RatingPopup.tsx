@@ -1,10 +1,10 @@
 import React, { FC, useContext, useState } from "react";
 import "./RatingPopup.scss";
 import { Button } from "@consta/uikit/Button";
-import { CurrentUserContext } from "../../context/CurrentUserContext";
 import { userApi } from "../../utils/UserApi";
 
 interface IRatingProps {
+  userId: string | undefined;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -12,8 +12,8 @@ interface IRatingProps {
 const RatingPopup: FC<IRatingProps> = ({
   isOpen,
   onClose,
+  userId,
 }): React.ReactElement => {
-  const { currentUser, setCurrentUser } = React.useContext(CurrentUserContext);
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
 
   const handleRatingSelect = (rating: number) => {
@@ -23,9 +23,8 @@ const RatingPopup: FC<IRatingProps> = ({
   const handleRatingSubmit = () => {
     if (!selectedRating) return;
     userApi
-      .sendRating(currentUser?._id || "", selectedRating)
+      .sendRating(userId || "", selectedRating)
       .then((data) => {
-        setCurrentUser(data.user);
         onClose();
       })
       .catch((error) => {

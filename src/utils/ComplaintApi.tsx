@@ -28,6 +28,7 @@ class ComplaintApi {
     text: string;
     userId: string | undefined;
     bookId: string | null;
+    id: string;
   }) => {
     const token = localStorage.getItem("token");
     return fetch(`${this._baseUrl}/complaints`, {

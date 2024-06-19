@@ -10,6 +10,7 @@ interface ComplaintData {
   text: string;
   userName: string;
   bookId: string;
+  id: string;
 }
 
 const ComplaintPage: FC = (): React.ReactElement => {
@@ -46,6 +47,7 @@ const ComplaintPage: FC = (): React.ReactElement => {
               userId={complaint.userId}
               onDelete={handleDelete}
               bookId={complaint.bookId}
+              pageComplaint={complaint.id}
             />
           ))}
         </>
