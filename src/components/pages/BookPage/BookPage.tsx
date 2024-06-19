@@ -35,10 +35,12 @@ type Book ={
 }
 
 type UserInfo = {
+  user: any;
   name: string,
   lastName: string,
   rating: number,
-  _id: string
+  _id: string,
+  email: string
 }
 
 interface IBook {
@@ -68,15 +70,24 @@ const BookPage: FC<IBook> = ({
   const [bookInfo, setBookInfo] = useState<Book>();
   const [imageSrc, setImageSrc] = useState("")
   const [commentList, setCommentList] = useState<comment[]>([]);
-  const [ownerInfo, setOwnerInfo] = useState<UserInfo>()
+  const [ownersInfo, setOwnersInfo] = useState<UserInfo[]>([])
+  const [getBookModalOpen, setGetBookModalOpen] = useState(true)
+  const [ownerInfoInModal, setOwnerInfoInModal] = useState<UserInfo>()
 
   const findBookInfo = async () => {
+    setOwnersInfo([])
     try {
       await BookServices.getBookById(bookId).then((resp)=>{
+        setOwnersInfo([])
         setBookInfo(resp)
-        userApi.getUserById(resp.owner).then((res)=>{
-           setOwnerInfo(res.user)
+        let copy: any | UserInfo[] = []
+        resp.owner.map((owner: string)=>{
+          userApi.getUserById(owner).then((res)=>{
+            console.log(res)
+            copy?.push(res)
         }).catch(()=>console.log("something is wrong"))
+        })
+        setOwnersInfo(copy)
       }  
       );
     } catch (error) {
@@ -100,12 +111,12 @@ const BookPage: FC<IBook> = ({
     })
   }
 
-
+  
   useEffect(() => {
     findBookInfo();
     fetchImage();
     getComments();
-  }, [bookId]);
+  }, [bookId, ownerInfoInModal]);
 
   useEffect(() => {
     getComments();
@@ -142,7 +153,7 @@ const BookPage: FC<IBook> = ({
       >
         <Layout
           direction="row"
-          style={{ paddingRight: "5%", paddingLeft: "5%" }}
+          style={{ paddingRight: "0%", paddingLeft: "5%" }}
         >
           <img
             src={imageSrc}
@@ -223,10 +234,10 @@ const BookPage: FC<IBook> = ({
             </Text>
             <br />
             <br />
-            <Layout direction="row" style={{ display: "flex", width: "100%" }}>
+            <Layout direction="row" style={{ display: "flex", width: "98%" }}>
               <Collapse
                 label={<Text className="collapse-text">Отзывы</Text>}
-                style={{ width: "100%" }}
+                style={{ width: "90%" }}
                 isOpen={isCommentsOpen}
                 onClick={() => setIsCommentsOpen(!isCommentsOpen)}
               >
@@ -260,9 +271,11 @@ const BookPage: FC<IBook> = ({
               onClick={() => setIsBooksOpen(!isBooksOpen)}
             >
               <Layout direction="column" style={{ paddingLeft: 30 }}>
-                {ownerInfo &&
+                {ownersInfo?.map((ownerInfo) => {
+                
+              return(
 
-                <Layout direction="row" style={{ marginBottom: 10 }}>
+                <Layout direction="row" style={{ marginBottom: 10}}>
                   {isLoggedIn ? (
                     <Link to="/myprofile">
                       <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
@@ -271,28 +284,52 @@ const BookPage: FC<IBook> = ({
                     <Avatar url="https://www.meme-arsenal.com/memes/7f7109497d0f562446e621e8e6073453.jpg"></Avatar>
                   )}
 
-                  <Text style={{ paddingTop: 7, paddingLeft: 15 }}>
+                  <Text style={{ paddingTop: 7, paddingLeft: 15, width: 140 }}>
                     {" "}
-                    {ownerInfo?.name + " " + ownerInfo?.lastName}
+                    {ownerInfo.user.name + " " + ownerInfo.user.lastName}
                   </Text>
                   <Text className="item-text" style={{ paddingLeft: 20 }}>
-                    <StarIcon></StarIcon> {ownerInfo?.rating}
+                    <StarIcon></StarIcon> {ownerInfo.user.rating}
                   </Text>
                   <Button 
                     label="получить" 
-                    onClick={()=>BookServices.receiveBook(bookId, ownerInfo?._id)}
+                    onClick={()=>{  
+                      BookServices.receiveBook(bookId, ownerInfo.user._id).then(()=>{
+                        setOwnerInfoInModal(ownerInfo.user)
+                        setGetBookModalOpen(true)
+                        console.log(true)
+                      })
+                    }
+                    }
                     size="xs"
-                    style={{ marginLeft: 20, marginTop: 5, background: "#674188"}}
+                    style={{ marginLeft: 10, marginTop: 5, background: "#674188"}}
                     form="round"
                   />
                 </Layout>
-              }
+              )
+            })}
  
               </Layout>
             </Collapse>
           </Layout>
         </Layout>
       </Card>
+
+      <section className={`popup ${getBookModalOpen ? "popup_opened" : ""}`}>
+        <div className="popup__container" style={{width: 600, height: 220}}> 
+            <h2 className="popup__title">Получение книги</h2>
+            <div style={{textAlign: 'center', paddingBottom: 3}}>Благодорим вас за приобретение книги.</div>
+            <div style={{textAlign: 'center', paddingBottom: 3}}>Для получения книги свяжитесь с её владельцем:</div>
+            <div style={{textAlign: 'center', paddingBottom: 30, color: "#674188"}}>{ownerInfoInModal?.email}</div>
+            <Button
+              className="popup__add-button"
+              label="Хорошо"
+              form="round"
+              onClick={()=>{setGetBookModalOpen(false)}}
+            />
+          </div>  
+
+      </section>
     </section>
   );
 };
