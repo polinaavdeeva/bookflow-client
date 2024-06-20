@@ -11,6 +11,7 @@ import ExitIcon from "../../assets/ExitIcon";
 import ComplaintIcon from "../../assets/Complaint";
 import StatisticIcon from "../../assets/StatisticIcon";
 import { useNavigate } from "react-router-dom";
+import { sendMetrik } from "../../utils/metrika";
 
 interface IMenuProps {
   onClick: () => void;
@@ -41,6 +42,11 @@ const Menu: FC<IMenuProps> = ({
     setAdmin();
     navigate("/", { replace: true });
   }
+
+  const handleButtonClick = () => {
+    onClick();
+    sendMetrik("reachGoal", "ButtonAddBook");
+  };
 
   return (
     <div className="menu-vertical">
@@ -170,7 +176,7 @@ const Menu: FC<IMenuProps> = ({
             }}
             onMouseEnter={() => setIsAddBookIconDark(false)}
             onMouseLeave={() => setIsAddBookIconDark(true)}
-            onClick={onClick}
+            onClick={handleButtonClick}
             disabled={!isLoggedIn}
           ></Button>
         </>
