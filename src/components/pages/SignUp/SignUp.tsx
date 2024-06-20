@@ -7,7 +7,7 @@ import React, { FC, useState, ChangeEvent, useEffect, FormEvent } from "react";
 import logo from "../../../assets/logo.png";
 import "./SignUp.scss";
 import { auth } from "../../../utils/Auth";
-import "../../../../globalYm";
+import { sendMetrik } from "../../../utils/metrika";
 
 interface ISignIn {
   setLogin: () => void;
@@ -204,7 +204,7 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
                 className="sign-up__button"
                 type="submit"
                 onClick={() => {
-                  window.ym(97632400, "reachGoal", "ButtonSignUp");
+                  sendMetrik("reachGoal", "ButtonSignUp");
                 }}
                 label="Зарегистрироваться"
                 form="round"
