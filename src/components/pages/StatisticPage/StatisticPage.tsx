@@ -23,27 +23,33 @@ const StatisticPage: FC = () => {
   const [chartData, setChartData] = useState<Item[]>([]);
 
   const dataBooks: Item[] = [
-    { name: "Январь", month: "Количество книг в обмене", value: 50 },
-    { name: "Февраль", month: "Количество книг в обмене", value: 150 },
-    { name: "Март", month: "Количество книг в обмене", value: 300 },
-    { name: "Апрель", month: "Количество книг в обмене", value: 100 },
-    { name: "Май", month: "Количество книг в обмене", value: 200 },
+    { name: "Понедельник", month: "Количество книг в обмене", value: 0 },
+    { name: "Вторник", month: "Количество книг в обмене", value: 0 },
+    { name: "Среда", month: "Количество книг в обмене", value: 0 },
+    { name: "Четверг", month: "Количество книг в обмене", value: 3 },
+    { name: "Пятица", month: "Количество книг в обмене", value: 1 },
+    { name: "Суббота", month: "Количество книг в обмене", value: 0 },
+    { name: "Воскресенье", month: "Количество книг в обмене", value: 0 },
   ];
 
   const dataUsers: Item[] = [
-    { name: "Январь", month: "Количество новых пользователей", value: 100 },
-    { name: "Февраль", month: "Количество новых пользователей", value: 300 },
-    { name: "Март", month: "Количество новых пользователей", value: 300 },
-    { name: "Апрель", month: "Количество новых пользователей", value: 50 },
-    { name: "Май", month: "Количество новых пользователей", value: 200 },
+    { name: "Понедельние", month: "Количество новых пользователей", value: 0 },
+    { name: "Вторник", month: "Количество новых пользователей", value: 0 },
+    { name: "Среда", month: "Количество новых пользователей", value: 0 },
+    { name: "Четверг", month: "Количество новых пользователей", value: 7 },
+    { name: "Пятница", month: "Количество новых пользователей", value: 1 },
+    { name: "Суббота", month: "Количество новых пользователей", value: 0 },
+    { name: "Воскресенье", month: "Количество новых пользователей", value: 0 },
   ];
 
   const dataNewBooks: Item[] = [
-    { name: "Январь", month: "Количество новых карточек книг", value: 500 },
-    { name: "Февраль", month: "Количество новых карточек книг", value: 200 },
-    { name: "Март", month: "Количество новых карточек книг", value: 350 },
-    { name: "Апрель", month: "Количество новых карточек книг", value: 150 },
-    { name: "Май", month: "Количество новых карточек книг", value: 200 },
+    { name: "Понедельник", month: "Количество новых карточек книг", value: 0 },
+    { name: "Вторник", month: "Количество новых карточек книг", value: 0 },
+    { name: "Среда", month: "Количество новых карточек книг", value: 0 },
+    { name: "Четверг", month: "Количество новых карточек книг", value: 7 },
+    { name: "Пятница", month: "Количество новых карточек книг", value: 1 },
+    { name: "Суббота", month: "Количество новых карточек книг", value: 0 },
+    { name: "Воскресенье", month: "Количество новых карточек книг", value: 0 },
   ];
 
   const handleSectionChange = (section: string) => {
@@ -93,7 +99,7 @@ const StatisticPage: FC = () => {
       </div>
       <div className="statistic-page__border"></div>
       <div className="statistic-page__chart">
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={20}>
           <BarChart
             data={chartData}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
@@ -111,19 +117,7 @@ const StatisticPage: FC = () => {
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <div className="statistic-page__chart-buttons">
-        <Button
-          className="statistic-page__chart-button"
-          label="Неделя"
-          size="s"
-        />
-        <Button
-          className="statistic-page__chart-button"
-          label="Месяц"
-          size="s"
-        />
-        <Button className="statistic-page__chart-button" label="Год" size="s" />
-      </div>
+      <div className="statistic-page__chart-buttons"></div>
     </section>
   );
 };
