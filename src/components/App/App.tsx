@@ -13,6 +13,7 @@ import DeletePopup from "../DeletePopup/DeletePopup";
 import ComplaintPopup from "../ComplaintPopup/ComplaintPopup";
 import ComplaintPage from "../pages/ComplaintPage/ComplaintPage";
 import ResultBooks from "../ResultBooks/ResultBooks";
+import OtherProfile from "../pages/Profile/OtherProfile";
 import StatisticPage from "../pages/StatisticPage/StatisticPage";
 import ProtectedRouteElement from "../ProtectedRouteElement/ProtectedRouteElement";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
@@ -32,6 +33,7 @@ interface User {
   registrationDate: Date | undefined;
   rating: number | null;
   _id: string;
+  avatar: string | undefined;
 }
 
 const App: FC = (): React.ReactElement => {
@@ -129,6 +131,7 @@ const App: FC = (): React.ReactElement => {
                   loggedOut={handleLoginOut}
                   isLoggedIn={isLoggedIn}
                   isAdmin={isAdmin}
+                  setAdmin={() => handleLoggedAdmin(false)}
                 />
               }
             >
@@ -145,6 +148,8 @@ const App: FC = (): React.ReactElement => {
                     setDelete={handleDeletePopupClick}
                     addComplaint={handleComplaintPopupClick}
                     isAdmin={isAdmin}
+                    loggedOut={handleLoginOut}
+                    setAdmin={() => handleLoggedAdmin(false)}
                   />
                 }
               />
@@ -162,6 +167,17 @@ const App: FC = (): React.ReactElement => {
                 }
               />
 
+              <Route
+                path="profile/:id"
+                element={
+                  <OtherProfile
+                    onDelete={handleDeletePopupClick}
+                    addComplaint={handleComplaintPopupClick}
+                    isAdmin={isAdmin}
+                  />
+                }
+              />
+
               <Route path="result-books" element={<ResultBooks />} />
               <Route path="complaints" element={<ComplaintPage />} />
             </Route>
@@ -174,10 +190,11 @@ const App: FC = (): React.ReactElement => {
             <Route path="sign-up" element={<SignUp setLogin={handleLogin} />} />
           </Routes>
           <AddBookPopup isOpen={isAddBookPopupOpen} onClose={closeAllPopups} />
-          <DeletePopup isOpen={isDeletePopupOpen} onClose={closeAllPopups} />
+
           <ComplaintPopup
             isOpen={isComplaintPopupOpen}
             onClose={closeAllPopups}
+            userId={currentUser?._id}
           />
         </>
       </Theme>

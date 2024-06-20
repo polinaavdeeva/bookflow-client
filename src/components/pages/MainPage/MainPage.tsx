@@ -1,7 +1,7 @@
 import { Card } from "@consta/uikit/Card";
 import { Text } from "@consta/uikit/Text";
 
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, SetStateAction, useEffect, useRef, useState } from "react";
 
 import "./MainPage.scss";
 import AdCard from "../../AdCard/AdCard";
@@ -9,6 +9,7 @@ import BookCard from "../../BookCard/BookCard";
 import { Layout } from "@consta/uikit/Layout";
 import { Button } from "@consta/uikit/Button";
 import BookServices from "../../../utils/BookServices";
+import AdsServices from "../../../utils/AdsServices";
 
 interface IMainPage {
   isAdmin: boolean;
@@ -108,13 +109,68 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
   };
 
 
+  //элементы управления рекламой
+  const [images, setImages] = useState(['', '', '']);
+  const [imageUpdated, setImageUpdated] = useState(false)
+  const baseUrl = "http://localhost:4000";
+
+  const fetchImages = async () => {
+    try {
+      const arr = []
+      const image1Blob = AdsServices.getAdsSlide(0);
+      const image1Url = URL.createObjectURL(await image1Blob);
+      arr[0] = image1Url
+      const image2Blob = AdsServices.getAdsSlide(1);
+      const image2Url = URL.createObjectURL(await image2Blob);
+      arr[1] = image2Url
+      const image3Blob = AdsServices.getAdsSlide(2);
+      const image3Url = URL.createObjectURL(await image3Blob);
+      arr[2] = image3Url
+      setImages(arr)
+    } catch (error) {
+      console.error('Error fetching the image:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchImages()
+  }, [imageUpdated]);
+
+  const updateImage = (index: any, newImage: any) => {
+    setImageUpdated(!imageUpdated)
+    const newImages = [...images];
+    newImages[index] = newImage;
+    //setImages(newImages);
+  };
+
+  const handleFileChange = (event: any, index: any) => {
+    console.log(index)
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('number', index.toString())
+
+    
+    fetch(`${baseUrl}/ads`, {
+      method: 'POST',
+      body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+      updateImage(index, data.filePath);
+    })
+    .catch(error => console.error('Error uploading image:', error));
+  };
+
 
   return (
     <div style={{ flexGrow: 1, height: "115%", width: "100%" }}>
       <AdCard 
-        url1="https://idnu.ru/upload/iblock/610/610a9969112cb5ff84629d7cab4b3d04.png" 
-        url2="https://avatars.mds.yandex.net/i?id=e72f1aa1fb000d2e37a639ded5f24224103dea02-8287363-images-thumbs&ref=rim&n=33&w=480&h=167" 
-        url3="https://toyota-faq.ru/wp-content/uploads/b/d/a/bda2df013c227bdeb9106c8b6909ba7b.jpeg" />
+        url1={images[0]} 
+        url2={images[1]}
+        url3={images[2]} />
 
       {isAdmin ? (
         <Card
@@ -133,86 +189,54 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
           <Text className="small-text">Сейчас на сайте</Text>
           <br />
           <Layout direction="column">
-            <Layout direction="row">
-              <Layout style={{ width: "60%" }}>
-                <AdCard url1="" url2="" url3=""></AdCard>
-              </Layout>
-              <Layout
-                direction="row"
-                style={{ width: "40%", paddingTop: "6%", paddingLeft: "2%" }}
-              >
-                <Button
-                  label="Изменить изображение"
-                  style={{
-                    width: "max-content",
-                    background: "#674188",
-                    marginRight: 15,
-                  }}
-                  form="round"
-                ></Button>
-                <Button
-                  label="Удалить слайд "
-                  style={{ width: "max-content", background: "#674188" }}
-                  form="round"
-                ></Button>
-              </Layout>
-            </Layout>
-            <br />
-            <Layout direction="row">
-              <Layout style={{ width: "60%" }}>
-                <AdCard url1="" url2="" url3=""></AdCard>
-              </Layout>
-              <Layout
-                direction="row"
-                style={{ width: "40%", paddingTop: "6%", paddingLeft: "2%" }}
-              >
-                <Button
-                  label="Изменить изображение"
-                  style={{
-                    width: "max-content",
-                    background: "#674188",
-                    marginRight: 15,
-                  }}
-                  form="round"
-                ></Button>
-                <Button
-                  label="Удалить слайд "
-                  style={{ width: "max-content", background: "#674188" }}
-                  form="round"
-                ></Button>
-              </Layout>
-            </Layout>
-            <br />
-            <Layout direction="row">
-              <Layout style={{ width: "60%" }}>
-                <AdCard url1="" url2="" url3=""></AdCard>
-              </Layout>
-              <Layout
-                direction="row"
-                style={{ width: "40%", paddingTop: "6%", paddingLeft: "2%" }}
-              >
-                <Button
-                  label="Изменить изображение"
-                  style={{
-                    width: "max-content",
-                    background: "#674188",
-                    marginRight: 15,
-                  }}
-                  form="round"
-                ></Button>
-                <Button
-                  label="Удалить слайд "
-                  style={{ width: "max-content", background: "#674188" }}
-                  form="round"
-                ></Button>
-              </Layout>
-            </Layout>
-            <br />
-            <Button
-              label="Добавить слайд"
-              style={{ width: "15%", background: "#674188" }}
-              form="round"
-            ></Button>
+              <div className="image-editor">
+                  
+                    <div className="image-container">
+                      
+                      <img src={images[0] || 'https://photogora.ru/img/product/thumb/4897/5d2efa2ce25635320511549050122246.jpg  '} alt={`image-${1}`} className="image" />
+                      <label htmlFor="file-input1" className="custom-file-upload">
+                        Изменить изображение
+                      </label>
+                      <input
+                        id="file-input1"
+                        style={{display: "none"}}
+                        type="file"
+                        onChange={(event) => handleFileChange(event, "1")}
+                        className="file-input"
+                      />
+                    </div>
+
+                    <div className="image-container">
+                      
+                      <img src={images[1] || 'https://photogora.ru/img/product/thumb/4897/5d2efa2ce25635320511549050122246.jpg  '} alt={`image-${2}`} className="image" />
+                      <label htmlFor="file-input2" className="custom-file-upload">
+                        Изменить изображение
+                      </label>
+                      <input
+                        id="file-input2"
+                        style={{display: "none"}}
+                        type="file"
+                        onChange={(event) => handleFileChange(event, "2")}
+                        className="file-input"
+                      />
+                    </div>
+
+                    <div className="image-container">
+                      
+                      <img src={images[2] || 'https://photogora.ru/img/product/thumb/4897/5d2efa2ce25635320511549050122246.jpg  '} alt={`image-${3}`} className="image" />
+                      <label htmlFor="file-input3" className="custom-file-upload">
+                        Изменить изображение
+                      </label>
+                      <input
+                        id="file-input3"
+                        style={{display: "none"}}
+                        type="file"
+                        onChange={(event) => handleFileChange(event, "3")}
+                        className="file-input"
+                      />
+                    </div>
+                  
+                </div> 
           </Layout>
         </Card>
       ) : (

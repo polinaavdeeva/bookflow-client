@@ -5,7 +5,7 @@ import { Card } from "@consta/uikit/Card";
 import { Button } from "@consta/uikit/Button";
 import defaultAvatar from "../../../assets/аватарка_по-умолчанию.png";
 import ratingStar from "../../../assets/рейтинг.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../../../context/CurrentUserContext";
 import { userApi } from "../../../utils/UserApi";
 import { File } from "@consta/uikit/File";
@@ -15,12 +15,16 @@ interface IProfile {
   setDelete: () => void;
   addComplaint: () => void;
   isAdmin: boolean;
+  loggedOut: () => void;
+  setAdmin: () => void;
 }
 
 const Profile: FC<IProfile> = ({
   setDelete,
   addComplaint,
   isAdmin,
+  loggedOut,
+  setAdmin,
 }): React.ReactElement => {
   const { currentUser, setCurrentUser } = React.useContext(CurrentUserContext);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -42,16 +46,29 @@ const Profile: FC<IProfile> = ({
   );
   const [isMyProfile, setIsMyProfile] = useState<boolean>(true);
   const [avatar, setAvatar] = useState<File | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState("")
   const [isRatingPopupOpen, setRatingPopupOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
-  /* useEffect(() => {
-    userApi
-      .getUserAvatar()
-      .then((data) => {})
-      .catch((error) => {
-        console.log(`Ошибка ${error}`);
-      });
-  }, []);*/
+  function logOut() {
+    localStorage.clear();
+    loggedOut();
+    setAdmin();
+    navigate("/", { replace: true });
+  }
+
+  // const getAvatar = async ()=>{
+  //   await userApi.getUserAvatar(currentUser?._id).then(
+  //     (resp)=>{
+  //       const avUrl= URL.createObjectURL(resp);    
+  //       if (resp.type !== 'application/json'){
+  //         setAvatarUrl(avUrl)
+  //       } else {
+  //         setAvatarUrl("")
+  //       }
+  //     }
+  //   )
+  // }
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -119,13 +136,12 @@ const Profile: FC<IProfile> = ({
       .editUserInfo(userData)
       .then((data) => {
         setCurrentUser(data);
+        setAvatarUrl(data.avatar)
         setIsEditing(false);
       })
       .catch((error) => {
         console.log(error);
       });
-
-    console.log(avatar);
   }
 
   React.useEffect(() => {
@@ -137,38 +153,54 @@ const Profile: FC<IProfile> = ({
     setPatronymic(currentUser?.patronymic || "");
     setRegisterData(currentUser?.registrationDate || undefined);
     setRating(currentUser?.rating || null);
+    // getAvatar()
+    setAvatarUrl(currentUser?.avatar || "")
   }, [currentUser]);
+
+  const formatDate = (date: Date | string): string => {
+    const newDate = new Date(date);
+    const day = newDate.getDate().toString().padStart(2, '0');
+    const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = newDate.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
 
   return (
     <section className="profile">
-      <RatingPopup
-        isOpen={isRatingPopupOpen}
-        onClose={() => setRatingPopupOpen(false)}
-      />
       <div className="profile__background"></div>
       <Card
         className="profile__name-container"
         form="round"
         verticalSpace="2xl"
-      >
-        <div className="profile__avatar-container">
-          <Avatar
-            className="profile__avatar"
-            size="l"
-            name="..."
-            url={avatar ? URL.createObjectURL(avatar) :  defaultAvatar}
-          />
-          <input
-            type="file"
-            accept="image/*"
-            className="profile__avatar-upload"
-            onChange={handleAvatarChange}
-          />
-          <h2 className="profile__name">
-            {currentUser?.name} {currentUser?.lastName}
-          </h2>
-          <span className="profile__name-role"> — Читатель</span>
-        </div>
+      > 
+          <div className="profile__avatar-container">
+            <Avatar
+              className="profile__avatar"
+              size="l"
+              name="..."
+              url = {avatar ? URL.createObjectURL(avatar) : avatarUrl && avatarUrl !== "" ? avatarUrl: defaultAvatar}
+            />
+            {isEditing &&
+            <div style={{paddingRight: 20}}>
+              <label htmlFor="file-avatar" className="custom-file-upload">
+                Загрузить файл
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                className="profile__avatar-upload"
+                onChange={handleAvatarChange}
+                id="file-avatar"
+                style={{display: "none"}}
+              />
+            </div>
+            }
+            <h2 className="profile__name">
+              {currentUser?.name} {currentUser?.lastName}
+            </h2>
+            <span className="profile__name-role"> — Читатель</span>
+          </div>
+
         {isAdmin ? (
           <Button
             className="profile__edit-button"
@@ -317,11 +349,11 @@ const Profile: FC<IProfile> = ({
                   id="dateOfBirth"
                   type="date"
                   className="profile__data"
-                  value={dateOfBirth}
+                  value={formatDate(dateOfBirth)}
                   onChange={handleChangeDateOfBirth}
                 />
               ) : (
-                <p className="profile__text"> {dateOfBirth}</p>
+                <p className="profile__text"> {formatDate(dateOfBirth)}</p>
               )}
             </div>
           </div>
@@ -342,14 +374,13 @@ const Profile: FC<IProfile> = ({
               <p className="profile__rating-title">Рейтинг</p>
               {isMyProfile ? (
                 <div className="profile__rating-num-container">
-                  <p className="prifile__rating-num">{rating}</p>
+                  <p className="prifile__rating-num">
+                    {rating === null ? 0 : ""}
+                  </p>
                   <img src={ratingStar} alt="Рейтинг" />
                 </div>
               ) : (
-                <div
-                  className="profile__rating-num-container"
-                  onClick={() => setRatingPopupOpen(true)}
-                >
+                <div className="profile__rating-num-container">
                   <p className="prifile__rating-num">{rating}</p>
                   <img src={ratingStar} alt="Рейтинг" />
                 </div>
@@ -391,6 +422,7 @@ const Profile: FC<IProfile> = ({
                   label="Выйти"
                   form="round"
                   size="s"
+                  onClick={logOut}
                 />
               </Link>
             </>

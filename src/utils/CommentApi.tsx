@@ -23,7 +23,7 @@ class CommentApi {
       });
   };
 
-  addComment = (content: string, bookId: string) => {
+  addComment = (content: string, bookId: string, rating: number) => {
     const token = localStorage.getItem("token");
     return fetch(`${this._baseUrl}/comments`, {
       method: "POST",
@@ -31,7 +31,7 @@ class CommentApi {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ content, bookId }),
+      body: JSON.stringify({ content, bookId, rating }),
     })
       .then((response) => {
         if (!response.ok) {

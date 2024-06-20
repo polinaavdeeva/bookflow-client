@@ -122,6 +122,11 @@
   cursor: pointer;
 }
 
+.profile__rating-count {
+  display: inline;
+  margin-right: 10px;
+}
+
 .prifile__rating-num {
   display: inline-block;
 }
@@ -205,4 +210,18 @@
   font-size: 16px;
   line-height: 28px;
   padding-left: 15px;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: #674188;
+  color: white;
+  border-radius: 4px;
+  text-align: center;
+}
+
+#file-avatar  {
+  display: none;
 }

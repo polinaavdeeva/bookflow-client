@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import "./AddBookPopup.scss";
 import { Button } from "@consta/uikit/Button";
 import defaultPhoto from "../../assets/defult-book-add-photo.png";
@@ -26,7 +26,19 @@ const AddBookPopup: FC<IAddBookProps> = ({
   const [image, setImage] = useState<File|null>();
   const [preview, setPreview] = useState<string | null>(null);
   const { currentUser, setCurrentUser } = React.useContext(CurrentUserContext);
-  const [bookId, setBookId] = useState()
+  const [bookId, setBookId] = useState(null)
+  const [exsistingBookName, setExsistingBookName] = useState(null)
+  const [isOpenWarningMessage, setIsOpenWarningMessage] = useState(false)
+
+  useEffect(()=>{
+    BookServices.bookSearch(" ").then(
+      (resp)=>{
+        const book = resp.find((book: { name: string; }) => book.name.toLowerCase() === name.toLowerCase())
+        if (book){ setBookId(book._id); setExsistingBookName(book.name)} else {
+        }
+      }
+    )
+  }, [name])
 
   
   const currentDate = new Date();
@@ -72,7 +84,7 @@ const AddBookPopup: FC<IAddBookProps> = ({
           rating: 0,
           //image: image,
           postingDate: postingDate.toString(),
-          owner: currentUser?._id,
+          owner: [currentUser?._id],
       }),
       });
 
@@ -98,6 +110,15 @@ const AddBookPopup: FC<IAddBookProps> = ({
     } catch (error) {
       console.error('Error uploading book:', error);
     }
+  };
+  const handleSubmitSecond = async (event: React.FormEvent) => {
+    event.preventDefault();
+    BookServices.addBookIfExsists(bookId).then(()=>
+      {
+        setIsOpenWarningMessage(false);
+        onClose()
+      }
+    )
   };
   
   return (
@@ -128,7 +149,7 @@ const AddBookPopup: FC<IAddBookProps> = ({
                     display: inline-block;
                     padding: 6px 12px;
                     cursor: pointer;
-                    background-color: brown;
+                    background-color: #674188;
                     color: white;
                     border-radius: 4px;
                     text-align: center;
@@ -197,10 +218,30 @@ const AddBookPopup: FC<IAddBookProps> = ({
             className="popup__add-button"
             label="Резместить"
             form="round"
-            onClick={handleSubmit}
+            onClick={(event)=>{
+              if (exsistingBookName){
+                setIsOpenWarningMessage(true)
+              } else {
+                handleSubmit(event)
+                }
+              }
+            }
           />
         </form>
       </div>
+      <section className={`popup ${isOpenWarningMessage ? "popup_opened" : ""}`}>
+        <div className="popup__container" style={{width: 600, height: 200}}> 
+          <h2 className="popup__title">Предупреждение</h2>
+          <div style={{textAlign: 'center', paddingBottom: 3}}>Информация о книге с таким названием уже была добавлена ранее.</div>
+          <div style={{textAlign: 'center', paddingBottom: 30}}>Ваша книга будет добавлена на соответсвующую страницу.</div>
+          <Button
+            className="popup__add-button"
+            label="Хорошо"
+            form="round"
+            onClick={handleSubmitSecond}
+          />
+        </div>   
+      </section>
     </section>
   );
 };

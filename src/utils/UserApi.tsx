@@ -23,14 +23,16 @@ class UserApi {
     }).then(this._checkResponse);
   }
 
-  getUserAvatar(): Promise<any> {
+  getUserAvatar(userId : any): Promise<any> {
     const token = localStorage.getItem("token");
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
+    return fetch(`${this._baseUrl}/usersavatar/${userId}`, {
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${token}`,
       },
-    }).then(this._checkResponse);
+    }).then((response)=>{
+      return response.blob();
+    });
   }
 
   uploadAvatar(avatarFile: File): Promise<any> {
@@ -47,7 +49,7 @@ class UserApi {
     }).then(this._checkResponse);
   }
 
-  sendRating(userId: string, rating: number): Promise<any> {
+  sendRating(userId: string | undefined, rating: number): Promise<any> {
     const token = localStorage.getItem("token");
     return fetch(`${this._baseUrl}/users/${userId}/rating`, {
       method: "POST",
@@ -86,12 +88,36 @@ class UserApi {
   }
 
   getUserById(id: string): Promise<any> {
-    return fetch(`${this._baseUrl}/users/user/${id}`, {
+    return fetch(`${this._baseUrl}/superusers/${id}`, {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then(this._checkResponse);
+    })
+      .then(this._checkResponse)
+      .catch(() => console.log("err in superusers"));
   }
+
+  deleteUser = (userId: string) => {
+    const token = localStorage.getItem("token");
+    return fetch(`${this._baseUrl}/users/${userId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Ошибка при удалении пользователя");
+        }
+        return response.json();
+      })
+      .then((data) => data.message)
+      .catch((error) => {
+        console.error("Ошибка при удалении пользователя:", error.message);
+        throw error;
+      });
+  };
 }
 
 export const userApi = new UserApi({
