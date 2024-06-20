@@ -7,6 +7,7 @@ import React, { FC, useState, ChangeEvent, useEffect, FormEvent } from "react";
 import logo from "../../../assets/logo.png";
 import "./SignUp.scss";
 import { auth } from "../../../utils/Auth";
+import "../../../../globalYm";
 
 interface ISignIn {
   setLogin: () => void;
@@ -202,6 +203,9 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
               <Button
                 className="sign-up__button"
                 type="submit"
+                onClick={() => {
+                  window.ym(97632400, "reachGoal", "ButtonSignUp");
+                }}
                 label="Зарегистрироваться"
                 form="round"
                 disabled={!isChecked}
