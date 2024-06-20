@@ -2,7 +2,7 @@ class BookServices {
   static async getBooksByOwner(owner: string): Promise<any> {
     try {
       const token = localStorage.getItem("token");
-      const baseUrl = "https://bookflow-api.vercel.app/";
+      const baseUrl = "https://bookflow-api.vercel.app";
 
       const response = await fetch(`${baseUrl}/books/${owner}`, {
         headers: {
@@ -23,7 +23,7 @@ class BookServices {
   }
 
   static getBookById = async (bookId: any) => {
-    const baseUrl = "https://bookflow-api.vercel.app/";
+    const baseUrl = "https://bookflow-api.vercel.app";
     try {
       const response = await fetch(`${baseUrl}/booksbyid/${bookId}`, {
         method: "GET",
@@ -43,7 +43,7 @@ class BookServices {
   };
 
   static bookSearch = async (name: string) => {
-    const baseUrl = "https://bookflow-api.vercel.app/";
+    const baseUrl = "https://bookflow-api.vercel.app";
     try {
       const response = await fetch(`${baseUrl}/books/search?name=${name}`);
       if (!response.ok) {
@@ -56,7 +56,7 @@ class BookServices {
   };
 
   static getBookImage = async (bookId: any) => {
-    const baseUrl = "https://bookflow-api.vercel.app/";
+    const baseUrl = "https://bookflow-api.vercel.app";
     //const token = localStorage.getItem("token");
     return fetch(`${baseUrl}/books/image?bookId=${bookId}`, {
       method: "GET",
@@ -72,7 +72,7 @@ class BookServices {
   };
 
   static uploadBookImage = async (imageFile: any, bookId: any) => {
-    const baseUrl = "https://bookflow-api.vercel.app/";
+    const baseUrl = "https://bookflow-api.vercel.app";
     const formData = new FormData();
     formData.append("image", imageFile);
     formData.append("_id", bookId);
@@ -96,7 +96,7 @@ class BookServices {
   };
 
   static receiveBook = async (bookId: any, ownerId: any) => {
-    const baseUrl = "https://bookflow-api.vercel.app/";
+    const baseUrl = "https://bookflow-api.vercel.app";
     const token = localStorage.getItem("token");
 
     try {
@@ -116,7 +116,7 @@ class BookServices {
   };
 
   static getAllReceivedBooks = async () => {
-    const baseUrl = "https://bookflow-api.vercel.app/";
+    const baseUrl = "https://bookflow-api.vercel.app";
     const token = localStorage.getItem("token");
 
     try {
@@ -141,7 +141,7 @@ class BookServices {
   };
 
   static addBookIfExsists = async (book_id: any) => {
-    const baseUrl = "https://bookflow-api.vercel.app/";
+    const baseUrl = "https://bookflow-api.vercel.app";
     const token = localStorage.getItem("token");
 
     try {
