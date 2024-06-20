@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./Profile.scss";
 import { Avatar } from "@consta/uikit/Avatar";
@@ -9,6 +9,10 @@ import ratingStar from "../../../assets/рейтинг.png";
 import { userApi } from "../../../utils/UserApi";
 import RatingPopup from "../../RatingPopup/RatingPopup";
 import DeletePopup from "../../DeletePopup/DeletePopup";
+import { Text } from "@consta/uikit/Text";
+import { Layout } from "@consta/uikit/Layout";
+import BookCard from "../../BookCard/BookCard";
+import BookServices from "../../../utils/BookServices";
 
 interface IOtherProfile {
   onDelete: () => void;
@@ -56,6 +60,48 @@ const OtherProfile: FC<IOtherProfile> = ({
     const year = newDate.getFullYear();
     return `${day}.${month}.${year}`;
   };
+
+  
+
+  //раздел добавленных книг
+  const containerLastAddedRef = useRef<HTMLDivElement>(null);
+  const [lastAddedBooks, setLastAddedBooks] = useState<Array<Book>>([]);
+
+  type Book = {
+    name: string;
+    description: string;
+    image: string;
+    author: string;
+    rating: number;
+    id: string;
+    postingDate: string;
+  };
+
+  const scrollLeftLastAdded = () => {
+    if (containerLastAddedRef.current) {
+      containerLastAddedRef.current.scrollBy({
+        left: -196,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const scrollRightLastAdded = () => {
+    if (containerLastAddedRef.current) {
+      containerLastAddedRef.current.scrollBy({
+        left: 196,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  useEffect(()=>{
+    BookServices.getBooksByOwner(id? id: "0").then(
+      (resp)=>{
+        setLastAddedBooks(resp)
+      }
+    )
+  }, [id])
 
   return (
     <section className="profile">
@@ -173,6 +219,46 @@ const OtherProfile: FC<IOtherProfile> = ({
           </div>
         </div>
       </Card>
+      <Card
+            verticalSpace="xl"
+            horizontalSpace="xl"
+            style={{
+              marginTop: 10,
+              marginLeft: 30,
+              marginRight: 10,
+              height: "max",
+              width: "95%",
+              background: "#FFFBF5",
+            }}
+          >
+            <Text className="division-text">Добавлено пользователем</Text>
+            <Layout direction="row" style={{ width: "100%", height: 270 }}>
+              <Button
+                label="❰"
+                view="ghost"
+                style={{ height: "100%", background: "none", color: "#674188" }}
+                onClick={scrollLeftLastAdded}
+              ></Button>
+              <div
+                ref={containerLastAddedRef}
+                style={{
+                  display: "flex",
+                  width: "calc(80vw - 120px)",
+                  overflowX: "hidden",
+                }}
+              >
+                {lastAddedBooks?.map((book) => {
+                  return <BookCard bookData={book}></BookCard>;
+                })}
+              </div>
+              <Button
+                label="❱"
+                view="ghost"
+                style={{ height: "100%", background: "none", color: "#674188" }}
+                onClick={scrollRightLastAdded}
+              ></Button>
+            </Layout>
+          </Card>
     </section>
   );
 };
