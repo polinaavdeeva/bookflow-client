@@ -19,58 +19,65 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
   const containerLastAddedRef = useRef<HTMLDivElement>(null);
   const containerBestRef = useRef<HTMLDivElement>(null);
 
-  const [books, setBooks] = useState<Array<Book>>([])
-  const [lastAddedBooks, setLastAddedBooks] = useState<Array<Book>>([])
-  const [bestBooks, setBestBooks] = useState<Array<Book>>([])
+  const [books, setBooks] = useState<Array<Book>>([]);
+  const [lastAddedBooks, setLastAddedBooks] = useState<Array<Book>>([]);
+  const [bestBooks, setBestBooks] = useState<Array<Book>>([]);
 
+  type Book = {
+    name: string;
+    description: string;
+    image: string;
+    author: string;
+    rating: number;
+    id: string;
+    postingDate: string;
+  };
 
-  type Book ={
-    name: string
-    description: string
-    image: string
-    author: string
-    rating: number
-    id: string
-    postingDate: string
-  }
+  const getBooks = async () => {
+    const resp = await BookServices.bookSearch(" ");
 
-  const getBooks = async () =>{
-      const resp = await BookServices.bookSearch(" ")
-
-        let booksArr = new Array
-        resp.map((el: any)=>{
-          const book: Book = {
-            name: el.name,
-            description: el.description,
-            image: el.image,
-            author: el.author,
-            rating: el.rating,
-            id: el._id,
-            postingDate: el.postingDate
-          }
-          booksArr.push(book)
-        })
-        setBooks(booksArr)
-  }
+    let booksArr = new Array();
+    resp.map((el: any) => {
+      const book: Book = {
+        name: el.name,
+        description: el.description,
+        image: el.image,
+        author: el.author,
+        rating: el.rating,
+        id: el._id,
+        postingDate: el.postingDate,
+      };
+      booksArr.push(book);
+    });
+    setBooks(booksArr);
+  };
 
   const sortByPostingDate = (books: Book[]) => {
-    setLastAddedBooks([...books].sort((a, b) => new Date(b.postingDate).getTime()  - new Date(a.postingDate).getTime()).reverse().slice(0, 10));
+    setLastAddedBooks(
+      [...books]
+        .sort(
+          (a, b) =>
+            new Date(b.postingDate).getTime() -
+            new Date(a.postingDate).getTime()
+        )
+        .reverse()
+        .slice(0, 10)
+    );
   };
 
   const sortByRating = (books: Book[]) => {
     setBestBooks([...books].sort((a, b) => b.rating - a.rating).slice(0, 10));
   };
 
-  useEffect(()=>{
-    setBooks([])
+  useEffect(() => {
+    setBooks([]);
     getBooks();
-   }, [])
+  }, []);
 
-   useEffect(()=>{
+  useEffect(() => {
     sortByPostingDate(books);
     sortByRating(books);
-   }, [books])
-
+  }, [books]);
 
   const scrollLeftLastAdded = () => {
     if (containerLastAddedRef.current) {
@@ -108,69 +115,63 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
     }
   };
 
-
   //элементы управления рекламой
-  const [images, setImages] = useState(['', '', '']);
-  const [imageUpdated, setImageUpdated] = useState(false)
-  const baseUrl = "http://localhost:4000";
+  const [images, setImages] = useState(["", "", ""]);
+  const [imageUpdated, setImageUpdated] = useState(false);
+  const baseUrl = "https://bookflow-api.vercel.app";
 
   const fetchImages = async () => {
     try {
-      const arr = []
+      const arr = [];
       const image1Blob = AdsServices.getAdsSlide(0);
       const image1Url = URL.createObjectURL(await image1Blob);
-      arr[0] = image1Url
+      arr[0] = image1Url;
       const image2Blob = AdsServices.getAdsSlide(1);
       const image2Url = URL.createObjectURL(await image2Blob);
-      arr[1] = image2Url
+      arr[1] = image2Url;
       const image3Blob = AdsServices.getAdsSlide(2);
       const image3Url = URL.createObjectURL(await image3Blob);
-      arr[2] = image3Url
-      setImages(arr)
+      arr[2] = image3Url;
+      setImages(arr);
     } catch (error) {
-      console.error('Error fetching the image:', error);
+      console.error("Error fetching the image:", error);
     }
   };
 
   useEffect(() => {
-    fetchImages()
+    fetchImages();
   }, [imageUpdated]);
 
   const updateImage = (index: any, newImage: any) => {
-    setImageUpdated(!imageUpdated)
+    setImageUpdated(!imageUpdated);
     const newImages = [...images];
     newImages[index] = newImage;
     //setImages(newImages);
   };
 
   const handleFileChange = (event: any, index: any) => {
-    console.log(index)
+    console.log(index);
     const file = event.target.files[0];
     if (!file) return;
 
     const formData = new FormData();
-    formData.append('image', file);
-    formData.append('number', index.toString())
+    formData.append("image", file);
+    formData.append("number", index.toString());
 
-    
     fetch(`${baseUrl}/ads`, {
-      method: 'POST',
+      method: "POST",
       body: formData,
     })
-    .then(response => response.json())
-    .then(data => {
-      updateImage(index, data.filePath);
-    })
-    .catch(error => console.error('Error uploading image:', error));
+      .then((response) => response.json())
+      .then((data) => {
+        updateImage(index, data.filePath);
+      })
+      .catch((error) => console.error("Error uploading image:", error));
   };
-
 
   return (
     <div style={{ flexGrow: 1, height: "115%", width: "100%" }}>
-      <AdCard 
-        url1={images[0]} 
-        url2={images[1]}
-        url3={images[2]} />
+      <AdCard url1={images[0]} url2={images[1]} url3={images[2]} />
 
       {isAdmin ? (
         <Card
@@ -189,54 +190,70 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
           <Text className="small-text">Сейчас на сайте</Text>
           <br />
           <Layout direction="column">
-              <div className="image-editor">
-                  
-                    <div className="image-container">
-                      
-                      <img src={images[0] || 'https://photogora.ru/img/product/thumb/4897/5d2efa2ce25635320511549050122246.jpg  '} alt={`image-${1}`} className="image" />
-                      <label htmlFor="file-input1" className="custom-file-upload">
-                        Изменить изображение
-                      </label>
-                      <input
-                        id="file-input1"
-                        style={{display: "none"}}
-                        type="file"
-                        onChange={(event) => handleFileChange(event, "1")}
-                        className="file-input"
-                      />
-                    </div>
+            <div className="image-editor">
+              <div className="image-container">
+                <img
+                  src={
+                    images[0] ||
+                    "https://photogora.ru/img/product/thumb/4897/5d2efa2ce25635320511549050122246.jpg  "
+                  }
+                  alt={`image-${1}`}
+                  className="image"
+                />
+                <label htmlFor="file-input1" className="custom-file-upload">
+                  Изменить изображение
+                </label>
+                <input
+                  id="file-input1"
+                  style={{ display: "none" }}
+                  type="file"
+                  onChange={(event) => handleFileChange(event, "1")}
+                  className="file-input"
+                />
+              </div>
 
-                    <div className="image-container">
-                      
-                      <img src={images[1] || 'https://photogora.ru/img/product/thumb/4897/5d2efa2ce25635320511549050122246.jpg  '} alt={`image-${2}`} className="image" />
-                      <label htmlFor="file-input2" className="custom-file-upload">
-                        Изменить изображение
-                      </label>
-                      <input
-                        id="file-input2"
-                        style={{display: "none"}}
-                        type="file"
-                        onChange={(event) => handleFileChange(event, "2")}
-                        className="file-input"
-                      />
-                    </div>
+              <div className="image-container">
+                <img
+                  src={
+                    images[1] ||
+                    "https://photogora.ru/img/product/thumb/4897/5d2efa2ce25635320511549050122246.jpg  "
+                  }
+                  alt={`image-${2}`}
+                  className="image"
+                />
+                <label htmlFor="file-input2" className="custom-file-upload">
+                  Изменить изображение
+                </label>
+                <input
+                  id="file-input2"
+                  style={{ display: "none" }}
+                  type="file"
+                  onChange={(event) => handleFileChange(event, "2")}
+                  className="file-input"
+                />
+              </div>
 
-                    <div className="image-container">
-                      
-                      <img src={images[2] || 'https://photogora.ru/img/product/thumb/4897/5d2efa2ce25635320511549050122246.jpg  '} alt={`image-${3}`} className="image" />
-                      <label htmlFor="file-input3" className="custom-file-upload">
-                        Изменить изображение
-                      </label>
-                      <input
-                        id="file-input3"
-                        style={{display: "none"}}
-                        type="file"
-                        onChange={(event) => handleFileChange(event, "3")}
-                        className="file-input"
-                      />
-                    </div>
-                  
-                </div> 
+              <div className="image-container">
+                <img
+                  src={
+                    images[2] ||
+                    "https://photogora.ru/img/product/thumb/4897/5d2efa2ce25635320511549050122246.jpg  "
+                  }
+                  alt={`image-${3}`}
+                  className="image"
+                />
+                <label htmlFor="file-input3" className="custom-file-upload">
+                  Изменить изображение
+                </label>
+                <input
+                  id="file-input3"
+                  style={{ display: "none" }}
+                  type="file"
+                  onChange={(event) => handleFileChange(event, "3")}
+                  className="file-input"
+                />
+              </div>
+            </div>
           </Layout>
         </Card>
       ) : (
@@ -268,9 +285,9 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
                   overflowX: "hidden",
                 }}
               >
-                {lastAddedBooks?.map((book)=>{
-                    return(<BookCard bookData={book}></BookCard>)
-                  })}
+                {lastAddedBooks?.map((book) => {
+                  return <BookCard bookData={book}></BookCard>;
+                })}
               </div>
               <Button
                 label="❱"
@@ -308,9 +325,9 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
                   overflowX: "hidden",
                 }}
               >
-                {bestBooks?.map((book)=>{
-                    return(<BookCard bookData={book}></BookCard>)
-                  })}
+                {bestBooks?.map((book) => {
+                  return <BookCard bookData={book}></BookCard>;
+                })}
               </div>
               <Button
                 label="❱"

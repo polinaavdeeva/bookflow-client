@@ -70,5 +70,5 @@ class Auth {
 }
 
 export const auth = new Auth({
-  baseUrl: "http://localhost:4000",
+  baseUrl: "https://bookflow-api.vercel.app",
 });

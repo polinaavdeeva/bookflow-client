@@ -23,14 +23,14 @@ class UserApi {
     }).then(this._checkResponse);
   }
 
-  getUserAvatar(userId : any): Promise<any> {
+  getUserAvatar(userId: any): Promise<any> {
     const token = localStorage.getItem("token");
     return fetch(`${this._baseUrl}/usersavatar/${userId}`, {
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${token}`,
       },
-    }).then((response)=>{
+    }).then((response) => {
       return response.blob();
     });
   }
@@ -121,5 +121,5 @@ class UserApi {
 }
 
 export const userApi = new UserApi({
-  baseUrl: "http://localhost:4000",
+  baseUrl: "https://bookflow-api.vercel.app",
 });

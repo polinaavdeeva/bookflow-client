@@ -93,5 +93,5 @@ class CommentApi {
 }
 
 export const commentApi = new CommentApi({
-  baseUrl: "http://localhost:4000",
+  baseUrl: "https://bookflow-api.vercel.app",
 });
