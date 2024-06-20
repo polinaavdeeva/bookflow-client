@@ -121,5 +121,5 @@ class UserApi {
 }
 
 export const userApi = new UserApi({
-  baseUrl: "https://bookflow-api.vercel.app",
+  baseUrl: "https://bookflow-api.vercel.app/",
 });
