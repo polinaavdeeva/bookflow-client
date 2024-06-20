@@ -99,7 +99,7 @@ const StatisticPage: FC = () => {
       </div>
       <div className="statistic-page__border"></div>
       <div className="statistic-page__chart">
-        <ResponsiveContainer width="100%" height={20}>
+        <ResponsiveContainer width="100%" height={100}>
           <BarChart
             data={chartData}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
