@@ -75,7 +75,7 @@ const AddBookPopup: FC<IAddBookProps> = ({
     const token = localStorage.getItem("token");
     console.log(image);
     try {
-      const response = await fetch("https://bookflow-api.vercel.app/books", {
+      const response = await fetch("http://bookflow-api.vercel.appbooks", {
         method: "POST",
         headers: {
           Accept: "application/json",

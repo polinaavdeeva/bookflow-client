@@ -168,7 +168,7 @@ class BookServices {
 
   static deleteBook = (bookId: string) => {
     const token = localStorage.getItem("token");
-    return fetch(`https://bookflow-api.vercel.app/books/${bookId}`, {
+    return fetch(`http://bookflow-api.vercel.appbooks/${bookId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
