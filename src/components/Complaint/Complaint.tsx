@@ -39,21 +39,11 @@ const Complaint: FC<IComplaintProps> = ({
         const user = res.user;
         setUserName(user.name);
         setUserLastName(user.lastName);
+        setAvatarUrl(user.avatar)
       })
       .catch((error) => {
         console.error(error);
       });
-
-    userApi.getUserAvatar(userId).then(
-        (resp)=>{
-          const avUrl= URL.createObjectURL(resp);    
-          if (resp.type !== 'application/json'){
-            setAvatarUrl(avUrl)
-          } else {
-            setAvatarUrl("")
-          }
-        }
-      )
   }, []);
 
   const handleDelete = () => {

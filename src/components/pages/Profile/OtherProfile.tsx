@@ -25,11 +25,13 @@ const OtherProfile: FC<IOtherProfile> = ({
   const [userInfo, setUserInfo] = useState<any>(null);
   const [isRatingPopupOpen, setRatingPopupOpen] = useState<boolean>(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState<boolean>(false);
+  const [avatarUrl, setAvatarUrl] = useState<string|undefined>("")
 
   const fetchUserInfo = async () => {
     if (id) {
       const data = await userApi.getUserById(id);
       setUserInfo(data.user);
+      setAvatarUrl(data.user.avatar)
     }
   };
 
@@ -45,6 +47,14 @@ const OtherProfile: FC<IOtherProfile> = ({
     if (userInfo?.email) {
       window.location.href = `mailto:${userInfo.email}`;
     }
+  };
+
+  const formatDate = (date: Date | string): string => {
+    const newDate = new Date(date);
+    const day = newDate.getDate().toString().padStart(2, '0');
+    const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = newDate.getFullYear();
+    return `${day}.${month}.${year}`;
   };
 
   return (
@@ -70,7 +80,7 @@ const OtherProfile: FC<IOtherProfile> = ({
             className="profile__avatar"
             size="l"
             name="..."
-            url={defaultAvatar}
+            url={avatarUrl&& avatarUrl !== "" ? avatarUrl : defaultAvatar}
           />
           <h2 className="profile__name">
             {userInfo?.name} {userInfo?.lastName}
@@ -141,13 +151,13 @@ const OtherProfile: FC<IOtherProfile> = ({
             </div>
             <div className="profile__info-row">
               <label className="profile__item-label">Дата рождения</label>
-              <p className="profile__text">{userInfo?.dateOfBirth}</p>
+              <p className="profile__text">{formatDate(userInfo?.dateOfBirth)}</p>
             </div>
           </div>
           <div className="profile__info-column">
             <div className="profile__info-row">
               <label className="profile__item-label">Дата регистрации</label>
-              <p className="profile__text">{userInfo?.registrationDate}</p>
+              <p className="profile__text">{formatDate(userInfo?.registrationDate)}</p>
             </div>
             <div className="profile__rating">
               <p className="profile__rating-title">Рейтинг</p>

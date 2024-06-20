@@ -27,6 +27,7 @@ const Comment: FC<IComment> = ({ addComplaint, com, isAdmin }) => {
       name: string;
       lastName: string;
       _id: string;
+      avatar: string | undefined;
     };
   };
   const [isComplaintButtonShowed, setIsComplaintButtonShowed] = useState(false);
@@ -37,27 +38,15 @@ const Comment: FC<IComment> = ({ addComplaint, com, isAdmin }) => {
   const getUserInfo = () => {
     userApi.getUserById(com.author).then((resp) => {
       setUserInfo(resp);
+      setAvatarUrl(resp.user.avatar);
     });
   };
 
   const [avatarUrl, setAvatarUrl] = useState("")
   
-  const getAvatar = async ()=>{
-    await userApi.getUserAvatar(com.author).then(
-      (resp)=>{
-        const avUrl= URL.createObjectURL(resp);    
-        if (resp.type !== 'application/json'){
-          setAvatarUrl(avUrl)
-        } else {
-          setAvatarUrl("")
-        }
-      }
-    )
-  }
-
   useEffect(() => {
     getUserInfo();
-    getAvatar();
+    
   }, [com]);
 
   return (

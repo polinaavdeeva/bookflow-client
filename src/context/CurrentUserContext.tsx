@@ -10,6 +10,7 @@ interface User {
   registrationDate: Date | undefined;
   rating: number | null;
   _id: string;
+  avatar: string | undefined;
 }
 
 interface CurrentUserContextProps {

@@ -57,18 +57,18 @@ const Profile: FC<IProfile> = ({
     navigate("/", { replace: true });
   }
 
-  const getAvatar = async ()=>{
-    await userApi.getUserAvatar(currentUser?._id).then(
-      (resp)=>{
-        const avUrl= URL.createObjectURL(resp);    
-        if (resp.type !== 'application/json'){
-          setAvatarUrl(avUrl)
-        } else {
-          setAvatarUrl("")
-        }
-      }
-    )
-  }
+  // const getAvatar = async ()=>{
+  //   await userApi.getUserAvatar(currentUser?._id).then(
+  //     (resp)=>{
+  //       const avUrl= URL.createObjectURL(resp);    
+  //       if (resp.type !== 'application/json'){
+  //         setAvatarUrl(avUrl)
+  //       } else {
+  //         setAvatarUrl("")
+  //       }
+  //     }
+  //   )
+  // }
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -136,6 +136,7 @@ const Profile: FC<IProfile> = ({
       .editUserInfo(userData)
       .then((data) => {
         setCurrentUser(data);
+        setAvatarUrl(data.avatar)
         setIsEditing(false);
       })
       .catch((error) => {
@@ -152,8 +153,17 @@ const Profile: FC<IProfile> = ({
     setPatronymic(currentUser?.patronymic || "");
     setRegisterData(currentUser?.registrationDate || undefined);
     setRating(currentUser?.rating || null);
-    getAvatar()
+    // getAvatar()
+    setAvatarUrl(currentUser?.avatar || "")
   }, [currentUser]);
+
+  const formatDate = (date: Date | string): string => {
+    const newDate = new Date(date);
+    const day = newDate.getDate().toString().padStart(2, '0');
+    const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = newDate.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
 
   return (
     <section className="profile">
@@ -339,11 +349,11 @@ const Profile: FC<IProfile> = ({
                   id="dateOfBirth"
                   type="date"
                   className="profile__data"
-                  value={dateOfBirth}
+                  value={formatDate(dateOfBirth)}
                   onChange={handleChangeDateOfBirth}
                 />
               ) : (
-                <p className="profile__text"> {dateOfBirth}</p>
+                <p className="profile__text"> {formatDate(dateOfBirth)}</p>
               )}
             </div>
           </div>

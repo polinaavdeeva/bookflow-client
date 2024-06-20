@@ -20,10 +20,10 @@ interface IBookCard {
   bookData: Book|null
 }
 
-const BookCard: FC<IBookCard> = ({bookData = null}) => {
+const BookCard: FC<IBookCard> = ({bookData = undefined}) => {
     //https://www.colorhexa.com/8a99a6.png
     
-    const [imageSrc, setImageSrc] = useState("")
+    const [imageSrc, setImageSrc] = useState<string | undefined>("")
     const componentRef = useRef<HTMLImageElement>(null);
     
     const getImageSettings = (key: string) => {
@@ -37,10 +37,14 @@ const BookCard: FC<IBookCard> = ({bookData = null}) => {
         };
       };
 
+    console.log(bookData)
+
     const fetchImage = async () => {
         try {
-          const imageBlob = await BookServices.getBookImage(bookData?.id);
-          const imageUrl = URL.createObjectURL(imageBlob);
+          // const imageBlob = await BookServices.getBookImage(bookData?.id);
+          const imageUrl = bookData?.image
+          
+          // URL.createObjectURL(imageBlob);
           setImageSrc(imageUrl);
         } catch (error) {
           console.error('Error fetching the image:', error);

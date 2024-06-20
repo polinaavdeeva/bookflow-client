@@ -33,6 +33,7 @@ interface User {
   registrationDate: Date | undefined;
   rating: number | null;
   _id: string;
+  avatar: string | undefined;
 }
 
 const App: FC = (): React.ReactElement => {

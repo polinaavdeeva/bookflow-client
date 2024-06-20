@@ -29,7 +29,7 @@ type comment = {
 type Book = {
   name: string;
   description: string;
-  image: string;
+  image: string | undefined;
   author: string;
   rating: number;
   id: string;
@@ -43,6 +43,7 @@ type UserInfo = {
   rating: number;
   _id: string;
   email: string;
+  avatar: string | undefined;
 };
 
 interface IBook {
@@ -69,7 +70,7 @@ const BookPage: FC<IBook> = ({
   const [searchParams, setSearchParams] = useSearchParams();
   const bookId = searchParams.get("id");
   const [bookInfo, setBookInfo] = useState<Book>();
-  const [imageSrc, setImageSrc] = useState("");
+  const [imageSrc, setImageSrc] = useState<string | undefined>("");
   const [commentList, setCommentList] = useState<comment[]>([]);
   const [ownersInfo, setOwnersInfo] = useState<UserInfo[]>([]);
   const [getBookModalOpen, setGetBookModalOpen] = useState(false);
@@ -81,6 +82,7 @@ const BookPage: FC<IBook> = ({
       await BookServices.getBookById(bookId).then((resp) => {
         setOwnersInfo([]);
         setBookInfo(resp);
+        setImageSrc(resp.image);
         let copy: any | UserInfo[] = [];
         resp.owner.map((owner: string) => {
           userApi
@@ -91,17 +93,8 @@ const BookPage: FC<IBook> = ({
             .catch(() => console.log("something is wrong"));
         });
         setOwnersInfo(copy);
+        console.log(copy)
       });
-    } catch (error) {
-      console.error("Error fetching the image:", error);
-    }
-  };
-
-  const fetchImage = async () => {
-    try {
-      const imageBlob = await BookServices.getBookImage(bookId);
-      const imageUrl = URL.createObjectURL(imageBlob);
-      setImageSrc(imageUrl);
     } catch (error) {
       console.error("Error fetching the image:", error);
     }
@@ -115,7 +108,6 @@ const BookPage: FC<IBook> = ({
 
   useEffect(() => {
     findBookInfo();
-    fetchImage();
     getComments();
   }, [bookId, ownerInfoInModal]);
 
@@ -280,15 +272,7 @@ const BookPage: FC<IBook> = ({
               <Layout direction="column" style={{ paddingLeft: 30 }}>
                 {ownersInfo?.map((ownerInfo) => {
                  
-                    let avatarUrl = ""
-                    userApi.getUserAvatar(ownerInfo._id).then(
-                        (resp)=>{
-                          const avUrl= URL.createObjectURL(resp);    
-                          if (resp.type !== 'application/json'){
-                            avatarUrl = avUrl
-                          }
-                        }
-                      )
+                    let avatarUrl = ownerInfo.user.avatar
                     
                 
               return(
@@ -330,6 +314,7 @@ const BookPage: FC<IBook> = ({
                           background: "#674188",
                         }}
                         form="round"
+                        disabled={!isLoggedIn || isAdmin}
                       />
                     </Layout>
                   );

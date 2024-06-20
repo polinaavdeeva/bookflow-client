@@ -52,22 +52,10 @@ const Header: FC<IHeader> = ({ isLoggedIn, isAdmin }) => {
 
   const [value, setValue] = useState<Item | null>();
 
-  const [avatarUrl, setAvatarUrl] = useState("")
-  const getAvatar = async ()=>{
-    await userApi.getUserAvatar(currentUser?._id).then(
-      (resp)=>{
-        const avUrl= URL.createObjectURL(resp);    
-        if (resp.type !== 'application/json'){
-          setAvatarUrl(avUrl)
-        } else {
-          setAvatarUrl("")
-        }
-      }
-    )
-  }
+  const [avatarUrl, setAvatarUrl] = useState<string|undefined>("")
 
   useEffect(()=>{
-    getAvatar()
+    setAvatarUrl(currentUser?.avatar)
   }, [currentUser])
 
   return (
