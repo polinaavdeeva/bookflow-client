@@ -14,7 +14,6 @@ interface ISignIn {
 }
 
 const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
-  const [isChecked, setIsChecked] = useState<boolean>(true);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -101,10 +100,6 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
     setPatronymic,
   ]);
 
-  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked);
-  };
-
   return (
     <section className="sign-up">
       <div className="sign-up__background-logo" />
@@ -190,15 +185,6 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
                 onInput={handleChangePassword}
               />
             </div>
-            <div className="sign-up__checkbox-container">
-              <Checkbox
-                className="sign-up__checkbox"
-                label="Я согласен с правилами пользования"
-                size="s"
-                checked={isChecked}
-                onChange={handleCheckboxChange}
-              />
-            </div>
             <div className="sign-up__button-container">
               <Button
                 className="sign-up__button"
@@ -208,7 +194,6 @@ const SignUp: FC<ISignIn> = ({ setLogin }): React.ReactElement => {
                 }}
                 label="Зарегистрироваться"
                 form="round"
-                disabled={!isChecked}
               />
             </div>
           </form>
