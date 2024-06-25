@@ -11,18 +11,13 @@ const Footer = () => {
         justifyContent: "space-between",
         bottom: 0
       }}>
-        <div style={{gap: 10, display: "flex", float: "inline-start"}}>
-            <Link style={{textDecoration: 'none', color: 'black'}} to="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+        <div style={{gap: 10, display: "flex", float: "inline-start"}}>           
                 <Text size='2xs'>Политика конфиденциальности</Text>
-            </Link>
-            <Link style={{textDecoration: 'none', color: 'black'}} to="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-                <Text size='2xs'>Правила пользования</Text>
-            </Link>
             
-                
+                <Text size='2xs'>Правила пользования</Text>                        
         </div>
         <div style={{gap: 10, display: "flex", float: "inline-end"}}>
-            <Text size='2xs'>© 2024 BookFlow, Made with ❤ by IQONIC Design.</Text>
+            <Text size='2xs'>© 2024 BookFlow.</Text>
         </div>
         
       </div>

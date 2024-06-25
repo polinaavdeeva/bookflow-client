@@ -39,15 +39,7 @@ const Header: FC<IHeader> = ({ isLoggedIn, isAdmin }) => {
     {
       label: "Воронеж",
       id: 1,
-    },
-    {
-      label: "Москва",
-      id: 2,
-    },
-    {
-      label: "Нью Йорк",
-      id: 3,
-    },
+    }
   ];
 
   const [value, setValue] = useState<Item | null>();
