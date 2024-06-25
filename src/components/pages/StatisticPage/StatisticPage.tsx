@@ -23,8 +23,8 @@ const StatisticPage: FC = () => {
   const [chartData, setChartData] = useState<Item[]>([]);
 
   const dataBooks: Item[] = [
-    { name: "Понедельник", month: "Количество книг в обмене", value: 6 },
-    { name: "Вторник", month: "Количество книг в обмене", value: 0 },
+    { name: "Понедельник", month: "Количество книг в обмене", value: 7 },
+    { name: "Вторник", month: "Количество книг в обмене", value: 8 },
     { name: "Среда", month: "Количество книг в обмене", value: 0 },
     { name: "Четверг", month: "Количество книг в обмене", value: 3 },
     { name: "Пятица", month: "Количество книг в обмене", value: 1 },
