@@ -48,3 +48,10 @@
   #file-input {
     display: none;
   }
+
+  .Loader {
+    --backgroundColor: #674188 !important;
+    display: inline-flex;
+    gap: var(--loader-gap);
+    padding: calc(var(--loader-size)* .25);
+}

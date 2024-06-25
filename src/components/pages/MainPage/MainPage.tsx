@@ -10,6 +10,7 @@ import { Layout } from "@consta/uikit/Layout";
 import { Button } from "@consta/uikit/Button";
 import BookServices from "../../../utils/BookServices";
 import AdsServices from "../../../utils/AdsServices";
+import { Loader } from '@consta/uikit/Loader';
 
 interface IMainPage {
   isAdmin: boolean;
@@ -22,6 +23,7 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
   const [books, setBooks] = useState<Array<Book>>([]);
   const [lastAddedBooks, setLastAddedBooks] = useState<Array<Book>>([]);
   const [bestBooks, setBestBooks] = useState<Array<Book>>([]);
+  const [isLoading, setIsLoading] = useState(false)
 
   type Book = {
     name: string;
@@ -34,6 +36,7 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
   };
 
   const getBooks = async () => {
+    setIsLoading(true)
     const resp = await BookServices.bookSearch(" ");
 
     let booksArr = new Array();
@@ -50,6 +53,7 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
       booksArr.push(book);
     });
     setBooks(booksArr);
+    setIsLoading(false)
   };
 
   const sortByPostingDate = (books: Book[]) => {
@@ -172,8 +176,12 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
   return (
     <div style={{ flexGrow: 1, height: "115%", width: "100%" }}>
       <AdCard url1={images[0]} url2={images[1]} url3={images[2]} />
+      {isLoading? 
+        (<div style={{height: "70vh"}}>
+          <Loader size="m" style={{alignContent: "center", paddingTop: "20%", paddingLeft: "48%", color: "#674188"}}/>
+        </div>) :
 
-      {isAdmin ? (
+      (isAdmin ? (
         <Card
           verticalSpace="xl"
           horizontalSpace="xl"
@@ -338,7 +346,8 @@ const MainPage: FC<IMainPage> = ({ isAdmin }) => {
             </Layout>
           </Card>
         </>
-      )}
+      ))
+    }
     </div>
   );
 };
